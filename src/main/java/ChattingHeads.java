@@ -7,7 +7,7 @@ public class ChattingHeads {
      static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
-        String opt;
+        String command;
 
         System.out.println(
                 """
@@ -23,22 +23,22 @@ public class ChattingHeads {
             String[] parsed = input.split("\\s+");
 
             if (parsed.length > 0) {
-                opt = parsed[0];
+                command = parsed[0];
             } else {
-                opt = "";
+                command = "";
             }
 
             try {
-                switch (opt) {
+                switch (command) {
                     case "list" -> listTasks(tasks);
                     case "todo" -> addToDo(tasks, parsed);
                     case "deadline" -> addDeadline(tasks, parsed);
                     case "event" -> addEvent(tasks, parsed);
                     case "mark" -> setTaskStatus(tasks, parsed, true);
                     case "unmark" -> setTaskStatus(tasks, parsed, false);
-                    default -> throw new InvalidOptionException();
+                    default -> throw new InvalidCommandException();
                 }
-            } catch (InvalidOptionException e) {
+            } catch (InvalidCommandException e) {
                 System.out.println(e.getMessage());
             }
             lineBreak();
