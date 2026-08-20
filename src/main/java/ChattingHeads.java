@@ -17,9 +17,9 @@ public class ChattingHeads {
                         What can I do for you?"""
         );
         lineBreak();
-        String input = scan.nextLine();
 
-        while (!input.equals("bye")) {
+        while (true) {
+            String input = scan.nextLine();
             String[] parsed = input.split("\\s+");
 
             if (parsed.length > 0) {
@@ -36,15 +36,18 @@ public class ChattingHeads {
                     case "event" -> addEvent(tasks, parsed);
                     case "mark" -> setTaskStatus(tasks, parsed, true);
                     case "unmark" -> setTaskStatus(tasks, parsed, false);
+                    case "bye" -> {
+                        System.out.println("Letting the days go bye\nLet the water hold me down");
+                        lineBreak();
+                        return;
+                    }
                     default -> throw new InvalidCommandException();
                 }
             } catch (InvalidCommandException e) {
                 System.out.println(e.getMessage());
             }
             lineBreak();
-            input = scan.nextLine();
         }
-        System.out.println("Letting the days go bye\nLet the water hold me down");
     }
 
     private static void listTasks(ArrayList<Task> tasks) {
