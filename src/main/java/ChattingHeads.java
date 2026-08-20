@@ -4,10 +4,29 @@ import java.util.ArrayList;
 
 public class ChattingHeads {
 
+    private enum Command {
+        LIST,
+        TODO,
+        DEADLINE,
+        EVENT,
+        MARK,
+        UNMARK,
+        DELETE,
+        BYE;
+
+        public static Command from(String input) throws InvalidCommandException {
+            try {
+                return Command.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new InvalidCommandException();
+            }
+        }
+    }
+
     static void main(String[] ignoredArgs) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
-        String command;
+        Command command;
 
         System.out.println("""
                 Hello! I'm Chatting Heads.
@@ -18,24 +37,27 @@ public class ChattingHeads {
 
         while (true) {
             String input = scan.nextLine();
-            String[] parsed = input.split("\\s+");
-            command = parsed.length > 0 ? parsed[0] : "";
 
             try {
+                if (input.isEmpty()) {
+                    throw new EmptyInputException("command");
+                }
+                String[] parsed = input.split("\\s+");
+                command = Command.from(parsed[0]);
+
                 switch (command) {
-                    case "list" -> listTasks(tasks);
-                    case "todo" -> addToDo(tasks, parsed);
-                    case "deadline" -> addDeadline(tasks, parsed);
-                    case "event" -> addEvent(tasks, parsed);
-                    case "mark" -> setTaskStatus(tasks, parsed, true);
-                    case "unmark" -> setTaskStatus(tasks, parsed, false);
-                    case "delete" -> deleteTask(tasks, parsed);
-                    case "bye" -> {
+                    case LIST -> listTasks(tasks);
+                    case TODO -> addToDo(tasks, parsed);
+                    case DEADLINE -> addDeadline(tasks, parsed);
+                    case EVENT -> addEvent(tasks, parsed);
+                    case MARK -> setTaskStatus(tasks, parsed, true);
+                    case UNMARK -> setTaskStatus(tasks, parsed, false);
+                    case DELETE -> deleteTask(tasks, parsed);
+                    case BYE -> {
                         System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
                         printSeparator();
                         return;
                     }
-                    default -> throw new InvalidCommandException();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -92,7 +114,6 @@ public class ChattingHeads {
     }
 
     private static void addEvent(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
-        Event newTask;
         int marker1 = parsed.length;
         int marker2 = parsed.length;
         boolean fromFirst = true;
@@ -130,7 +151,7 @@ public class ChattingHeads {
             throw new EmptyInputException(emptyInputs);
         }
 
-        newTask = new Event(desc, from, to);
+        Event newTask = new Event(desc, from, to);
         tasks.add(newTask);
         printAddStatus(newTask, tasks);
     }
