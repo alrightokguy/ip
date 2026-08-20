@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 public class ChattingHeads {
 
-    public static void main(String[] args) {
+     static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
-        String opt = "";
+        String opt;
 
         System.out.println(
-                "Hello! I'm Chatting Heads.\n" +
-                "You may find yourself\n" +
-                "Living in a shotgun shack\n" +
-                "What can I do for you?"
+                """
+                        Hello! I'm Chatting Heads.
+                        You may find yourself
+                        Living in a shotgun shack
+                        What can I do for you?"""
         );
         lineBreak();
         String input = scan.nextLine();
@@ -23,19 +24,24 @@ public class ChattingHeads {
 
             if (parsed.length > 0) {
                 opt = parsed[0];
+            } else {
+                opt = "";
             }
 
-            switch (opt) {
-                case "list" -> listTasks(tasks);
-                case "todo" -> addToDo(tasks, parsed);
-                case "deadline" -> addDeadline(tasks, parsed);
-                case "event" -> addEvent(tasks, parsed);
-                case "mark" -> setTaskStatus(tasks, parsed, true);
-                case "unmark" -> setTaskStatus(tasks, parsed, false);
-                default -> invalidOption();
+            try {
+                switch (opt) {
+                    case "list" -> listTasks(tasks);
+                    case "todo" -> addToDo(tasks, parsed);
+                    case "deadline" -> addDeadline(tasks, parsed);
+                    case "event" -> addEvent(tasks, parsed);
+                    case "mark" -> setTaskStatus(tasks, parsed, true);
+                    case "unmark" -> setTaskStatus(tasks, parsed, false);
+                    default -> throw new InvalidOptionException();
+                }
+            } catch (InvalidOptionException e) {
+                System.out.println(e.getMessage());
             }
             lineBreak();
-            opt = null;
             input = scan.nextLine();
         }
         System.out.println("Letting the days go bye\nLet the water hold me down");
@@ -120,10 +126,6 @@ public class ChattingHeads {
                 }
             }
         }
-    }
-
-    private static void invalidOption() {
-        System.out.println("And you may ask yourself\n\"How do I work this?\"");
     }
 
     private static void lineBreak() {
