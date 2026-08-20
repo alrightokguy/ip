@@ -1,23 +1,23 @@
 abstract class Task {
 
     private final String desc;
-    private boolean done;
+    private boolean status;
 
     public Task(String desc) {
         this.desc = desc;
-        this.done = false;
+        this.status = false;
     }
 
     public void mark() {
-        this.done = true;
+        this.status = true;
     }
 
     public void unmark() {
-        this.done = false;
+        this.status = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.done ? "X" : " ", this.desc);
+        return String.format("[%s] %s", this.status ? "X" : " ", this.desc);
     }
 }
