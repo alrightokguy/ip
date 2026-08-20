@@ -17,6 +17,13 @@ public class ChattingHeads {
         listStatus(list);
     }
 
+    public static String collectString(String[] parsed, int start, int end) {
+        if (start >= 0 && end <= parsed.length && start <= end) {
+            return String.join(" ", Arrays.copyOfRange(parsed, start, end));
+        }
+        return "";
+    }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
@@ -41,73 +48,87 @@ public class ChattingHeads {
             }
 
             switch (opt) {
-                case "list":
+                case "list" -> {
                     System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.printf("%d.%s\n", i + 1, tasks.get(i));
                     }
-                    break;
-                case "todo":
-                    desc = "";
-
-                    newTask = new ToDo(String.join(" ", Arrays.copyOfRange(parsed, 1, parsed.length)));
+                }
+                case "todo" -> {
+                    newTask = new ToDo(collectString(parsed, 1, parsed.length));
                     tasks.add(newTask);
                     addStatus(newTask, tasks);
-                    break;
-                case "deadline":
-                    String by;
-                    int descMarker = 0;
+                }
+                case "deadline" -> {
+                    int marker = parsed.length;
 
-                    for (String word : parsed) {
-                        if (word.equals("/by")) {
-                            desc = String.join(" ", Arrays.copyOfRange(parsed, 1, descMarker));
+                    for (int i = 1; i < parsed.length; i++) {
+                        if (parsed[i].equals("/by")) {
+                            marker = i;
                             break;
-                        } else {
-                            descMarker++;
                         }
                     }
                     newTask = new Deadline(
-                            desc,
-                            String.join(" ", Arrays.copyOfRange(parsed, descMarker+1, parsed.length))
+                            collectString(parsed, 1, marker),
+                            collectString(parsed, marker+1, parsed.length)
                     );
                     tasks.add(newTask);
                     addStatus(newTask, tasks);
-                    break;
-                case "event":
-                    desc = "";
+                }
+                case "event" -> {
+                    int marker1 = parsed.length;
+                    int marker2 = parsed.length;
+                    boolean fromFirst = true;
 
-                    newTask = new Event(parsed[1], parsed[2], parsed[3]);
+                    for (int i = 1; i < parsed.length; i++) {
+                        if (parsed[i].equals("/from") || parsed[i].equals("/to")) {
+                            if (marker1 == parsed.length) {
+                                marker1 = i;
+                                fromFirst = parsed[i].equals("/from");
+                            } else {
+                                marker2 = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (fromFirst) {
+                        newTask = new Event(
+                                collectString(parsed, 1, marker1),
+                                collectString(parsed, marker1+1, marker2),
+                                collectString(parsed, marker2+1, parsed.length)
+                        );
+                    } else {
+                        newTask = new Event(
+                                collectString(parsed, 1, marker1),
+                                collectString(parsed, marker2+1, parsed.length),
+                                collectString(parsed, marker1+1, marker2)
+                        );
+                    }
                     tasks.add(newTask);
                     addStatus(newTask, tasks);
-                    break;
-                case "mark":
+                }
+                case "mark", "unmark" -> {
                     if (parsed.length > 1) {
                         int taskNum = Integer.parseInt(parsed[1]) - 1;
 
                         if (0 <= taskNum && taskNum < tasks.size()) {
                             Task task = tasks.get(taskNum);
-                            task.mark();
-                            System.out.println("Nice! I've marked this task as done:\n" + task);
+                            if (opt.equals("mark")) {
+                                task.mark();
+                                System.out.println("Nice! I've marked this task as done:\n" + task);
+                            } else {
+                                task.unmark();
+                                System.out.println("OK, I've marked this task as not done yet:\n" + task);
+                            }
                         }
                     }
-                    break;
-                case "unmark":
-                    if (parsed.length > 1) {
-                        int taskNum = Integer.parseInt(parsed[1]) - 1;
-
-                        if (0 <= taskNum && taskNum < tasks.size()) {
-                            Task task = tasks.get(taskNum);
-                            task.unmark();
-                            System.out.println("OK, I've marked this task as not done yet:\n" + task);
-                        }
-                    }
-                    break;
-                default:
+                }
+                default -> {
                     System.out.println(
                         "And you may ask yourself\n" +
                         "\"How do I work this?\""
                     );
-                    break;
+                }
             }
             lineBreak();
             opt = null;
