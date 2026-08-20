@@ -29,8 +29,9 @@ public class ChattingHeads {
                     case "event" -> addEvent(tasks, parsed);
                     case "mark" -> setTaskStatus(tasks, parsed, true);
                     case "unmark" -> setTaskStatus(tasks, parsed, false);
+                    case "delete" -> deleteTask(tasks, parsed);
                     case "bye" -> {
-                        System.out.println("Letting the days go bye\nLet the water hold me down");
+                        System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
                         printSeparator();
                         return;
                     }
@@ -150,6 +151,19 @@ public class ChattingHeads {
         }
     }
 
+    private static void deleteTask(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
+        if (parsed.length < 2) {
+            throw new EmptyInputException("task number");
+        }
+
+        int taskNum = Integer.parseInt(parsed[1]) - 1;
+        if (taskNum < 0 || taskNum >= tasks.size()) {
+            throw new InvalidTaskNumberException();
+        }
+        Task task = tasks.remove(taskNum);
+        printDeleteStatus(task, tasks);
+    }
+
     private static void printSeparator() {
         System.out.println("------------------------------------------------------------");
     }
@@ -158,12 +172,17 @@ public class ChattingHeads {
         if (tasks.size() == 1) {
             System.out.println("Now you have 1 task in the list.");
         } else {
-            System.out.printf("Now you have %d tasks in the list.\n", tasks.size());
+            System.out.printf("Now you have %s tasks in the list.\n", tasks.size() == 0 ? "no" : tasks.size());
         }
     }
 
     private static void printAddStatus(Task task, ArrayList<Task> tasks) {
         System.out.println("Got it. I've added this task:\n" + task);
+        printListStatus(tasks);
+    }
+
+    private static void printDeleteStatus(Task task, ArrayList<Task> tasks) {
+        System.out.println("Into the blue again\nAfter this task is gone:\n" + task);
         printListStatus(tasks);
     }
 
