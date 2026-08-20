@@ -110,8 +110,12 @@ public class ChattingHeads {
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
         String desc = collectString(parsed, 1, marker1);
-        String from = fromFirst ? collectString(parsed, marker1 + 1, marker2) : collectString(parsed, marker2 + 1, parsed.length);
-        String to = fromFirst ? collectString(parsed, marker2 + 1, parsed.length) : collectString(parsed, marker1 + 1, marker2);
+        String from = fromFirst
+                ? collectString(parsed, marker1 + 1, marker2)
+                : collectString(parsed, marker2 + 1, parsed.length);
+        String to = fromFirst
+                ? collectString(parsed, marker2 + 1, parsed.length)
+                : collectString(parsed, marker1 + 1, marker2);
 
         if (desc.isEmpty()) {
             emptyInputs.add("description");
