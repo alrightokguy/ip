@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ChattingHeads {
 
-    static void main(String[] args) {
+    static void main(String[] ignoredArgs) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
         String command;
@@ -131,7 +131,8 @@ public class ChattingHeads {
         printAddStatus(newTask, tasks);
     }
 
-    private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark) throws EmptyInputException {
+    private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark)
+            throws EmptyInputException, InvalidTaskNumberException {
         if (parsed.length < 2) {
             throw new EmptyInputException("task number");
         }
@@ -151,7 +152,8 @@ public class ChattingHeads {
         }
     }
 
-    private static void deleteTask(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
+    private static void deleteTask(ArrayList<Task> tasks, String[] parsed)
+            throws EmptyInputException, InvalidTaskNumberException {
         if (parsed.length < 2) {
             throw new EmptyInputException("task number");
         }
@@ -172,7 +174,7 @@ public class ChattingHeads {
         if (tasks.size() == 1) {
             System.out.println("Now you have 1 task in the list.");
         } else {
-            System.out.printf("Now you have %s tasks in the list.\n", tasks.size() == 0 ? "no" : tasks.size());
+            System.out.printf("Now you have %s tasks in the list.\n", tasks.isEmpty() ? "no" : tasks.size());
         }
     }
 
