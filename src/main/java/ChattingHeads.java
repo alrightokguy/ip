@@ -4,29 +4,22 @@ import java.util.ArrayList;
 
 public class ChattingHeads {
 
-     static void main(String[] args) {
+    static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
         String command;
 
-        System.out.println(
-                """
-                        Hello! I'm Chatting Heads.
-                        You may find yourself
-                        Living in a shotgun shack
-                        What can I do for you?"""
-        );
-        lineBreak();
+        System.out.println("""
+                Hello! I'm Chatting Heads.
+                You may find yourself
+                Living in a shotgun shack
+                What can I do for you?""");
+        printSeparator();
 
         while (true) {
             String input = scan.nextLine();
             String[] parsed = input.split("\\s+");
-
-            if (parsed.length > 0) {
-                command = parsed[0];
-            } else {
-                command = "";
-            }
+            command = parsed.length > 0 ? parsed[0] : "";
 
             try {
                 switch (command) {
@@ -38,15 +31,15 @@ public class ChattingHeads {
                     case "unmark" -> setTaskStatus(tasks, parsed, false);
                     case "bye" -> {
                         System.out.println("Letting the days go bye\nLet the water hold me down");
-                        lineBreak();
+                        printSeparator();
                         return;
                     }
                     default -> throw new InvalidCommandException();
                 }
-            } catch (InvalidCommandException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            lineBreak();
+            printSeparator();
         }
     }
 
@@ -57,13 +50,19 @@ public class ChattingHeads {
         }
     }
 
-    private static void addToDo(ArrayList<Task> tasks, String[] parsed) {
-        ToDo newTask = new ToDo(collectString(parsed, 1, parsed.length));
+    private static void addToDo(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
+        String desc = collectString(parsed, 1, parsed.length);
+
+        if (desc.isEmpty()) {
+            throw new EmptyInputException("description");
+        }
+
+        ToDo newTask = new ToDo(desc);
         tasks.add(newTask);
-        addStatus(newTask, tasks);
+        printAddStatus(newTask, tasks);
     }
 
-    private static void addDeadline(ArrayList<Task> tasks, String[] parsed) {
+    private static void addDeadline(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
         int marker = parsed.length;
 
         for (int i = 1; i < parsed.length; i++) {
@@ -72,15 +71,26 @@ public class ChattingHeads {
                 break;
             }
         }
-        Deadline newTask = new Deadline(
-                collectString(parsed, 1, marker),
-                collectString(parsed, marker+1, parsed.length)
-        );
+        ArrayList<String> emptyInputs = new ArrayList<>();
+        String desc = collectString(parsed, 1, marker);
+        String by = collectString(parsed, marker + 1, parsed.length);
+
+        if (desc.isEmpty()) {
+            emptyInputs.add("description");
+        }
+        if (by.isEmpty()) {
+            emptyInputs.add("deadline");
+        }
+        if  (!emptyInputs.isEmpty()) {
+            throw new EmptyInputException(emptyInputs);
+        }
+
+        Deadline newTask = new Deadline(desc, by);
         tasks.add(newTask);
-        addStatus(newTask, tasks);
+        printAddStatus(newTask, tasks);
     }
 
-    private static void addEvent(ArrayList<Task> tasks, String[] parsed) {
+    private static void addEvent(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
         Event newTask;
         int marker1 = parsed.length;
         int marker2 = parsed.length;
@@ -97,51 +107,64 @@ public class ChattingHeads {
                 }
             }
         }
-        if (fromFirst) {
-            newTask = new Event(
-                    collectString(parsed, 1, marker1),
-                    collectString(parsed, marker1+1, marker2),
-                    collectString(parsed, marker2+1, parsed.length)
-            );
-        } else {
-            newTask = new Event(
-                    collectString(parsed, 1, marker1),
-                    collectString(parsed, marker2+1, parsed.length),
-                    collectString(parsed, marker1+1, marker2)
-            );
+        ArrayList<String> emptyInputs = new ArrayList<>();
+        String desc = collectString(parsed, 1, marker1);
+        String from = fromFirst ? collectString(parsed, marker1 + 1, marker2) : collectString(parsed, marker2 + 1, parsed.length);
+        String to = fromFirst ? collectString(parsed, marker2 + 1, parsed.length) : collectString(parsed, marker1 + 1, marker2);
+
+        if (desc.isEmpty()) {
+            emptyInputs.add("description");
         }
+        if (from.isEmpty()) {
+            emptyInputs.add("start");
+        }
+        if (to.isEmpty()) {
+            emptyInputs.add("end");
+        }
+        if  (!emptyInputs.isEmpty()) {
+            throw new EmptyInputException(emptyInputs);
+        }
+
+        newTask = new Event(desc, from, to);
         tasks.add(newTask);
-        addStatus(newTask, tasks);
+        printAddStatus(newTask, tasks);
     }
 
-    private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark) {
-        if (parsed.length > 1) {
-            int taskNum = Integer.parseInt(parsed[1]) - 1;
+    private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark) throws EmptyInputException {
+        if (parsed.length < 2) {
+            throw new EmptyInputException("task number");
+        }
 
-            if (0 <= taskNum && taskNum < tasks.size()) {
-                Task task = tasks.get(taskNum);
-                if (mark) {
-                    task.mark();
-                    System.out.println("Nice! I've marked this task as done:\n" + task);
-                } else {
-                    task.unmark();
-                    System.out.println("OK, I've marked this task as not done yet:\n" + task);
-                }
-            }
+        int taskNum = Integer.parseInt(parsed[1]) - 1;
+        if (taskNum < 0 || taskNum >= tasks.size()) {
+            throw new InvalidTaskNumberException();
+        }
+        Task task = tasks.get(taskNum);
+
+        if (mark) {
+            task.mark();
+            System.out.println("Nice! I've marked this task as done:\n" + task);
+        } else {
+            task.unmark();
+            System.out.println("OK, I've marked this task as not done yet:\n" + task);
         }
     }
 
-    private static void lineBreak() {
+    private static void printSeparator() {
         System.out.println("------------------------------------------------------------");
     }
 
-    private static void listStatus(ArrayList<Task> list) {
-        System.out.printf("Now you have %d tasks in the list.\n", list.size());
+    private static void printListStatus(ArrayList<Task> tasks) {
+        if (tasks.size() == 1) {
+            System.out.println("Now you have 1 task in the list.");
+        } else {
+            System.out.printf("Now you have %d tasks in the list.\n", tasks.size());
+        }
     }
 
-    private static void addStatus(Task task, ArrayList<Task> list) {
+    private static void printAddStatus(Task task, ArrayList<Task> tasks) {
         System.out.println("Got it. I've added this task:\n" + task);
-        listStatus(list);
+        printListStatus(tasks);
     }
 
     private static String collectString(String[] parsed, int start, int end) {
