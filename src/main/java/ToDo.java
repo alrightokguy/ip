@@ -1,6 +1,6 @@
 public class ToDo extends Task {
 
-    private String type;
+    private final String type;
 
     public ToDo(String desc) {
         super(desc);

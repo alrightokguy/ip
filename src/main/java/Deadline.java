@@ -1,7 +1,7 @@
 public class Deadline extends Task {
 
-    private String type;
-    private String by;
+    private final String type;
+    private final String by;
 
     public Deadline(String desc, String by) {
         super(desc);
