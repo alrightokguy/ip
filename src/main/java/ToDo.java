@@ -1,14 +1,22 @@
 public class ToDo extends Task {
 
-    private final String type;
+    private static final String TYPE = "T";
 
     public ToDo(String desc) {
         super(desc);
-        this.type = "T";
+    }
+
+    public ToDo(String desc, boolean status) {
+        super(desc, status);
     }
 
     @Override
     public String toString() {
-        return String.format("[%s]%s", this.type, super.toString());
+        return String.format("[%s]%s", TYPE, super.toString());
+    }
+
+    @Override
+    public String toCsv() {
+        return String.format("%s,%s", TYPE, super.toCsv());
     }
 }
