@@ -1,8 +1,14 @@
-import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ChattingHeads {
+
+    private final static Path TASK_FILE = Path.of("tasks.txt");
 
     private enum Command {
         LIST,
@@ -25,7 +31,7 @@ public class ChattingHeads {
 
     static void main(String[] ignoredArgs) {
         Scanner scan = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = loadTasks();
         Command command;
 
         System.out.println("""
@@ -66,8 +72,38 @@ public class ChattingHeads {
         }
     }
 
+    private static ArrayList<Task> loadTasks() {
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            List<String> lines = Files.readAllLines(TASK_FILE);
+
+            for (String line : lines) {
+                String[] fields =  line.split(",");
+                String type = fields[0];
+                Task newTask = switch (type) {
+                    case "T" -> new ToDo(fields[1], Boolean.parseBoolean(fields[2]));
+                    case "D" -> new Deadline(fields[1], Boolean.parseBoolean(fields[2]), fields[3]);
+                    case "E" -> new Event(fields[1], Boolean.parseBoolean(fields[2]), fields[3], fields[4]);
+                    default -> throw new IOException();
+                };
+                tasks.add(newTask);
+            }
+        } catch (IOException ignored) {
+        }
+        return tasks;
+    }
+
+    private static void saveTasks(ArrayList<Task> tasks) {
+        try {
+            Files.write(TASK_FILE, tasks.stream().map(Task::toCsv).toList());
+        } catch (IOException e) {
+            System.out.println("Error writing tasks to file");
+        }
+    }
+
     private static void listTasks(ArrayList<Task> tasks) {
-        System.out.println("Here are the tasks in your list:");
+        System.out.println("Take a look at these tasks:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, tasks.get(i));
         }
@@ -83,6 +119,7 @@ public class ChattingHeads {
         ToDo newTask = new ToDo(desc);
         tasks.add(newTask);
         printAddStatus(newTask, tasks);
+        saveTasks(tasks);
     }
 
     private static void addDeadline(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
@@ -111,6 +148,7 @@ public class ChattingHeads {
         Deadline newTask = new Deadline(desc, by);
         tasks.add(newTask);
         printAddStatus(newTask, tasks);
+        saveTasks(tasks);
     }
 
     private static void addEvent(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
@@ -154,6 +192,7 @@ public class ChattingHeads {
         Event newTask = new Event(desc, from, to);
         tasks.add(newTask);
         printAddStatus(newTask, tasks);
+        saveTasks(tasks);
     }
 
     private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark)
@@ -175,6 +214,7 @@ public class ChattingHeads {
             task.unmark();
             System.out.println("OK, I've marked this task as not done yet:\n" + task);
         }
+        saveTasks(tasks);
     }
 
     private static void deleteTask(ArrayList<Task> tasks, String[] parsed)
@@ -189,6 +229,7 @@ public class ChattingHeads {
         }
         Task task = tasks.remove(taskNum);
         printDeleteStatus(task, tasks);
+        saveTasks(tasks);
     }
 
     private static void printSeparator() {

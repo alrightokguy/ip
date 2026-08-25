@@ -8,6 +8,11 @@ abstract class Task {
         this.status = false;
     }
 
+    public Task(String desc, boolean status) {
+        this.desc = desc;
+        this.status = status;
+    }
+
     public void mark() {
         this.status = true;
     }
@@ -19,5 +24,9 @@ abstract class Task {
     @Override
     public String toString() {
         return String.format("[%s] %s", this.status ? "X" : " ", this.desc);
+    }
+
+    public String toCsv() {
+        return String.format("%s,%s", this.desc, this.status);
     }
 }
