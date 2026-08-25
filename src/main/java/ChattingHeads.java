@@ -79,15 +79,7 @@ public class ChattingHeads {
             List<String> lines = Files.readAllLines(TASK_FILE);
 
             for (String line : lines) {
-                String[] fields =  line.split(",");
-                String type = fields[0];
-                Task newTask = switch (type) {
-                    case "T" -> new ToDo(fields[1], Boolean.parseBoolean(fields[2]));
-                    case "D" -> new Deadline(fields[1], Boolean.parseBoolean(fields[2]), fields[3]);
-                    case "E" -> new Event(fields[1], Boolean.parseBoolean(fields[2]), fields[3], fields[4]);
-                    default -> throw new IOException();
-                };
-                tasks.add(newTask);
+                tasks.add(Task.fromCsv(line));
             }
         } catch (IOException ignored) {
         }
