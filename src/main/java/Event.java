@@ -34,12 +34,6 @@ public class Event extends Task {
 
     @Override
     public String toCsv() {
-        return String.format(
-                "%s,%s,%s,%s",
-                TYPE,
-                super.toCsv(),
-                DATE_TIME_FORMATTER.format(this.from),
-                DATE_TIME_FORMATTER.format(this.to)
-        );
+        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), this.from, this.to);
     }
 }

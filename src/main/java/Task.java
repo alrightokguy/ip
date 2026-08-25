@@ -40,13 +40,13 @@ abstract class Task {
             case "D" -> new Deadline(
                     fields[1],
                     Boolean.parseBoolean(fields[2]),
-                    LocalDateTime.parse(fields[3], DATE_TIME_FORMATTER)
+                    LocalDateTime.parse(fields[3])
             );
             case "E" -> new Event(
                     fields[1],
                     Boolean.parseBoolean(fields[2]),
-                    LocalDateTime.parse(fields[3], DATE_TIME_FORMATTER),
-                    LocalDateTime.parse(fields[4], DATE_TIME_FORMATTER)
+                    LocalDateTime.parse(fields[3]),
+                    LocalDateTime.parse(fields[4])
             );
             default -> throw new IOException();
         };
