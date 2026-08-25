@@ -1,7 +1,11 @@
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 abstract class Task {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private final String desc;
     private boolean status;
 
@@ -33,8 +37,17 @@ abstract class Task {
         String type = fields[0];
         return switch (type) {
             case "T" -> new ToDo(fields[1], Boolean.parseBoolean(fields[2]));
-            case "D" -> new Deadline(fields[1], Boolean.parseBoolean(fields[2]), fields[3]);
-            case "E" -> new Event(fields[1], Boolean.parseBoolean(fields[2]), fields[3], fields[4]);
+            case "D" -> new Deadline(
+                    fields[1],
+                    Boolean.parseBoolean(fields[2]),
+                    LocalDateTime.parse(fields[3], DATE_TIME_FORMATTER)
+            );
+            case "E" -> new Event(
+                    fields[1],
+                    Boolean.parseBoolean(fields[2]),
+                    LocalDateTime.parse(fields[3], DATE_TIME_FORMATTER),
+                    LocalDateTime.parse(fields[4], DATE_TIME_FORMATTER)
+            );
             default -> throw new IOException();
         };
     }
