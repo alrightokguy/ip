@@ -25,6 +25,6 @@ public class Deadline extends Task {
 
     @Override
     public String toCsv() {
-        return String.format("%s,%s,%s", TYPE, super.toCsv(), this.by);
+        return String.format("%s,%s,%s", TYPE, super.toCsv(), DATE_TIME_FORMATTER.format(this.by));
     }
 }
