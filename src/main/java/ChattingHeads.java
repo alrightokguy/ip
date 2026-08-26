@@ -50,7 +50,6 @@ public class ChattingHeads {
 
         ui.printStartupMessage();
 
-
         while (true) {
             String input = scan.nextLine();
 
@@ -62,7 +61,7 @@ public class ChattingHeads {
                 command = Command.from(tokens[0]);
 
                 switch (command) {
-                    case LIST -> listTasks(tasks);
+                    case LIST -> ui.printTasks(tasks);
                     case TODO -> addToDo(tasks, tokens);
                     case DEADLINE -> addDeadline(tasks, tokens);
                     case EVENT -> addEvent(tasks, tokens);
@@ -75,7 +74,7 @@ public class ChattingHeads {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                ui.printErrorMessage(e);
             }
             ui.printSeparator();
         }
@@ -85,18 +84,11 @@ public class ChattingHeads {
         new ChattingHeads("tasks.txt").run();
     }
 
-    private static void saveTasks(ArrayList<Task> tasks) {
+    private void saveTasks(ArrayList<Task> tasks) {
         try {
             Files.write(TASK_FILE, tasks.stream().map(Task::toCsv).toList());
         } catch (IOException e) {
-            System.out.println("Error writing tasks to file");
-        }
-    }
-
-    private static void listTasks(ArrayList<Task> tasks) {
-        System.out.println("Take a look at these tasks:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, tasks.get(i));
+            ui.printErrorMessage(e);
         }
     }
 
@@ -178,7 +170,7 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void setTaskStatus(ArrayList<Task> tasks, String[] tokens, boolean mark)
+    private void setTaskStatus(ArrayList<Task> tasks, String[] tokens, boolean mark)
             throws InvalidInputException, InvalidTaskNumberException {
         if (tokens.length < 2) {
             throw new InvalidInputException("task number");
@@ -192,10 +184,10 @@ public class ChattingHeads {
 
         if (mark) {
             task.mark();
-            System.out.println("Nice! I've marked this task as done:\n" + task);
+            ui.printMarkStatus(task);
         } else {
             task.unmark();
-            System.out.println("OK, I've marked this task as not done yet:\n" + task);
+            ui.printUnmarkStatus(task);
         }
         saveTasks(tasks);
     }

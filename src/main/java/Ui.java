@@ -2,9 +2,6 @@ import java.util.ArrayList;
 
 public class Ui {
 
-    public Ui() {
-    }
-
     public void printStartupMessage() {
         System.out.println("""
                 Hello! I'm Chatting Heads.
@@ -29,6 +26,7 @@ public class Ui {
         } else {
             System.out.printf("Now you have %s tasks in the list.\n", tasks.isEmpty() ? "no" : tasks.size());
         }
+        printSeparator();
     }
 
     public void printAddStatus(Task task, ArrayList<Task> tasks) {
@@ -39,5 +37,27 @@ public class Ui {
     public void printDeleteStatus(Task task, ArrayList<Task> tasks) {
         System.out.println("Into the blue again\nAfter this task is gone:\n" + task);
         printListStatus(tasks);
+    }
+
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
+        printSeparator();
+    }
+
+    public void printMarkStatus(Task task) {
+        System.out.println("Nice! I've marked this task as done:\n" + task);
+        printSeparator();
+    }
+
+    public void printUnmarkStatus(Task task) {
+        System.out.println("OK, I've marked this task as not done yet:\n" + task);
+        printSeparator();
+    }
+
+    public void printTasks(ArrayList<Task> tasks) {
+        System.out.println("Take a look at these tasks:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, tasks.get(i));
+        }
     }
 }
