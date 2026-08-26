@@ -1,3 +1,6 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -9,6 +12,8 @@ import java.nio.file.Path;
 public class ChattingHeads {
 
     private final static Path TASK_FILE = Path.of("tasks.txt");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private enum Command {
         LIST,
@@ -46,19 +51,19 @@ public class ChattingHeads {
 
             try {
                 if (input.isEmpty()) {
-                    throw new EmptyInputException("command");
+                    throw new InvalidInputException("command");
                 }
-                String[] parsed = input.split("\\s+");
-                command = Command.from(parsed[0]);
+                String[] tokens = input.split("\\s+");
+                command = Command.from(tokens[0]);
 
                 switch (command) {
                     case LIST -> listTasks(tasks);
-                    case TODO -> addToDo(tasks, parsed);
-                    case DEADLINE -> addDeadline(tasks, parsed);
-                    case EVENT -> addEvent(tasks, parsed);
-                    case MARK -> setTaskStatus(tasks, parsed, true);
-                    case UNMARK -> setTaskStatus(tasks, parsed, false);
-                    case DELETE -> deleteTask(tasks, parsed);
+                    case TODO -> addToDo(tasks, tokens);
+                    case DEADLINE -> addDeadline(tasks, tokens);
+                    case EVENT -> addEvent(tasks, tokens);
+                    case MARK -> setTaskStatus(tasks, tokens, true);
+                    case UNMARK -> setTaskStatus(tasks, tokens, false);
+                    case DELETE -> deleteTask(tasks, tokens);
                     case BYE -> {
                         System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
                         printSeparator();
@@ -77,7 +82,6 @@ public class ChattingHeads {
 
         try {
             List<String> lines = Files.readAllLines(TASK_FILE);
-
             for (String line : lines) {
                 tasks.add(Task.fromCsv(line));
             }
@@ -101,11 +105,11 @@ public class ChattingHeads {
         }
     }
 
-    private static void addToDo(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
-        String desc = collectString(parsed, 1, parsed.length);
+    private static void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+        String desc = parseString(tokens, 1, tokens.length);
 
         if (desc.isEmpty()) {
-            throw new EmptyInputException("description");
+            throw new InvalidInputException("description");
         }
 
         ToDo newTask = new ToDo(desc);
@@ -114,27 +118,27 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void addDeadline(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
-        int marker = parsed.length;
+    private static void addDeadline(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+        int marker = tokens.length;
 
-        for (int i = 1; i < parsed.length; i++) {
-            if (parsed[i].equals("/by")) {
+        for (int i = 1; i < tokens.length; i++) {
+            if (tokens[i].equals("/by")) {
                 marker = i;
                 break;
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = collectString(parsed, 1, marker);
-        String by = collectString(parsed, marker + 1, parsed.length);
+        String desc = parseString(tokens, 1, marker);
+        LocalDateTime by = parseDateTime(tokens, marker + 1, tokens.length);
 
         if (desc.isEmpty()) {
             emptyInputs.add("description");
         }
-        if (by.isEmpty()) {
+        if (by == null) {
             emptyInputs.add("deadline");
         }
         if  (!emptyInputs.isEmpty()) {
-            throw new EmptyInputException(emptyInputs);
+            throw new InvalidInputException(emptyInputs);
         }
 
         Deadline newTask = new Deadline(desc, by);
@@ -143,42 +147,34 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void addEvent(ArrayList<Task> tasks, String[] parsed) throws EmptyInputException {
-        int marker1 = parsed.length;
-        int marker2 = parsed.length;
-        boolean fromFirst = true;
+    private static void addEvent(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+        int marker1 = tokens.length;
+        int marker2 = tokens.length;
 
-        for (int i = 1; i < parsed.length; i++) {
-            if (parsed[i].equals("/from") || parsed[i].equals("/to")) {
-                if (marker1 == parsed.length) {
-                    marker1 = i;
-                    fromFirst = parsed[i].equals("/from");
-                } else {
-                    marker2 = i;
-                    break;
-                }
+        for (int i = 1; i < tokens.length; i++) {
+            if (tokens[i].equals("/from")) {
+                marker1 = i;
+            } else if (tokens[i].equals("/to")) {
+                marker2 = i;
+                break;
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = collectString(parsed, 1, marker1);
-        String from = fromFirst
-                ? collectString(parsed, marker1 + 1, marker2)
-                : collectString(parsed, marker2 + 1, parsed.length);
-        String to = fromFirst
-                ? collectString(parsed, marker2 + 1, parsed.length)
-                : collectString(parsed, marker1 + 1, marker2);
+        String desc = parseString(tokens, 1, marker1);
+        LocalDateTime from = parseDateTime(tokens, marker1 + 1, marker2);
+        LocalDateTime to = parseDateTime(tokens, marker2 + 1, tokens.length);
 
         if (desc.isEmpty()) {
             emptyInputs.add("description");
         }
-        if (from.isEmpty()) {
+        if (from == null) {
             emptyInputs.add("start");
         }
-        if (to.isEmpty()) {
+        if (to == null) {
             emptyInputs.add("end");
         }
         if  (!emptyInputs.isEmpty()) {
-            throw new EmptyInputException(emptyInputs);
+            throw new InvalidInputException(emptyInputs);
         }
 
         Event newTask = new Event(desc, from, to);
@@ -187,13 +183,13 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void setTaskStatus(ArrayList<Task> tasks, String[] parsed, boolean mark)
-            throws EmptyInputException, InvalidTaskNumberException {
-        if (parsed.length < 2) {
-            throw new EmptyInputException("task number");
+    private static void setTaskStatus(ArrayList<Task> tasks, String[] tokens, boolean mark)
+            throws InvalidInputException, InvalidTaskNumberException {
+        if (tokens.length < 2) {
+            throw new InvalidInputException("task number");
         }
 
-        int taskNum = Integer.parseInt(parsed[1]) - 1;
+        int taskNum = Integer.parseInt(tokens[1]) - 1;
         if (taskNum < 0 || taskNum >= tasks.size()) {
             throw new InvalidTaskNumberException();
         }
@@ -209,13 +205,13 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void deleteTask(ArrayList<Task> tasks, String[] parsed)
-            throws EmptyInputException, InvalidTaskNumberException {
-        if (parsed.length < 2) {
-            throw new EmptyInputException("task number");
+    private static void deleteTask(ArrayList<Task> tasks, String[] tokens)
+            throws InvalidInputException, InvalidTaskNumberException {
+        if (tokens.length < 2) {
+            throw new InvalidInputException("task number");
         }
 
-        int taskNum = Integer.parseInt(parsed[1]) - 1;
+        int taskNum = Integer.parseInt(tokens[1]) - 1;
         if (taskNum < 0 || taskNum >= tasks.size()) {
             throw new InvalidTaskNumberException();
         }
@@ -246,10 +242,18 @@ public class ChattingHeads {
         printListStatus(tasks);
     }
 
-    private static String collectString(String[] parsed, int start, int end) {
-        if (start >= 0 && end <= parsed.length && start <= end) {
-            return String.join(" ", Arrays.copyOfRange(parsed, start, end));
+    private static String parseString(String[] tokens, int start, int end) {
+        if (start >= 0 && end <= tokens.length && start <= end) {
+            return String.join(" ", Arrays.copyOfRange(tokens, start, end));
         }
         return "";
+    }
+
+    private static LocalDateTime parseDateTime(String[] tokens, int start, int end) {
+        try {
+            return LocalDateTime.parse(parseString(tokens, start, end), DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 }
