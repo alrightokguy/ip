@@ -9,14 +9,14 @@ public class Storage {
     private final Path filePath;
 
     public Storage(String file) {
-        this.filePath = Path.of(file);
+        filePath = Path.of(file);
     }
 
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
 
         try {
-            List<String> lines = Files.readAllLines(this.filePath);
+            List<String> lines = Files.readAllLines(filePath);
             for (String line : lines) {
                 tasks.add(Task.fromCsv(line));
             }
@@ -27,7 +27,7 @@ public class Storage {
 
     private void save(ArrayList<Task> tasks) {
         try {
-            Files.write(this.filePath, tasks.stream().map(Task::toCsv).toList());
+            Files.write(filePath, tasks.stream().map(Task::toCsv).toList());
         } catch (IOException e) {
             System.out.println("Error writing tasks to file");
         }

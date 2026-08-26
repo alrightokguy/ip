@@ -19,9 +19,9 @@ public class ChattingHeads {
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private ChattingHeads(String file) {
-        this.storage = new Storage(file);
-        this.tasks = new TaskList(storage.load());
-        this.ui = new Ui();
+        storage = new Storage(file);
+        tasks = new TaskList(storage.load());
+        ui = new Ui();
     }
 
     private enum Command {
@@ -45,15 +45,11 @@ public class ChattingHeads {
 
     private void run() {
         Scanner scan = new Scanner(System.in);
-        ArrayList<Task> tasks = this.storage.load();
+        ArrayList<Task> tasks = storage.load();
         Command command;
 
-        System.out.println("""
-                Hello! I'm Chatting Heads.
-                You may find yourself
-                Living in a shotgun shack
-                What can I do for you?""");
-        this.ui.printSeparator();
+        ui.printStartupMessage();
+
 
         while (true) {
             String input = scan.nextLine();
@@ -74,15 +70,14 @@ public class ChattingHeads {
                     case UNMARK -> setTaskStatus(tasks, tokens, false);
                     case DELETE -> deleteTask(tasks, tokens);
                     case BYE -> {
-                        System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
-                        this.ui.printSeparator();
+                        ui.printShutdownMessage();
                         return;
                     }
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            this.ui.printSeparator();
+            ui.printSeparator();
         }
     }
 
@@ -114,7 +109,7 @@ public class ChattingHeads {
 
         ToDo newTask = new ToDo(desc);
         tasks.add(newTask);
-        this.ui.printAddStatus(newTask, tasks);
+        ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
@@ -143,7 +138,7 @@ public class ChattingHeads {
 
         Deadline newTask = new Deadline(desc, by);
         tasks.add(newTask);
-        this.ui.printAddStatus(newTask, tasks);
+        ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
@@ -179,7 +174,7 @@ public class ChattingHeads {
 
         Event newTask = new Event(desc, from, to);
         tasks.add(newTask);
-        this.ui.printAddStatus(newTask, tasks);
+        ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
@@ -216,7 +211,7 @@ public class ChattingHeads {
             throw new InvalidTaskNumberException();
         }
         Task task = tasks.remove(taskNum);
-        this.ui.printDeleteStatus(task, tasks);
+        ui.printDeleteStatus(task, tasks);
         saveTasks(tasks);
     }
 

@@ -27,13 +27,13 @@ public class Event extends Task {
                 "[%s]%s (from: %s to: %s)",
                 TYPE,
                 super.toString(),
-                DATE_TIME_FORMATTER.format(this.from),
-                DATE_TIME_FORMATTER.format(this.to)
+                DATE_TIME_FORMATTER.format(from),
+                DATE_TIME_FORMATTER.format(to)
         );
     }
 
     @Override
     public String toCsv() {
-        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), this.from, this.to);
+        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), from, to);
     }
 }

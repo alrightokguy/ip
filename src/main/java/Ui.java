@@ -5,6 +5,20 @@ public class Ui {
     public Ui() {
     }
 
+    public void printStartupMessage() {
+        System.out.println("""
+                Hello! I'm Chatting Heads.
+                You may find yourself
+                Living in a shotgun shack
+                What can I do for you?""");
+        printSeparator();
+    }
+
+    public void printShutdownMessage() {
+        System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
+        printSeparator();
+    }
+
     public void printSeparator() {
         System.out.println("------------------------------------------------------------");
     }

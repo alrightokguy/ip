@@ -11,7 +11,7 @@ public abstract class Task {
 
     public Task(String desc) {
         this.desc = desc;
-        this.status = false;
+        status = false;
     }
 
     public Task(String desc, boolean status) {
@@ -20,16 +20,16 @@ public abstract class Task {
     }
 
     public void mark() {
-        this.status = true;
+        status = true;
     }
 
     public void unmark() {
-        this.status = false;
+        status = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.status ? "X" : " ", this.desc);
+        return String.format("[%s] %s", status ? "X" : " ", desc);
     }
 
     public static Task fromCsv(String line) throws IOException {
@@ -53,6 +53,6 @@ public abstract class Task {
     }
 
     public String toCsv() {
-        return String.format("%s,%s", this.desc, this.status);
+        return String.format("%s,%s", desc, status);
     }
 }
