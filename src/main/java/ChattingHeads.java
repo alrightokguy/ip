@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,15 +9,15 @@ public class ChattingHeads {
 
     private final Storage storage;
     private final TaskList tasks;
+    private final Parser parser;
     private final Ui ui;
 
     private static final Path TASK_FILE = Path.of("tasks.txt");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private ChattingHeads(String file) {
         storage = new Storage(file);
         tasks = new TaskList(storage.load());
+        parser = new Parser();
         ui = new Ui();
     }
 
@@ -93,7 +90,7 @@ public class ChattingHeads {
     }
 
     private void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
-        String desc = parseString(tokens, 1, tokens.length);
+        String desc = parser.parseString(tokens, 1, tokens.length);
 
         if (desc.isEmpty()) {
             throw new InvalidInputException("description");
@@ -115,8 +112,8 @@ public class ChattingHeads {
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = parseString(tokens, 1, marker);
-        LocalDateTime by = parseDateTime(tokens, marker + 1, tokens.length);
+        String desc = parser.parseString(tokens, 1, marker);
+        LocalDateTime by = parser.parseDateTime(tokens, marker + 1, tokens.length);
 
         if (desc.isEmpty()) {
             emptyInputs.add("description");
@@ -147,9 +144,9 @@ public class ChattingHeads {
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = parseString(tokens, 1, marker1);
-        LocalDateTime from = parseDateTime(tokens, marker1 + 1, marker2);
-        LocalDateTime to = parseDateTime(tokens, marker2 + 1, tokens.length);
+        String desc = parser.parseString(tokens, 1, marker1);
+        LocalDateTime from = parser.parseDateTime(tokens, marker1 + 1, marker2);
+        LocalDateTime to = parser.parseDateTime(tokens, marker2 + 1, tokens.length);
 
         if (desc.isEmpty()) {
             emptyInputs.add("description");
@@ -205,20 +202,5 @@ public class ChattingHeads {
         Task task = tasks.remove(taskNum);
         ui.printDeleteStatus(task, tasks);
         saveTasks(tasks);
-    }
-
-    private static String parseString(String[] tokens, int start, int end) {
-        if (start >= 0 && end <= tokens.length && start <= end) {
-            return String.join(" ", Arrays.copyOfRange(tokens, start, end));
-        }
-        return "";
-    }
-
-    private static LocalDateTime parseDateTime(String[] tokens, int start, int end) {
-        try {
-            return LocalDateTime.parse(parseString(tokens, start, end), DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
     }
 }
