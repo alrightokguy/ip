@@ -25,7 +25,7 @@ public class Storage {
         return tasks;
     }
 
-    private void save(ArrayList<Task> tasks) {
+    public void save(ArrayList<Task> tasks) {
         try {
             Files.write(filePath, tasks.stream().map(Task::toCsv).toList());
         } catch (IOException e) {

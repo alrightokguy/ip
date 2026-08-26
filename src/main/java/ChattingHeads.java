@@ -1,9 +1,5 @@
 import java.time.LocalDateTime;
-import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class ChattingHeads {
 
@@ -11,8 +7,6 @@ public class ChattingHeads {
     private final TaskList tasks;
     private final Parser parser;
     private final Ui ui;
-
-    private static final Path TASK_FILE = Path.of("tasks.txt");
 
     private ChattingHeads(String file) {
         storage = new Storage(file);
@@ -41,14 +35,13 @@ public class ChattingHeads {
     }
 
     private void run() {
-        Scanner scan = new Scanner(System.in);
         ArrayList<Task> tasks = storage.load();
         Command command;
 
         ui.printStartupMessage();
 
         while (true) {
-            String input = scan.nextLine();
+            String input = ui.readCommand();
 
             try {
                 if (input.isEmpty()) {
@@ -81,14 +74,6 @@ public class ChattingHeads {
         new ChattingHeads("tasks.txt").run();
     }
 
-    private void saveTasks(ArrayList<Task> tasks) {
-        try {
-            Files.write(TASK_FILE, tasks.stream().map(Task::toCsv).toList());
-        } catch (IOException e) {
-            ui.printErrorMessage(e);
-        }
-    }
-
     private void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
         String desc = parser.parseString(tokens, 1, tokens.length);
 
@@ -99,7 +84,7 @@ public class ChattingHeads {
         ToDo newTask = new ToDo(desc);
         tasks.add(newTask);
         ui.printAddStatus(newTask, tasks);
-        saveTasks(tasks);
+        storage.save(tasks);
     }
 
     private void addDeadline(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
@@ -128,7 +113,7 @@ public class ChattingHeads {
         Deadline newTask = new Deadline(desc, by);
         tasks.add(newTask);
         ui.printAddStatus(newTask, tasks);
-        saveTasks(tasks);
+        storage.save(tasks);
     }
 
     private void addEvent(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
@@ -164,7 +149,7 @@ public class ChattingHeads {
         Event newTask = new Event(desc, from, to);
         tasks.add(newTask);
         ui.printAddStatus(newTask, tasks);
-        saveTasks(tasks);
+        storage.save(tasks);
     }
 
     private void setTaskStatus(ArrayList<Task> tasks, String[] tokens, boolean mark)
@@ -186,7 +171,7 @@ public class ChattingHeads {
             task.unmark();
             ui.printUnmarkStatus(task);
         }
-        saveTasks(tasks);
+        storage.save(tasks);
     }
 
     private void deleteTask(ArrayList<Task> tasks, String[] tokens)
@@ -201,6 +186,6 @@ public class ChattingHeads {
         }
         Task task = tasks.remove(taskNum);
         ui.printDeleteStatus(task, tasks);
-        saveTasks(tasks);
+        storage.save(tasks);
     }
 }
