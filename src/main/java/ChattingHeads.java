@@ -1,7 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,9 +10,19 @@ import java.nio.file.Path;
 
 public class ChattingHeads {
 
-    private final static Path TASK_FILE = Path.of("tasks.txt");
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+
+    private static final Path TASK_FILE = Path.of("tasks.txt");
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    private ChattingHeads(String file) {
+        this.storage = new Storage(file);
+        this.tasks = new TaskList(storage.load());
+        this.ui = new Ui();
+    }
 
     private enum Command {
         LIST,
@@ -34,9 +43,9 @@ public class ChattingHeads {
         }
     }
 
-    static void main(String[] ignoredArgs) {
+    private void run() {
         Scanner scan = new Scanner(System.in);
-        ArrayList<Task> tasks = loadTasks();
+        ArrayList<Task> tasks = this.storage.load();
         Command command;
 
         System.out.println("""
@@ -44,7 +53,7 @@ public class ChattingHeads {
                 You may find yourself
                 Living in a shotgun shack
                 What can I do for you?""");
-        printSeparator();
+        this.ui.printSeparator();
 
         while (true) {
             String input = scan.nextLine();
@@ -66,28 +75,19 @@ public class ChattingHeads {
                     case DELETE -> deleteTask(tasks, tokens);
                     case BYE -> {
                         System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
-                        printSeparator();
+                        this.ui.printSeparator();
                         return;
                     }
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            printSeparator();
+            this.ui.printSeparator();
         }
     }
 
-    private static ArrayList<Task> loadTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        try {
-            List<String> lines = Files.readAllLines(TASK_FILE);
-            for (String line : lines) {
-                tasks.add(Task.fromCsv(line));
-            }
-        } catch (IOException ignored) {
-        }
-        return tasks;
+    static void main(String[] ignoredArgs) {
+        new ChattingHeads("tasks.txt").run();
     }
 
     private static void saveTasks(ArrayList<Task> tasks) {
@@ -105,7 +105,7 @@ public class ChattingHeads {
         }
     }
 
-    private static void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+    private void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
         String desc = parseString(tokens, 1, tokens.length);
 
         if (desc.isEmpty()) {
@@ -114,11 +114,11 @@ public class ChattingHeads {
 
         ToDo newTask = new ToDo(desc);
         tasks.add(newTask);
-        printAddStatus(newTask, tasks);
+        this.ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
-    private static void addDeadline(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+    private void addDeadline(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
         int marker = tokens.length;
 
         for (int i = 1; i < tokens.length; i++) {
@@ -143,11 +143,11 @@ public class ChattingHeads {
 
         Deadline newTask = new Deadline(desc, by);
         tasks.add(newTask);
-        printAddStatus(newTask, tasks);
+        this.ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
-    private static void addEvent(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
+    private void addEvent(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
         int marker1 = tokens.length;
         int marker2 = tokens.length;
 
@@ -179,7 +179,7 @@ public class ChattingHeads {
 
         Event newTask = new Event(desc, from, to);
         tasks.add(newTask);
-        printAddStatus(newTask, tasks);
+        this.ui.printAddStatus(newTask, tasks);
         saveTasks(tasks);
     }
 
@@ -205,7 +205,7 @@ public class ChattingHeads {
         saveTasks(tasks);
     }
 
-    private static void deleteTask(ArrayList<Task> tasks, String[] tokens)
+    private void deleteTask(ArrayList<Task> tasks, String[] tokens)
             throws InvalidInputException, InvalidTaskNumberException {
         if (tokens.length < 2) {
             throw new InvalidInputException("task number");
@@ -216,30 +216,8 @@ public class ChattingHeads {
             throw new InvalidTaskNumberException();
         }
         Task task = tasks.remove(taskNum);
-        printDeleteStatus(task, tasks);
+        this.ui.printDeleteStatus(task, tasks);
         saveTasks(tasks);
-    }
-
-    private static void printSeparator() {
-        System.out.println("------------------------------------------------------------");
-    }
-
-    private static void printListStatus(ArrayList<Task> tasks) {
-        if (tasks.size() == 1) {
-            System.out.println("Now you have 1 task in the list.");
-        } else {
-            System.out.printf("Now you have %s tasks in the list.\n", tasks.isEmpty() ? "no" : tasks.size());
-        }
-    }
-
-    private static void printAddStatus(Task task, ArrayList<Task> tasks) {
-        System.out.println("Got it. I've added this task:\n" + task);
-        printListStatus(tasks);
-    }
-
-    private static void printDeleteStatus(Task task, ArrayList<Task> tasks) {
-        System.out.println("Into the blue again\nAfter this task is gone:\n" + task);
-        printListStatus(tasks);
     }
 
     private static String parseString(String[] tokens, int start, int end) {
