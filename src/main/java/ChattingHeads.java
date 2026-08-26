@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class ChattingHeads {
 
     private final Storage storage;
-    private final TaskList tasks;
+    private final TaskList taskList;
     private final Parser parser;
     private final Ui ui;
 
     private ChattingHeads(String file) {
         storage = new Storage(file);
-        tasks = new TaskList(storage.load());
+        taskList = new TaskList(storage.load());
         parser = new Parser();
         ui = new Ui();
     }
@@ -35,7 +35,6 @@ public class ChattingHeads {
     }
 
     private void run() {
-        ArrayList<Task> tasks = storage.load();
         Command command;
 
         ui.printStartupMessage();
@@ -51,13 +50,13 @@ public class ChattingHeads {
                 command = Command.from(tokens[0]);
 
                 switch (command) {
-                    case LIST -> ui.printTasks(tasks);
-                    case TODO -> addToDo(tasks, tokens);
-                    case DEADLINE -> addDeadline(tasks, tokens);
-                    case EVENT -> addEvent(tasks, tokens);
-                    case MARK -> setTaskStatus(tasks, tokens, true);
-                    case UNMARK -> setTaskStatus(tasks, tokens, false);
-                    case DELETE -> deleteTask(tasks, tokens);
+                    case LIST -> ui.printTasks(taskList.getTasks());
+                    case TODO -> addToDo(taskList.getTasks(), tokens);
+                    case DEADLINE -> addDeadline(taskList.getTasks(), tokens);
+                    case EVENT -> addEvent(taskList.getTasks(), tokens);
+                    case MARK -> setTaskStatus(taskList.getTasks(), tokens, true);
+                    case UNMARK -> setTaskStatus(taskList.getTasks(), tokens, false);
+                    case DELETE -> deleteTask(taskList.getTasks(), tokens);
                     case BYE -> {
                         ui.printShutdownMessage();
                         return;
@@ -66,7 +65,6 @@ public class ChattingHeads {
             } catch (Exception e) {
                 ui.printErrorMessage(e);
             }
-            ui.printSeparator();
         }
     }
 
@@ -82,7 +80,7 @@ public class ChattingHeads {
         }
 
         ToDo newTask = new ToDo(desc);
-        tasks.add(newTask);
+        taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);
     }
@@ -111,7 +109,7 @@ public class ChattingHeads {
         }
 
         Deadline newTask = new Deadline(desc, by);
-        tasks.add(newTask);
+        taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);
     }
@@ -147,7 +145,7 @@ public class ChattingHeads {
         }
 
         Event newTask = new Event(desc, from, to);
-        tasks.add(newTask);
+        taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);
     }
@@ -184,7 +182,7 @@ public class ChattingHeads {
         if (taskNum < 0 || taskNum >= tasks.size()) {
             throw new InvalidTaskNumberException();
         }
-        Task task = tasks.remove(taskNum);
+        Task task = taskList.delete(taskNum);
         ui.printDeleteStatus(task, tasks);
         storage.save(tasks);
     }
