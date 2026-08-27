@@ -1,13 +1,15 @@
 package chattingHeads.task;
 
+import chattingHeads.exception.InvalidTaskNumberException;
+import chattingHeads.storage.Storage;
 import java.util.ArrayList;
 
 public class TaskList {
 
     private final ArrayList<Task> tasks;
 
-    public TaskList(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+    public TaskList(Storage storage) {
+        tasks = storage.load();
     }
 
     public boolean isEmpty() {

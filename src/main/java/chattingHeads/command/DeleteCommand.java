@@ -1,5 +1,10 @@
 package chattingHeads.command;
 
+import chattingHeads.exception.InvalidTaskNumberException;
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 public class DeleteCommand extends Command {
 
     private final int taskNumber;

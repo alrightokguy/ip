@@ -1,5 +1,8 @@
 package chattingHeads.ui;
 
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+
 import java.util.Scanner;
 
 public class Ui {

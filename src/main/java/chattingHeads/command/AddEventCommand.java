@@ -1,5 +1,10 @@
 package chattingHeads.command;
 
+import chattingHeads.task.Event;
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 import java.time.LocalDateTime;
 
 public class AddEventCommand extends Command {

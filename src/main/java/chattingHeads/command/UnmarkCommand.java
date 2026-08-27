@@ -1,5 +1,9 @@
 package chattingHeads.command;
 
+import chattingHeads.exception.InvalidTaskNumberException;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 public class UnmarkCommand extends Command {
 
     private final int taskNumber;
