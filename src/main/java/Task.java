@@ -1,42 +1,39 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-abstract class Task {
+public abstract class Task {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private final String desc;
+    private final String description;
     private boolean status;
 
-    public Task(String desc) {
-        this.desc = desc;
-        this.status = false;
+    public Task(String description) {
+        this.description = description;
+        status = false;
     }
 
-    public Task(String desc, boolean status) {
-        this.desc = desc;
+    public Task(String description, boolean status) {
+        this.description = description;
         this.status = status;
     }
 
     public void mark() {
-        this.status = true;
+        status = true;
     }
 
     public void unmark() {
-        this.status = false;
+        status = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.status ? "X" : " ", this.desc);
+        return String.format("[%s] %s", status ? "X" : " ", description);
     }
 
     public static Task fromCsv(String line) throws IOException {
         String[] fields =  line.split(",");
         String type = fields[0];
         return switch (type) {
-            case "T" -> new ToDo(fields[1], Boolean.parseBoolean(fields[2]));
+            case "T" -> new Todo(fields[1], Boolean.parseBoolean(fields[2]));
             case "D" -> new Deadline(
                     fields[1],
                     Boolean.parseBoolean(fields[2]),
@@ -53,6 +50,6 @@ abstract class Task {
     }
 
     public String toCsv() {
-        return String.format("%s,%s", this.desc, this.status);
+        return String.format("%s,%s", description, status);
     }
 }

@@ -1,13 +1,13 @@
-public class ToDo extends Task {
+public class Todo extends Task {
 
     private static final String TYPE = "T";
 
-    public ToDo(String desc) {
-        super(desc);
+    public Todo(String description) {
+        super(description);
     }
 
-    public ToDo(String desc, boolean status) {
-        super(desc, status);
+    public Todo(String description, boolean status) {
+        super(description, status);
     }
 
     @Override

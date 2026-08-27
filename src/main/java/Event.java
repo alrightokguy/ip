@@ -9,14 +9,14 @@ public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
-    public Event(String desc, LocalDateTime from, LocalDateTime to) {
-        super(desc);
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        super(description);
         this.from = from;
         this.to = to;
     }
 
-    public Event(String desc, boolean status, LocalDateTime from, LocalDateTime to) {
-        super(desc, status);
+    public Event(String description, boolean status, LocalDateTime from, LocalDateTime to) {
+        super(description, status);
         this.from = from;
         this.to = to;
     }
@@ -27,13 +27,13 @@ public class Event extends Task {
                 "[%s]%s (from: %s to: %s)",
                 TYPE,
                 super.toString(),
-                DATE_TIME_FORMATTER.format(this.from),
-                DATE_TIME_FORMATTER.format(this.to)
+                DATE_TIME_FORMATTER.format(from),
+                DATE_TIME_FORMATTER.format(to)
         );
     }
 
     @Override
     public String toCsv() {
-        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), this.from, this.to);
+        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), from, to);
     }
 }
