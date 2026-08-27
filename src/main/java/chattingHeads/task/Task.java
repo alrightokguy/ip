@@ -54,4 +54,8 @@ public abstract class Task {
     public String toCsv() {
         return String.format("%s,%s", description, status);
     }
+
+    public boolean isDone() {
+        return status;
+    }
 }

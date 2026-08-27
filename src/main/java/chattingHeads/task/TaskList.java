@@ -13,6 +13,10 @@ public class TaskList {
         tasks = storage.load();
     }
 
+    public TaskList() {
+        tasks = new ArrayList<>();
+    }
+
     public boolean isEmpty() {
         return tasks.isEmpty();
     }

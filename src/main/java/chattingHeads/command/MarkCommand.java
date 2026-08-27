@@ -18,4 +18,8 @@ public class MarkCommand extends Command {
         ui.printMarkStatus(taskList.get(taskNumber - 1));
         return true;
     }
+
+    public int getTaskNumber() {
+        return taskNumber;
+    }
 }

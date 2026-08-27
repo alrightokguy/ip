@@ -19,4 +19,8 @@ public class DeleteCommand extends Command {
         ui.printDeleteStatus(deletedTask, taskList);
         return true;
     }
+
+    public int getTaskNumber() {
+        return taskNumber;
+    }
 }

@@ -1,6 +1,14 @@
 package chattingHeads.parser;
 
-import chattingHeads.command.*;
+import chattingHeads.command.AddDeadlineCommand;
+import chattingHeads.command.AddEventCommand;
+import chattingHeads.command.AddTodoCommand;
+import chattingHeads.command.Command;
+import chattingHeads.command.DeleteCommand;
+import chattingHeads.command.ExitCommand;
+import chattingHeads.command.ListCommand;
+import chattingHeads.command.MarkCommand;
+import chattingHeads.command.UnmarkCommand;
 import chattingHeads.exception.InvalidCommandException;
 import chattingHeads.exception.InvalidInputException;
 

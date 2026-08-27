@@ -18,4 +18,8 @@ public class UnmarkCommand extends Command {
         ui.printUnmarkStatus(taskList.get(taskNumber - 1));
         return true;
     }
+
+    public int getTaskNumber() {
+        return taskNumber;
+    }
 }

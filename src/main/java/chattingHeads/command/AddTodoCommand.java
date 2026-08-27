@@ -20,4 +20,8 @@ public class AddTodoCommand extends Command {
         ui.printAddStatus(newTask, taskList);
         return true;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }
