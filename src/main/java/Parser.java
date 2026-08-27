@@ -27,7 +27,7 @@ public class Parser {
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
             case "bye" -> new ExitCommand();
             default -> throw new InvalidInputException("command");
-        }
+        };
     }
 
     private AddTodoCommand parseTodo(String[] arguments) throws InvalidInputException {
