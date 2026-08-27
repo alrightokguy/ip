@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
@@ -16,7 +17,7 @@ public class Parser {
         String command = tokens[0];
         String[] arguments = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-        switch (command) {
+        return switch (command) {
             case "todo" -> parseTodo(arguments);
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
@@ -35,11 +36,34 @@ public class Parser {
         if (description.isEmpty()) {
             throw new InvalidInputException("description");
         }
+
         return new AddTodoCommand(description);
     }
 
-    private void parseDeadline(String[] arguments) {
+    private AddDeadlineCommand parseDeadline(String[] arguments) throws InvalidInputException {
+        int marker = arguments.length;
 
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].equals("/by")) {
+                marker = i;
+                break;
+            }
+        }
+        ArrayList<String> emptyInputs = new ArrayList<>();
+        String description = parseString(arguments, 0, marker);
+        LocalDateTime by = parseDateTime(arguments, marker + 1, arguments.length);
+
+        if (description.isEmpty()) {
+            emptyInputs.add("description");
+        }
+        if (by == null) {
+            emptyInputs.add("deadline");
+        }
+        if  (!emptyInputs.isEmpty()) {
+            throw new InvalidInputException(emptyInputs);
+        }
+
+        return new AddDeadlineCommand(description, by);
     }
 
     private void parseEvent(String[] arguments) {
