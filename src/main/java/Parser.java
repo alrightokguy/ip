@@ -8,6 +8,14 @@ public class Parser {
     private final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+    public Command parse(String input) throws InvalidInputException {
+        if (input.isEmpty()) {
+            throw new InvalidInputException("command");
+        }
+        String[] tokens = input.split("\\s+");
+
+    }
+
     public String parseString(String[] tokens, int start, int end) {
         if (start >= 0 && end <= tokens.length && start <= end) {
             return String.join(" ", Arrays.copyOfRange(tokens, start, end));

@@ -7,8 +7,9 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) {
         taskList.unmark(taskNumber - 1);
         ui.printUnmarkStatus(taskList.get(taskNumber - 1));
+        return true;
     }
 }

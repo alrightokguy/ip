@@ -13,9 +13,10 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) {
         Task newTask = new Event(description, from, to);
         taskList.add(newTask);
-        ui.printAddStatus(newTask, taskList.getTasks());
+        ui.printAddStatus(newTask, taskList);
+        return true;
     }
 }

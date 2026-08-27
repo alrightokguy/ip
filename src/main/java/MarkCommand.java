@@ -7,8 +7,9 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) {
         taskList.mark(taskNumber - 1);
         ui.printMarkStatus(taskList.get(taskNumber - 1));
+        return true;
     }
 }

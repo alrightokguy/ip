@@ -7,9 +7,10 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) {
         Task newTask = new Todo(description);
         taskList.add(newTask);
-        ui.printAddStatus(newTask, taskList.getTasks());
+        ui.printAddStatus(newTask, taskList);
+        return true;
     }
 }

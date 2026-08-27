@@ -8,6 +8,14 @@ public class TaskList {
         this.tasks = tasks;
     }
 
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
+    public int size() {
+        return tasks.size();
+    }
+
     public Task get(int i) {
         return tasks.get(i);
     }
