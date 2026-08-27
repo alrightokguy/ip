@@ -1,3 +1,9 @@
+package chattingHeads.parser;
+
+import chattingHeads.command.*;
+import chattingHeads.exception.InvalidCommandException;
+import chattingHeads.exception.InvalidInputException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -59,7 +65,7 @@ public class Parser {
         if (by == null) {
             emptyInputs.add("deadline");
         }
-        if  (!emptyInputs.isEmpty()) {
+        if (!emptyInputs.isEmpty()) {
             throw new InvalidInputException(emptyInputs);
         }
 
@@ -92,7 +98,7 @@ public class Parser {
         if (to == null) {
             emptyInputs.add("end");
         }
-        if  (!emptyInputs.isEmpty()) {
+        if (!emptyInputs.isEmpty()) {
             throw new InvalidInputException(emptyInputs);
         }
 

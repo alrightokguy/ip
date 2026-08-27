@@ -1,3 +1,9 @@
+package chattingHeads.command;
+
+import chattingHeads.exception.InvalidTaskNumberException;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 public class MarkCommand extends Command {
 
     private final int taskNumber;

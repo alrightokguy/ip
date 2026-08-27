@@ -1,3 +1,8 @@
+package chattingHeads.storage;
+
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

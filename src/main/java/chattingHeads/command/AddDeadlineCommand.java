@@ -1,3 +1,10 @@
+package chattingHeads.command;
+
+import chattingHeads.task.Deadline;
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 import java.time.LocalDateTime;
 
 public class AddDeadlineCommand extends Command {

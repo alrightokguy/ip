@@ -1,3 +1,10 @@
+package chattingHeads.command;
+
+import chattingHeads.task.Task;
+import chattingHeads.task.TaskList;
+import chattingHeads.task.Todo;
+import chattingHeads.ui.Ui;
+
 public class AddTodoCommand extends Command {
 
     private final String description;

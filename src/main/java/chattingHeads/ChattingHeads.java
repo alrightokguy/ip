@@ -1,3 +1,11 @@
+package chattingHeads;
+
+import chattingHeads.command.Command;
+import chattingHeads.parser.Parser;
+import chattingHeads.storage.Storage;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 public class ChattingHeads {
 
     private final Storage storage;
@@ -7,7 +15,7 @@ public class ChattingHeads {
 
     private ChattingHeads() {
         storage = new Storage("tasks.txt");
-        taskList = new TaskList(storage.load());
+        taskList = new TaskList(storage);
         parser = new Parser();
         ui = new Ui();
     }
