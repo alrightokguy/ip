@@ -29,8 +29,13 @@ public class Parser {
         }
     }
 
-    private void parseTodo(String[] arguments) {
+    private AddTodoCommand parseTodo(String[] arguments) throws InvalidInputException {
+        String description = parseString(arguments, 0, arguments.length);
 
+        if (description.isEmpty()) {
+            throw new InvalidInputException("description");
+        }
+        return new AddTodoCommand(description);
     }
 
     private void parseDeadline(String[] arguments) {
