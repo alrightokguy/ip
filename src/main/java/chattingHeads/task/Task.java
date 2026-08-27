@@ -32,7 +32,7 @@ public abstract class Task {
     }
 
     public static Task fromCsv(String line) throws IOException {
-        String[] fields =  line.split(",");
+        String[] fields = line.split(",");
         String type = fields[0];
         return switch (type) {
             case "T" -> new Todo(fields[1], Boolean.parseBoolean(fields[2]));
