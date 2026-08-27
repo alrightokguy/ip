@@ -15,25 +15,6 @@ public class ChattingHeads {
         ui = new Ui();
     }
 
-    private enum Command {
-        LIST,
-        TODO,
-        DEADLINE,
-        EVENT,
-        MARK,
-        UNMARK,
-        DELETE,
-        BYE;
-
-        public static Command from(String input) throws InvalidCommandException {
-            try {
-                return Command.valueOf(input.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new InvalidCommandException();
-            }
-        }
-    }
-
     private void run() {
         Command command;
 
@@ -156,11 +137,11 @@ public class ChattingHeads {
             throw new InvalidInputException("task number");
         }
 
-        int taskNum = Integer.parseInt(tokens[1]) - 1;
-        if (taskNum < 0 || taskNum >= tasks.size()) {
+        int taskNumber = Integer.parseInt(tokens[1]) - 1;
+        if (taskNumber < 0 || taskNumber >= tasks.size()) {
             throw new InvalidTaskNumberException();
         }
-        Task task = tasks.get(taskNum);
+        Task task = tasks.get(taskNumber);
 
         if (mark) {
             task.mark();
@@ -178,11 +159,11 @@ public class ChattingHeads {
             throw new InvalidInputException("task number");
         }
 
-        int taskNum = Integer.parseInt(tokens[1]) - 1;
-        if (taskNum < 0 || taskNum >= tasks.size()) {
+        int taskNumber = Integer.parseInt(tokens[1]) - 1;
+        if (taskNumber < 0 || taskNumber >= tasks.size()) {
             throw new InvalidTaskNumberException();
         }
-        Task task = taskList.delete(taskNum);
+        Task task = taskList.delete(taskNumber);
         ui.printDeleteStatus(task, tasks);
         storage.save(tasks);
     }

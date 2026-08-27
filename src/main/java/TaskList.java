@@ -16,7 +16,19 @@ public class TaskList {
         tasks.add(task);
     }
 
-    public Task delete(int taskNum) {
-        return tasks.remove(taskNum);
+    public Task delete(int taskNumber) {
+        return tasks.remove(taskNumber);
+    }
+
+    public void mark(int i) {
+        tasks.get(i).mark();
+    }
+
+    public Task get(int i) {
+        return tasks.get(i);
+    }
+
+    public void unmark(int i) {
+        tasks.get(i).unmark();
     }
 }
