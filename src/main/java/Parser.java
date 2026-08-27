@@ -66,8 +66,37 @@ public class Parser {
         return new AddDeadlineCommand(description, by);
     }
 
-    private void parseEvent(String[] arguments) {
+    private AddEventCommand parseEvent(String[] arguments) throws InvalidInputException {
+        int marker1 = arguments.length;
+        int marker2 = arguments.length;
 
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].equals("/from")) {
+                marker1 = i;
+            } else if (arguments[i].equals("/to")) {
+                marker2 = i;
+                break;
+            }
+        }
+        ArrayList<String> emptyInputs = new ArrayList<>();
+        String description = parseString(arguments, 0, marker1);
+        LocalDateTime from = parseDateTime(arguments, marker1 + 1, marker2);
+        LocalDateTime to = parseDateTime(arguments, marker2 + 1, arguments.length);
+
+        if (description.isEmpty()) {
+            emptyInputs.add("description");
+        }
+        if (from == null) {
+            emptyInputs.add("start");
+        }
+        if (to == null) {
+            emptyInputs.add("end");
+        }
+        if  (!emptyInputs.isEmpty()) {
+            throw new InvalidInputException(emptyInputs);
+        }
+
+        return new AddEventCommand(description, from, to);
     }
 
     private int parseTaskNumber(String[] arguments) {
