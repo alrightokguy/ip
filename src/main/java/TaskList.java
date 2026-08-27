@@ -17,7 +17,6 @@ public class TaskList {
     }
 
     public Task get(int index) {
-        validateIndex(index);
         return tasks.get(index);
     }
 
