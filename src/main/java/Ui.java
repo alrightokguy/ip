@@ -65,5 +65,6 @@ public class Ui {
         for (int i = 0; i < taskList.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, taskList.get(i));
         }
+        printSeparator();
     }
 }
