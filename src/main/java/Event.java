@@ -9,14 +9,14 @@ public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
-    public Event(String desc, LocalDateTime from, LocalDateTime to) {
-        super(desc);
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        super(description);
         this.from = from;
         this.to = to;
     }
 
-    public Event(String desc, boolean status, LocalDateTime from, LocalDateTime to) {
-        super(desc, status);
+    public Event(String description, boolean status, LocalDateTime from, LocalDateTime to) {
+        super(description, status);
         this.from = from;
         this.to = to;
     }

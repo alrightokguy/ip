@@ -16,8 +16,6 @@ public class ChattingHeads {
     }
 
     private void run() {
-        Command command;
-
         ui.printStartupMessage();
 
         while (true) {
@@ -28,21 +26,7 @@ public class ChattingHeads {
                     throw new InvalidInputException("command");
                 }
                 String[] tokens = input.split("\\s+");
-                command = Command.from(tokens[0]);
 
-                switch (command) {
-                    case LIST -> ui.printTasks(taskList.getTasks());
-                    case TODO -> addToDo(taskList.getTasks(), tokens);
-                    case DEADLINE -> addDeadline(taskList.getTasks(), tokens);
-                    case EVENT -> addEvent(taskList.getTasks(), tokens);
-                    case MARK -> setTaskStatus(taskList.getTasks(), tokens, true);
-                    case UNMARK -> setTaskStatus(taskList.getTasks(), tokens, false);
-                    case DELETE -> deleteTask(taskList.getTasks(), tokens);
-                    case BYE -> {
-                        ui.printShutdownMessage();
-                        return;
-                    }
-                }
             } catch (Exception e) {
                 ui.printErrorMessage(e);
             }
@@ -54,13 +38,13 @@ public class ChattingHeads {
     }
 
     private void addToDo(ArrayList<Task> tasks, String[] tokens) throws InvalidInputException {
-        String desc = parser.parseString(tokens, 1, tokens.length);
+        String description = parser.parseString(tokens, 1, tokens.length);
 
-        if (desc.isEmpty()) {
+        if (description.isEmpty()) {
             throw new InvalidInputException("description");
         }
 
-        ToDo newTask = new ToDo(desc);
+        Todo newTask = new Todo(description);
         taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);
@@ -76,10 +60,10 @@ public class ChattingHeads {
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = parser.parseString(tokens, 1, marker);
+        String description = parser.parseString(tokens, 1, marker);
         LocalDateTime by = parser.parseDateTime(tokens, marker + 1, tokens.length);
 
-        if (desc.isEmpty()) {
+        if (description.isEmpty()) {
             emptyInputs.add("description");
         }
         if (by == null) {
@@ -89,7 +73,7 @@ public class ChattingHeads {
             throw new InvalidInputException(emptyInputs);
         }
 
-        Deadline newTask = new Deadline(desc, by);
+        Deadline newTask = new Deadline(description, by);
         taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);
@@ -108,11 +92,11 @@ public class ChattingHeads {
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String desc = parser.parseString(tokens, 1, marker1);
+        String description = parser.parseString(tokens, 1, marker1);
         LocalDateTime from = parser.parseDateTime(tokens, marker1 + 1, marker2);
         LocalDateTime to = parser.parseDateTime(tokens, marker2 + 1, tokens.length);
 
-        if (desc.isEmpty()) {
+        if (description.isEmpty()) {
             emptyInputs.add("description");
         }
         if (from == null) {
@@ -125,7 +109,7 @@ public class ChattingHeads {
             throw new InvalidInputException(emptyInputs);
         }
 
-        Event newTask = new Event(desc, from, to);
+        Event newTask = new Event(description, from, to);
         taskList.add(newTask);
         ui.printAddStatus(newTask, tasks);
         storage.save(tasks);

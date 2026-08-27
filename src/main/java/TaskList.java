@@ -8,6 +8,10 @@ public class TaskList {
         this.tasks = tasks;
     }
 
+    public Task get(int i) {
+        return tasks.get(i);
+    }
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }
@@ -22,10 +26,6 @@ public class TaskList {
 
     public void mark(int i) {
         tasks.get(i).mark();
-    }
-
-    public Task get(int i) {
-        return tasks.get(i);
     }
 
     public void unmark(int i) {

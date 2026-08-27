@@ -8,6 +8,7 @@ public class DeleteCommand extends Command {
 
     @Override
     public void execute(TaskList taskList, Ui ui) {
-        taskList.delete(taskNumber - 1);
+        Task deletedTask = taskList.delete(taskNumber - 1);
+        ui.printDeleteStatus(deletedTask, taskList.getTasks());
     }
 }

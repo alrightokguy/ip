@@ -8,13 +8,13 @@ public class Deadline extends Task {
     private static final String TYPE = "D";
     private final LocalDateTime by;
 
-    public Deadline(String desc, LocalDateTime by) {
-        super(desc);
+    public Deadline(String description, LocalDateTime by) {
+        super(description);
         this.by = by;
     }
 
-    public Deadline(String desc, boolean status, LocalDateTime by) {
-        super(desc, status);
+    public Deadline(String description, boolean status, LocalDateTime by) {
+        super(description, status);
         this.by = by;
     }
 
