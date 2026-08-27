@@ -16,8 +16,9 @@ public class TaskList {
         return tasks.size();
     }
 
-    public Task get(int i) {
-        return tasks.get(i);
+    public Task get(int index) {
+        validateIndex(index);
+        return tasks.get(index);
     }
 
     public ArrayList<Task> getTasks() {
@@ -28,15 +29,24 @@ public class TaskList {
         tasks.add(task);
     }
 
-    public Task delete(int taskNumber) {
-        return tasks.remove(taskNumber);
+    public Task delete(int index) throws InvalidTaskNumberException {
+        validateIndex(index);
+        return tasks.remove(index);
     }
 
-    public void mark(int i) {
-        tasks.get(i).mark();
+    public void mark(int index) throws InvalidTaskNumberException {
+        validateIndex(index);
+        tasks.get(index).mark();
     }
 
-    public void unmark(int i) {
-        tasks.get(i).unmark();
+    public void unmark(int index) throws InvalidTaskNumberException {
+        validateIndex(index);
+        tasks.get(index).unmark();
+    }
+
+    private void validateIndex(int index) throws InvalidTaskNumberException {
+        if (index < 0 || index >= size()) {
+            throw new InvalidTaskNumberException();
+        }
     }
 }

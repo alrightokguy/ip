@@ -7,7 +7,7 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         taskList.unmark(taskNumber - 1);
         ui.printUnmarkStatus(taskList.get(taskNumber - 1));
         return true;

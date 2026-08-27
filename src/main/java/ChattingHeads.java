@@ -5,8 +5,8 @@ public class ChattingHeads {
     private final Parser parser;
     private final Ui ui;
 
-    private ChattingHeads(String file) {
-        storage = new Storage(file);
+    private ChattingHeads() {
+        storage = new Storage("tasks.txt");
         taskList = new TaskList(storage.load());
         parser = new Parser();
         ui = new Ui();
@@ -35,6 +35,6 @@ public class ChattingHeads {
     }
 
     static void main(String[] ignoredArgs) {
-        new ChattingHeads("tasks.txt").run();
+        new ChattingHeads().run();
     }
 }

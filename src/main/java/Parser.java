@@ -9,7 +9,7 @@ public class Parser {
     private final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    public Command parse(String input) throws InvalidInputException {
+    public Command parse(String input) throws InvalidInputException, InvalidCommandException {
         if (input.isEmpty()) {
             throw new InvalidInputException("command");
         }
@@ -26,7 +26,7 @@ public class Parser {
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
             case "bye" -> new ExitCommand();
-            default -> throw new InvalidInputException("command");
+            default -> throw new InvalidCommandException();
         };
     }
 

@@ -7,7 +7,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         Task deletedTask = taskList.delete(taskNumber - 1);
         ui.printDeleteStatus(deletedTask, taskList);
         return true;
