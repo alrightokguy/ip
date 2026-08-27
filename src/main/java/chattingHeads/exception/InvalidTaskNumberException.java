@@ -1,3 +1,5 @@
+package chattingHeads.exception;
+
 public class InvalidTaskNumberException extends Exception {
 
     public InvalidTaskNumberException() {

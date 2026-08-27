@@ -1,3 +1,5 @@
+package chattingHeads.command;
+
 import java.time.LocalDateTime;
 
 public class AddEventCommand extends Command {

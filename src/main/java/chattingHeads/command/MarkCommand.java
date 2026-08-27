@@ -1,3 +1,5 @@
+package chattingHeads.command;
+
 public class MarkCommand extends Command {
 
     private final int taskNumber;

@@ -1,3 +1,10 @@
+package chattingHeads;
+
+import chattingHeads.parser.Parser;
+import chattingHeads.storage.Storage;
+import chattingHeads.task.TaskList;
+import chattingHeads.ui.Ui;
+
 public class ChattingHeads {
 
     private final Storage storage;

@@ -1,3 +1,5 @@
+package chattingHeads.exception;
+
 import java.util.ArrayList;
 
 public class InvalidInputException extends Exception {

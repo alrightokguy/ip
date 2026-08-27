@@ -1,3 +1,5 @@
+package chattingHeads.command;
+
 public class DeleteCommand extends Command {
 
     private final int taskNumber;

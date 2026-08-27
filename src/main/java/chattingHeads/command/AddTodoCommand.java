@@ -1,3 +1,5 @@
+package chattingHeads.command;
+
 public class AddTodoCommand extends Command {
 
     private final String description;
