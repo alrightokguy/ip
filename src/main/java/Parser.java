@@ -99,7 +99,10 @@ public class Parser {
         return new AddEventCommand(description, from, to);
     }
 
-    private int parseTaskNumber(String[] arguments) {
+    private int parseTaskNumber(String[] arguments) throws InvalidInputException {
+        if (arguments.length < 1) {
+            throw new InvalidInputException("task number");
+        }
         return Integer.parseInt(arguments[0]);
     }
 
