@@ -101,7 +101,7 @@ public class Parser {
             emptyInputs.add("deadline");
         }
         if (!emptyInputs.isEmpty()) {
-            throw new InvalidInputException(emptyInputs);
+            throw new InvalidInputException(emptyInputs.toArray(String[]::new));
         }
 
         return new AddDeadlineCommand(description, by);
@@ -141,7 +141,7 @@ public class Parser {
             emptyInputs.add("end");
         }
         if (!emptyInputs.isEmpty()) {
-            throw new InvalidInputException(emptyInputs);
+            throw new InvalidInputException(emptyInputs.toArray(String[]::new));
         }
 
         return new AddEventCommand(description, from, to);

@@ -7,15 +7,11 @@ import java.util.ArrayList;
  */
 public class InvalidInputException extends Exception {
 
-    public InvalidInputException(String input) {
-        super(String.format("And you may ask yourself\n\"Where is that %s?\"", input));
-    }
-
-    public InvalidInputException(ArrayList<String> inputs) {
+    public InvalidInputException(String... inputs) {
         super(createMessage(inputs));
     }
 
-    private static String createMessage(ArrayList<String> inputs) {
+    private static String createMessage(String... inputs) {
         StringBuilder message = new StringBuilder("And you may ask yourself");
         for (String input : inputs) {
             if (input.equals("deadline") || input.equals("start") || input.equals("end")) {
