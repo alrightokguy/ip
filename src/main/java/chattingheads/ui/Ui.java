@@ -1,5 +1,6 @@
 package chattingheads.ui;
 
+import java.util.List;
 import java.util.Scanner;
 
 import chattingheads.task.Task;
@@ -124,6 +125,16 @@ public class Ui {
      */
     public void printTasks(TaskList taskList) {
         System.out.println("Take a look at these tasks:");
+        for (int i = 0; i < taskList.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, taskList.get(i));
+        }
+        printSeparator();
+    }
+
+    public void printFoundTasks(TaskList taskList, String keyword) {
+        System.out.println("Take a look at these tasks:");
+        List<Integer> foundTasks = taskList.findIndices(keyword);
+
         for (int i = 0; i < taskList.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, taskList.get(i));
         }

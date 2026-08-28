@@ -2,6 +2,7 @@ package chattingheads.task;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 /**
  * Represents a task with a description and completion status.
@@ -89,5 +90,9 @@ public abstract class Task {
 
     public boolean isDone() {
         return isDone;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
