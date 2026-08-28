@@ -2,6 +2,9 @@ package chattingHeads.exception;
 
 import java.util.ArrayList;
 
+/**
+ * Represents an error caused by 1 or multiple missing or invalid inputs
+ */
 public class InvalidInputException extends Exception {
 
     public InvalidInputException(String input) {

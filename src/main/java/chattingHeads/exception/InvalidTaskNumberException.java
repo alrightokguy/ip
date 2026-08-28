@@ -1,5 +1,8 @@
 package chattingHeads.exception;
 
+/**
+ * Represents an error caused by an invalid task number.
+ */
 public class InvalidTaskNumberException extends Exception {
 
     public InvalidTaskNumberException() {
