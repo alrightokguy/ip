@@ -88,6 +88,12 @@ public class TaskList {
         tasks.get(index).unmark();
     }
 
+    /**
+     * Find all indices of tasks that contains a specified keyword in the description.
+     *
+     * @param keyword Keyword to search tasks for.
+     * @return List of indices of matching tasks.
+     */
     public List<Integer> findIndices(String keyword) {
         List<Integer> indices = new ArrayList<>();
 

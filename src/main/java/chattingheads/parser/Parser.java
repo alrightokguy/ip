@@ -12,6 +12,7 @@ import chattingheads.command.AddTodoCommand;
 import chattingheads.command.Command;
 import chattingheads.command.DeleteCommand;
 import chattingheads.command.ExitCommand;
+import chattingheads.command.FindCommand;
 import chattingheads.command.ListCommand;
 import chattingheads.command.MarkCommand;
 import chattingheads.command.UnmarkCommand;
@@ -47,6 +48,7 @@ public class Parser {
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
             case "list" -> new ListCommand();
+            case "find" -> new FindCommand(parseString(arguments, 1, arguments.length));
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));

@@ -131,6 +131,12 @@ public class Ui {
         printSeparator();
     }
 
+    /**
+     * Prints all tasks in the task list that contains a specified keyword.
+     *
+     * @param taskList Task list to search.
+     * @param keyword Desired keyword to search tasks for.
+     */
     public void printFoundTasks(TaskList taskList, String keyword) {
         System.out.println("Take a look at these tasks:");
         List<Integer> foundTasks = taskList.findIndices(keyword);

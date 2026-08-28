@@ -38,7 +38,8 @@ public class Storage {
             for (String line : lines) {
                 tasks.add(Task.fromCsv(line));
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            return tasks;
         }
         return tasks;
     }
@@ -51,7 +52,8 @@ public class Storage {
     public void save(TaskList taskList) {
         try {
             Files.write(filePath, taskList.getTasks().stream().map(Task::toCsv).toList());
-        } catch (IOException _) {
+        } catch (IOException e) {
+            return;
         }
     }
 }
