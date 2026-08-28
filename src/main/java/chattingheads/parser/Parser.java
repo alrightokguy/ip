@@ -48,7 +48,7 @@ public class Parser {
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
             case "list" -> new ListCommand();
-            case "find" -> new FindCommand(parseString(arguments, 1, arguments.length));
+            case "find" -> new FindCommand(parseString(arguments, 0, arguments.length));
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
