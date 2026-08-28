@@ -135,7 +135,7 @@ public class Ui {
         System.out.println("Take a look at these tasks:");
         List<Integer> foundTasks = taskList.findIndices(keyword);
 
-        for (int i = 0; i < taskList.size(); i++) {
+        for (Integer i : foundTasks) {
             System.out.printf("%d.%s\n", i + 1, taskList.get(i));
         }
         printSeparator();

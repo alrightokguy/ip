@@ -1,7 +1,7 @@
-package chattingHeads.command;
+package chattingheads.command;
 
-import chattingHeads.task.TaskList;
-import chattingHeads.ui.Ui;
+import chattingheads.task.TaskList;
+import chattingheads.ui.Ui;
 
 public class FindCommand extends Command {
 

@@ -20,7 +20,7 @@ public class Todo extends Task {
      * Creates a todo task with the given description and completion status.
      *
      * @param description Description of the task.
-     * @param status Completion status of the task.
+     * @param isDone Completion status of the task.
      */
     public Todo(String description, boolean isDone) {
         super(description, isDone);

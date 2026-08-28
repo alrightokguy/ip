@@ -18,7 +18,6 @@ import chattingheads.command.UnmarkCommand;
 import chattingheads.exception.InvalidCommandException;
 import chattingheads.exception.InvalidInputException;
 
-
 public class ParserTest {
 
     private final Parser parser = new Parser();
