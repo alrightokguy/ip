@@ -35,7 +35,10 @@ public class Ui {
         if (taskList.size() == 1) {
             System.out.println("Now you have 1 task in the list.");
         } else {
-            System.out.printf("Now you have %s tasks in the list.\n", taskList.isEmpty() ? "no" : taskList.size());
+            System.out.printf(
+                    "Now you have %s tasks in the list.\n",
+                    taskList.isEmpty() ? "no" : taskList.size()
+            );
         }
         printSeparator();
     }
