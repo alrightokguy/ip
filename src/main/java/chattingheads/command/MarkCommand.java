@@ -1,0 +1,25 @@
+package chattingheads.command;
+
+import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.task.TaskList;
+import chattingheads.ui.Ui;
+
+public class MarkCommand extends Command {
+
+    private final int taskNumber;
+
+    public MarkCommand(int taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
+    @Override
+    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+        taskList.mark(taskNumber - 1);
+        ui.printMarkStatus(taskList.get(taskNumber - 1));
+        return true;
+    }
+
+    public int getTaskNumber() {
+        return taskNumber;
+    }
+}

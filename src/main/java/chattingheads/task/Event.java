@@ -1,0 +1,41 @@
+package chattingheads.task;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Event extends Task {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final String TYPE = "E";
+    private final LocalDateTime from;
+    private final LocalDateTime to;
+
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        super(description);
+        this.from = from;
+        this.to = to;
+    }
+
+    public Event(String description, boolean status, LocalDateTime from, LocalDateTime to) {
+        super(description, status);
+        this.from = from;
+        this.to = to;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "[%s]%s (from: %s to: %s)",
+                TYPE,
+                super.toString(),
+                DATE_TIME_FORMATTER.format(from),
+                DATE_TIME_FORMATTER.format(to)
+        );
+    }
+
+    @Override
+    public String toCsv() {
+        return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), from, to);
+    }
+}
