@@ -17,7 +17,7 @@ public abstract class Command {
      * @return {@code true} if executing the command changes the task list.
      * @throws InvalidTaskNumberException If the command refers to an invalid task number.
      */
-    public abstract boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
+    public abstract void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
 
     /**
      * Returns whether this command exits the application.
@@ -25,6 +25,15 @@ public abstract class Command {
      * @return {@code true} if this command exits the application.
      */
     public boolean isExit() {
+        return false;
+    }
+
+    /**
+     * Returns whether this command changes the CSV such that is should be saved.
+     *
+     * @return {@code true} if this command requires the CSV to be saved
+     */
+    public boolean shouldSave() {
         return false;
     }
 }

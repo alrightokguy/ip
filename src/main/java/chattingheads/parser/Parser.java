@@ -1,5 +1,11 @@
 package chattingheads.parser;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import chattingheads.command.AddDeadlineCommand;
 import chattingheads.command.AddEventCommand;
 import chattingheads.command.AddTodoCommand;
@@ -11,12 +17,6 @@ import chattingheads.command.MarkCommand;
 import chattingheads.command.UnmarkCommand;
 import chattingheads.exception.InvalidCommandException;
 import chattingheads.exception.InvalidInputException;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Parses user input into executable commands.

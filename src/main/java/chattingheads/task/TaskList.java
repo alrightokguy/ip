@@ -1,9 +1,9 @@
 package chattingheads.task;
 
+import java.util.ArrayList;
+
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.storage.Storage;
-
-import java.util.ArrayList;
 
 /**
  * Represents a collection of tasks and provides operations for managing them.

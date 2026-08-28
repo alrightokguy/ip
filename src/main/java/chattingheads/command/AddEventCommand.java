@@ -1,11 +1,11 @@
 package chattingheads.command;
 
+import java.time.LocalDateTime;
+
 import chattingheads.task.Event;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
-
-import java.time.LocalDateTime;
 
 /**
  * Represents a command that adds an event task.
@@ -23,10 +23,14 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) {
         Task newTask = new Event(description, from, to);
         taskList.add(newTask);
         ui.printAddStatus(newTask, taskList);
+    }
+
+    @Override
+    public boolean shouldSave() {
         return true;
     }
 }

@@ -1,11 +1,11 @@
 package chattingheads.command;
 
+import java.time.LocalDateTime;
+
 import chattingheads.task.Deadline;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
-
-import java.time.LocalDateTime;
 
 /**
  * Represents a command that adds a deadline task.
@@ -21,10 +21,14 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) {
         Task newTask = new Deadline(description, by);
         taskList.add(newTask);
         ui.printAddStatus(newTask, taskList);
+    }
+
+    @Override
+    public boolean shouldSave() {
         return true;
     }
 }

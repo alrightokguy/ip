@@ -1,13 +1,13 @@
 package chattingheads.storage;
 
-import chattingheads.task.Task;
-import chattingheads.task.TaskList;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import chattingheads.task.Task;
+import chattingheads.task.TaskList;
 
 /**
  * Handles loading tasks from and saving tasks to a file.

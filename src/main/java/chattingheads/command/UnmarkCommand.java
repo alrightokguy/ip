@@ -16,13 +16,17 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         taskList.unmark(taskNumber - 1);
         ui.printUnmarkStatus(taskList.get(taskNumber - 1));
-        return true;
     }
 
     public int getTaskNumber() {
         return taskNumber;
+    }
+
+    @Override
+    public boolean shouldSave() {
+        return true;
     }
 }

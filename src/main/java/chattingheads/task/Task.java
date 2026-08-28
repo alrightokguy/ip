@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public abstract class Task {
 
     private final String description;
-    private boolean status;
+    private boolean isDone;
 
     /**
      * Creates an incomplete task with the given description.
@@ -18,7 +18,7 @@ public abstract class Task {
      */
     public Task(String description) {
         this.description = description;
-        status = false;
+        isDone = false;
     }
 
     /**
@@ -29,26 +29,26 @@ public abstract class Task {
      */
     public Task(String description, boolean status) {
         this.description = description;
-        this.status = status;
+        this.isDone = status;
     }
 
     /**
      * Marks this task as completed.
      */
     public void mark() {
-        status = true;
+        isDone = true;
     }
 
     /**
      * Marks this task as incomplete.
      */
     public void unmark() {
-        status = false;
+        isDone = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", status ? "X" : " ", description);
+        return String.format("[%s] %s", isDone ? "X" : " ", description);
     }
 
     /**
@@ -84,10 +84,10 @@ public abstract class Task {
      * @return CSV representation of this task.
      */
     public String toCsv() {
-        return String.format("%s,%s", description, status);
+        return String.format("%s,%s", description, isDone);
     }
 
     public boolean isDone() {
-        return status;
+        return isDone;
     }
 }

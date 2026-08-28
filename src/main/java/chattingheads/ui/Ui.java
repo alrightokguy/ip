@@ -1,9 +1,9 @@
 package chattingheads.ui;
 
+import java.util.Scanner;
+
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
-
-import java.util.Scanner;
 
 /**
  * Handles user input and displays messages to the user.
@@ -57,7 +57,10 @@ public class Ui {
         if (taskList.size() == 1) {
             System.out.println("Now you have 1 task in the list.");
         } else {
-            System.out.printf("Now you have %s tasks in the list.\n", taskList.isEmpty() ? "no" : taskList.size());
+            System.out.printf(
+                    "Now you have %s tasks in the list.\n",
+                    taskList.isEmpty() ? "no" : taskList.size()
+            );
         }
         printSeparator();
     }

@@ -17,14 +17,18 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) {
         Task newTask = new Todo(description);
         taskList.add(newTask);
         ui.printAddStatus(newTask, taskList);
-        return true;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public boolean shouldSave() {
+        return true;
     }
 }
