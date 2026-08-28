@@ -20,7 +20,7 @@ import chattingheads.exception.InvalidInputException;
 
 public class Parser {
 
-    private final DateTimeFormatter DATE_TIME_FORMATTER =
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public Command parse(String input) throws InvalidInputException, InvalidCommandException {

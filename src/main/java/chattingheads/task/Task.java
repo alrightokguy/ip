@@ -6,29 +6,29 @@ import java.time.LocalDateTime;
 public abstract class Task {
 
     private final String description;
-    private boolean status;
+    private boolean isDone;
 
     public Task(String description) {
         this.description = description;
-        status = false;
+        isDone = false;
     }
 
     public Task(String description, boolean status) {
         this.description = description;
-        this.status = status;
+        this.isDone = status;
     }
 
     public void mark() {
-        status = true;
+        isDone = true;
     }
 
     public void unmark() {
-        status = false;
+        isDone = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", status ? "X" : " ", description);
+        return String.format("[%s] %s", isDone ? "X" : " ", description);
     }
 
     public static Task fromCsv(String line) throws IOException {
@@ -52,10 +52,10 @@ public abstract class Task {
     }
 
     public String toCsv() {
-        return String.format("%s,%s", description, status);
+        return String.format("%s,%s", description, isDone);
     }
 
     public boolean isDone() {
-        return status;
+        return isDone;
     }
 }
