@@ -12,6 +12,10 @@ public class InvalidInputException extends Exception {
     }
 
     public InvalidInputException(ArrayList<String> inputs) {
+        super(createMessage(inputs));
+    }
+
+    private static String createMessage(ArrayList<String> inputs) {
         StringBuilder message = new StringBuilder("And you may ask yourself");
         for (String input : inputs) {
             if (input.equals("deadline") || input.equals("start") || input.equals("end")) {
@@ -19,8 +23,7 @@ public class InvalidInputException extends Exception {
             } else {
                 message.append(String.format("\n\"Where is that %s?\"", input));
             }
-
         }
-        super(message.toString());
+        return message.toString();
     }
 }
