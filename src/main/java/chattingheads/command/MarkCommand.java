@@ -13,13 +13,17 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         taskList.mark(taskNumber - 1);
         ui.printMarkStatus(taskList.get(taskNumber - 1));
-        return true;
     }
 
     public int getTaskNumber() {
         return taskNumber;
+    }
+
+    @Override
+    public boolean shouldSave() {
+        return true;
     }
 }

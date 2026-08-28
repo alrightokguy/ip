@@ -28,12 +28,12 @@ public class ChattingHeads {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
 
-                boolean hasChanged = command.execute(taskList, ui);
+                command.execute(taskList, ui);
 
                 if (command.isExit()) {
                     break;
                 }
-                if (hasChanged) {
+                if (command.shouldSave()) {
                     storage.save(taskList);
                 }
             } catch (Exception e) {

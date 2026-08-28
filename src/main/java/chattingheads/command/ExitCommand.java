@@ -6,9 +6,8 @@ import chattingheads.ui.Ui;
 public class ExitCommand extends Command {
 
     @Override
-    public boolean execute(TaskList taskList, Ui ui) {
+    public void execute(TaskList taskList, Ui ui) {
         ui.printShutdownMessage();
-        return false;
     }
 
     @Override
