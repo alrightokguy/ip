@@ -1,9 +1,9 @@
 package chattingHeads.task;
 
+import java.util.ArrayList;
+
 import chattingHeads.exception.InvalidTaskNumberException;
 import chattingHeads.storage.Storage;
-
-import java.util.ArrayList;
 
 public class TaskList {
 

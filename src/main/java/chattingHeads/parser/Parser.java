@@ -1,5 +1,11 @@
 package chattingHeads.parser;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import chattingHeads.command.AddDeadlineCommand;
 import chattingHeads.command.AddEventCommand;
 import chattingHeads.command.AddTodoCommand;
@@ -11,12 +17,6 @@ import chattingHeads.command.MarkCommand;
 import chattingHeads.command.UnmarkCommand;
 import chattingHeads.exception.InvalidCommandException;
 import chattingHeads.exception.InvalidInputException;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Parser {
 
