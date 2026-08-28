@@ -6,6 +6,9 @@ import chattingheads.storage.Storage;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
+/**
+ * Represents the main application and coordinates its components.
+ */
 public class ChattingHeads {
 
     private final Storage storage;
@@ -13,6 +16,9 @@ public class ChattingHeads {
     private final Parser parser;
     private final Ui ui;
 
+    /**
+     * Creates the application and initialises its components.
+     */
     private ChattingHeads() {
         storage = new Storage("tasks.txt");
         taskList = new TaskList(storage);
@@ -20,6 +26,9 @@ public class ChattingHeads {
         ui = new Ui();
     }
 
+    /**
+     * Runs the main command loop until the user exits the application.
+     */
     private void run() {
         ui.printStartupMessage();
 
@@ -42,6 +51,11 @@ public class ChattingHeads {
         }
     }
 
+    /**
+     * Starts the application.
+     *
+     * @param ignoredArgs Command-line arguments, which are not used.
+     */
     static void main(String[] ignoredArgs) {
         new ChattingHeads().run();
     }
