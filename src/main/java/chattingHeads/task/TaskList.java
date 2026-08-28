@@ -4,6 +4,7 @@ import chattingHeads.exception.InvalidTaskNumberException;
 import chattingHeads.storage.Storage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskList {
 
@@ -50,6 +51,17 @@ public class TaskList {
     public void unmark(int index) throws InvalidTaskNumberException {
         validateIndex(index);
         tasks.get(index).unmark();
+    }
+
+    public List<Integer> findIndices(String keyword) {
+        List<Integer> indices = new ArrayList<>();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().toLowerCase().contains(keyword)) {
+                indices.add(i);
+            }
+        }
+        return indices;
     }
 
     private void validateIndex(int index) throws InvalidTaskNumberException {

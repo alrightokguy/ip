@@ -2,6 +2,7 @@ package chattingHeads.task;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public abstract class Task {
 
@@ -57,5 +58,9 @@ public abstract class Task {
 
     public boolean isDone() {
         return status;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

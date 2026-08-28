@@ -3,6 +3,7 @@ package chattingHeads.ui;
 import chattingHeads.task.Task;
 import chattingHeads.task.TaskList;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Ui {
@@ -67,6 +68,16 @@ public class Ui {
 
     public void printTasks(TaskList taskList) {
         System.out.println("Take a look at these tasks:");
+        for (int i = 0; i < taskList.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, taskList.get(i));
+        }
+        printSeparator();
+    }
+
+    public void printFoundTasks(TaskList taskList, String keyword) {
+        System.out.println("Take a look at these tasks:");
+        List<Integer> foundTasks = taskList.findIndices(keyword);
+
         for (int i = 0; i < taskList.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, taskList.get(i));
         }
