@@ -38,7 +38,7 @@ test {
 }
 
 application {
-    mainClass = 'chattingHeads.ChattingHeads'
+    mainClass = 'chattingheads.ChattingHeads'
 }
 
 jar {
@@ -49,7 +49,7 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'chattingHeads.jar'
+    archiveFileName = 'chattingheads.jar'
 }
 
 run {

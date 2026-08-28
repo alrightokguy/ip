@@ -15,9 +15,4 @@ public class FindCommand extends Command {
     public void execute(TaskList tasklist, Ui ui) {
         ui.printFoundTasks(tasklist, keyword);
     }
-
-    @Override
-    public boolean shouldSave() {
-        return false;
-    }
 }

@@ -2,7 +2,6 @@ package chattingheads.task;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 /**
  * Represents a task with a description and completion status.

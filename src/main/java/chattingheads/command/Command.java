@@ -14,7 +14,6 @@ public abstract class Command {
      *
      * @param taskList Task list on which the command operates.
      * @param ui User interface used to display command results.
-     * @return {@code true} if executing the command changes the task list.
      * @throws InvalidTaskNumberException If the command refers to an invalid task number.
      */
     public abstract void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
@@ -29,7 +28,7 @@ public abstract class Command {
     }
 
     /**
-     * Returns whether this command changes the CSV such that is should be saved.
+     * Returns whether this command changes the CSV such that it should be saved.
      *
      * @return {@code true} if this command requires the CSV to be saved
      */
