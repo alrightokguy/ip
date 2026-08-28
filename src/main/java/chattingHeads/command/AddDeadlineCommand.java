@@ -7,6 +7,9 @@ import chattingHeads.ui.Ui;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a command that adds a deadline task.
+ */
 public class AddDeadlineCommand extends Command {
 
     private final String description;
