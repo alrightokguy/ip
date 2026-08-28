@@ -5,6 +5,9 @@ import chattingHeads.task.TaskList;
 import chattingHeads.task.Todo;
 import chattingHeads.ui.Ui;
 
+/**
+ * Represents a command that adds a todo task.
+ */
 public class AddTodoCommand extends Command {
 
     private final String description;

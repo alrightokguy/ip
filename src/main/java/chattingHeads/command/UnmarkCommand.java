@@ -4,6 +4,9 @@ import chattingHeads.exception.InvalidTaskNumberException;
 import chattingHeads.task.TaskList;
 import chattingHeads.ui.Ui;
 
+/**
+ * Represents a command that marks a task as incomplete.
+ */
 public class UnmarkCommand extends Command {
 
     private final int taskNumber;

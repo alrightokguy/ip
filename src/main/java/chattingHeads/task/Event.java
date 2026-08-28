@@ -3,6 +3,9 @@ package chattingHeads.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a task that occurs between a specified start and end date and time.
+ */
 public class Event extends Task {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -11,12 +14,29 @@ public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
+    /**
+     * Creates an incomplete event task with the given description,
+     * start date and time, and end date and time.
+     *
+     * @param description Description of the task.
+     * @param from Start date and time of the event.
+     * @param to End date and time of the event.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
+    /**
+     * Creates an event task with the given description, completion status,
+     * start date and time, and end date and time.
+     *
+     * @param description Description of the task.
+     * @param status Completion status of the task.
+     * @param from Start date and time of the event.
+     * @param to End date and time of the event.
+     */
     public Event(String description, boolean status, LocalDateTime from, LocalDateTime to) {
         super(description, status);
         this.from = from;

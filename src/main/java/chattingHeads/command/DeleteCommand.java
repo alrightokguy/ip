@@ -5,6 +5,9 @@ import chattingHeads.task.Task;
 import chattingHeads.task.TaskList;
 import chattingHeads.ui.Ui;
 
+/**
+ * Represents a command that deletes a task.
+ */
 public class DeleteCommand extends Command {
 
     private final int taskNumber;

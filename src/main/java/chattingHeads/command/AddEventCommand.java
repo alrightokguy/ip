@@ -7,6 +7,9 @@ import chattingHeads.ui.Ui;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a command that adds an event task.
+ */
 public class AddEventCommand extends Command {
 
     private final String description;

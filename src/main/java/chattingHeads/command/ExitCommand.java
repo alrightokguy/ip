@@ -3,6 +3,9 @@ package chattingHeads.command;
 import chattingHeads.task.TaskList;
 import chattingHeads.ui.Ui;
 
+/**
+ * Represents a command that exits the program.
+ */
 public class ExitCommand extends Command {
 
     @Override
