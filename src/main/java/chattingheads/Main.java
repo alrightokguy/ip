@@ -20,9 +20,8 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("Chatting Heads");
             stage.setScene(scene);
-            stage.setMinHeight(400);
-            stage.setMinWidth(600);
             fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
             stage.show();
         } catch (IOException e) {

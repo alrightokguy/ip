@@ -1,12 +1,14 @@
 package chattingheads;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -57,11 +59,12 @@ public class MainWindowController extends AnchorPane {
                 DialogBox.getUserDialog("> " + input),
                 DialogBox.getBotDialog(result.response())
         );
+        userInput.clear();
 
         if (result.isExit()) {
-            userInput.setDisable(true);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(event -> Platform.exit());
+            pause.play();
         }
-
-        userInput.clear();
     }
 }
