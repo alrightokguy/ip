@@ -76,7 +76,7 @@ public class ChattingHeads {
      *
      * @param ignoredArgs Command-line arguments, which are not used.
      */
-     static void main(String[] ignoredArgs) {
+    static void main(String[] ignoredArgs) {
         new ChattingHeads().run();
     }
 }

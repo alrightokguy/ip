@@ -32,7 +32,7 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Command represented by the input.
-     * @throws InvalidInputException If required command arguments are invalid or missing.
+     * @throws InvalidInputException   If required command arguments are invalid or missing.
      * @throws InvalidCommandException If the command is not recognised.
      */
     public Command parse(String input) throws InvalidInputException, InvalidCommandException {
@@ -170,8 +170,8 @@ public class Parser {
      * Joins tokens within the specified range into a string.
      *
      * @param tokens Tokens to join.
-     * @param start Inclusive start index.
-     * @param end Exclusive end index.
+     * @param start  Inclusive start index.
+     * @param end    Exclusive end index.
      * @return Joined string, or an empty string if the range is invalid.
      */
     private String parseString(String[] tokens, int start, int end) {
@@ -185,8 +185,8 @@ public class Parser {
      * Parses tokens within the specified range as a date and time.
      *
      * @param tokens Tokens containing the date and time.
-     * @param start Inclusive start index.
-     * @param end Exclusive end index.
+     * @param start  Inclusive start index.
+     * @param end    Exclusive end index.
      * @return Parsed date and time, or {@code null} if parsing fails.
      */
     private LocalDateTime parseDateTime(String[] tokens, int start, int end) {

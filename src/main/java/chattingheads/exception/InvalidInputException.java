@@ -1,7 +1,5 @@
 package chattingheads.exception;
 
-import java.util.ArrayList;
-
 /**
  * Represents an error caused by 1 or multiple missing or invalid inputs
  */

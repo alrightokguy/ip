@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-
 <fx:root type="javafx.scene.layout.HBox"
          alignment="CENTER_LEFT"
          prefWidth="400.0"

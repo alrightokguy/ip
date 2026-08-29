@@ -26,11 +26,12 @@ public class Ui {
      * Returns the startup message.
      */
     public String getStartupMessage() {
-         return """
+        return """
                 Hello! I'm Chatting Heads.
                 You may find yourself
                 Living in a shotgun shack
-                What can I do for you?\n""" + getSeparator();
+                What can I do for you?
+                """ + getSeparator();
     }
 
     /**
@@ -67,7 +68,7 @@ public class Ui {
     /**
      * Returns a message confirming that a task was added.
      *
-     * @param task Added task.
+     * @param task     Added task.
      * @param taskList Task list after the addition.
      */
     public String getAddStatus(Task task, TaskList taskList) {
@@ -81,7 +82,7 @@ public class Ui {
     /**
      * Returns a message confirming that a task was deleted.
      *
-     * @param task Deleted task.
+     * @param task     Deleted task.
      * @param taskList Task list after the deletion.
      */
     public String getDeleteStatus(Task task, TaskList taskList) {
@@ -150,7 +151,7 @@ public class Ui {
      * Returns all tasks in the task list that contains a specified keyword.
      *
      * @param taskList Task list to search.
-     * @param keyword Desired keyword to search tasks for.
+     * @param keyword  Desired keyword to search tasks for.
      */
     public String getFoundTasks(TaskList taskList, String keyword) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");

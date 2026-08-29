@@ -19,7 +19,7 @@ public class AddDeadlineCommand extends Command {
      * Creates a command for adding a deadline task.
      *
      * @param description Description of the deadline task.
-     * @param by Date and time by which the task should be completed.
+     * @param by          Date and time by which the task should be completed.
      */
     public AddDeadlineCommand(String description, LocalDateTime by) {
         this.description = description;
