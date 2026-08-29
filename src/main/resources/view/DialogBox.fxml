@@ -6,7 +6,7 @@
 <fx:root type="javafx.scene.layout.HBox"
          alignment="CENTER_LEFT"
          prefWidth="400.0"
-         xmlns="http://javafx.com/javafx/17.0.12"
+         xmlns="http://javafx.com/javafx/17.0.7"
          xmlns:fx="http://javafx.com/fxml/1">
 
     <padding>
