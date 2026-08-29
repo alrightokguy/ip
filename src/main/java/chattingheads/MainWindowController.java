@@ -1,11 +1,14 @@
 package chattingheads;
 
+import java.util.Objects;
+
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -21,6 +24,10 @@ public class MainWindowController extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
+
+    private final Image startupImage = new Image(Objects.requireNonNull(
+            this.getClass().getResourceAsStream("/images/TalkingHeadsRemaininLight.png")
+    ));
 
     private ChattingHeads chattingHeads;
 
@@ -41,8 +48,9 @@ public class MainWindowController extends AnchorPane {
     public void setChattingHeads(ChattingHeads chattingHeads) {
         this.chattingHeads = chattingHeads;
         dialogContainer.getChildren().add(
-                DialogBox.getBotDialog(
-                        chattingHeads.getStartupMessage()
+                DialogBox.getStartupDialog(
+                        chattingHeads.getStartupMessage(),
+                        startupImage
                 )
         );
     }
@@ -56,8 +64,8 @@ public class MainWindowController extends AnchorPane {
         CommandResult result = chattingHeads.getResponse(input);
 
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog("> " + input),
-                DialogBox.getBotDialog(result.response())
+                DialogBox.getDialog("> " + input),
+                DialogBox.getDialog(result.response())
         );
         userInput.clear();
 
