@@ -82,17 +82,17 @@ public class Parser {
      * @throws InvalidInputException If the description or deadline is invalid or missing.
      */
     private AddDeadlineCommand parseDeadline(String[] arguments) throws InvalidInputException {
-        int marker = arguments.length;
+        int byMarker = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
             if (arguments[i].equals("/by")) {
-                marker = i;
+                byMarker = i;
                 break;
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String description = parseString(arguments, 0, marker);
-        LocalDateTime by = parseDateTime(arguments, marker + 1, arguments.length);
+        String description = parseString(arguments, 0, byMarker);
+        LocalDateTime by = parseDateTime(arguments, byMarker + 1, arguments.length);
 
         if (description.isEmpty()) {
             emptyInputs.add("description");
@@ -115,21 +115,21 @@ public class Parser {
      * @throws InvalidInputException If the description, start, or end is invalid or missing.
      */
     private AddEventCommand parseEvent(String[] arguments) throws InvalidInputException {
-        int marker1 = arguments.length;
-        int marker2 = arguments.length;
+        int fromMarker = arguments.length;
+        int toMarker = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
             if (arguments[i].equals("/from")) {
-                marker1 = i;
+                fromMarker = i;
             } else if (arguments[i].equals("/to")) {
-                marker2 = i;
+                toMarker = i;
                 break;
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String description = parseString(arguments, 0, marker1);
-        LocalDateTime from = parseDateTime(arguments, marker1 + 1, marker2);
-        LocalDateTime to = parseDateTime(arguments, marker2 + 1, arguments.length);
+        String description = parseString(arguments, 0, fromMarker);
+        LocalDateTime from = parseDateTime(arguments, fromMarker + 1, toMarker);
+        LocalDateTime to = parseDateTime(arguments, toMarker + 1, arguments.length);
 
         if (description.isEmpty()) {
             emptyInputs.add("description");
