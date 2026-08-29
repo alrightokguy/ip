@@ -11,9 +11,9 @@ import chattingheads.task.TaskList;
  */
 public class Ui {
 
-    private final Scanner scanner = new Scanner(System.in);
     private static final String SEPARATOR =
             "--------------------------------------------------------------------------------";
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Reads the next command entered by the user.
@@ -128,7 +128,7 @@ public class Ui {
      *
      * @param taskList Task list to display.
      */
-    public String getTasks(TaskList taskList) {
+    public String getTaskListMessage(TaskList taskList) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");
 
         for (int i = 0; i < taskList.size(); i++) {
@@ -148,7 +148,7 @@ public class Ui {
      * @param taskList Task list to search.
      * @param keyword Keyword to search for.
      */
-    public String getFoundTasks(TaskList taskList, String keyword) {
+    public String getFoundTasksMessage(TaskList taskList, String keyword) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");
         List<Integer> foundTasks = taskList.findIndices(keyword);
 
