@@ -52,7 +52,7 @@ public class ChattingHeads {
         }
     }
 
-    public String getResponse(String input) {
+    public CommandResult getResponse(String input) {
         try {
             Command command = parser.parse(input);
 
@@ -61,10 +61,14 @@ public class ChattingHeads {
             if (command.shouldSave()) {
                 storage.save(taskList);
             }
-            return response;
+            return new CommandResult(response, command.isExit());
         } catch (Exception e) {
-            return ui.getErrorMessage(e);
+            return new CommandResult(ui.getErrorMessage(e), false);
         }
+    }
+
+    public String getStartupMessage() {
+        return ui.getStartupMessage();
     }
 
     /**

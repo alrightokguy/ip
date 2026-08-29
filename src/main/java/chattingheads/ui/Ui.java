@@ -44,7 +44,7 @@ public class Ui {
      * Returns a separator line.
      */
     public String getSeparator() {
-        return "------------------------------------------------------------";
+        return "--------------------------------------------------------------------------------";
     }
 
     /**
@@ -137,7 +137,7 @@ public class Ui {
 
         for (int i = 0; i < taskList.size(); i++) {
             message.append(String.format(
-                    "%n%d.%s",
+                    "%n%d. %s",
                     i + 1,
                     taskList.get(i)
             ));
@@ -158,7 +158,7 @@ public class Ui {
 
         for (Integer i : foundTasks) {
             message.append(String.format(
-                    "%n%d.%s",
+                    "%n%d. %s",
                     i + 1,
                     taskList.get(i)
             ));

@@ -1,6 +1,7 @@
 package chattingheads;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -18,13 +19,15 @@ public class MainWindowController extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
 
     private ChattingHeads chattingHeads;
 
     @FXML
     public void initialize() {
+        dialogContainer.setAlignment(Pos.BOTTOM_LEFT);
+        dialogContainer.minHeightProperty().bind(
+                scrollPane.heightProperty()
+        );
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
@@ -35,6 +38,11 @@ public class MainWindowController extends AnchorPane {
      */
     public void setChattingHeads(ChattingHeads chattingHeads) {
         this.chattingHeads = chattingHeads;
+        dialogContainer.getChildren().add(
+                DialogBox.getBotDialog(
+                        chattingHeads.getStartupMessage()
+                )
+        );
     }
 
     /**
@@ -43,7 +51,17 @@ public class MainWindowController extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = chattingHeads.getResponse(input);
+        CommandResult result = chattingHeads.getResponse(input);
+
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog("> " + input),
+                DialogBox.getBotDialog(result.response())
+        );
+
+        if (result.isExit()) {
+            userInput.setDisable(true);
+        }
+
         userInput.clear();
     }
 }
