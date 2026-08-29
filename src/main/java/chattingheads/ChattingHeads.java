@@ -19,7 +19,7 @@ public class ChattingHeads {
     /**
      * Creates the application and initialises its components.
      */
-    private ChattingHeads() {
+    public ChattingHeads() {
         storage = new Storage("tasks.txt");
         taskList = new TaskList(storage);
         parser = new Parser();
