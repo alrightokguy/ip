@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<fx:root type="javafx.scene.layout.HBox"
+         alignment="CENTER_LEFT"
+         prefWidth="400.0"
+         xmlns="http://javafx.com/javafx/17.0.7"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <padding>
+        <Insets top="4" right="4" bottom="4" left="4"/>
+    </padding>
+
+    <Label fx:id="dialog"
+           wrapText="true"/>
+</fx:root>

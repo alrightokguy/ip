@@ -16,9 +16,9 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         taskList.unmark(taskNumber - 1);
-        ui.printUnmarkStatus(taskList.get(taskNumber - 1));
+        return ui.getUnmarkStatus(taskList.get(taskNumber - 1));
     }
 
     public int getTaskNumber() {

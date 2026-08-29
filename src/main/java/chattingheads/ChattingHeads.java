@@ -19,7 +19,7 @@ public class ChattingHeads {
     /**
      * Creates the application and initialises its components.
      */
-    private ChattingHeads() {
+    public ChattingHeads() {
         storage = new Storage("tasks.txt");
         taskList = new TaskList(storage);
         parser = new Parser();
@@ -30,14 +30,15 @@ public class ChattingHeads {
      * Runs the main command loop until the user exits the application.
      */
     private void run() {
-        ui.printStartupMessage();
+        System.out.println(ui.getStartupMessage());
 
         while (true) {
             try {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
 
-                command.execute(taskList, ui);
+                String response = command.execute(taskList, ui);
+                System.out.println(response);
 
                 if (command.isExit()) {
                     break;
@@ -46,9 +47,28 @@ public class ChattingHeads {
                     storage.save(taskList);
                 }
             } catch (Exception e) {
-                ui.printErrorMessage(e);
+                System.out.println(ui.getErrorMessage(e));
             }
         }
+    }
+
+    public CommandResult getResponse(String input) {
+        try {
+            Command command = parser.parse(input);
+
+            String response = command.execute(taskList, ui);
+
+            if (command.shouldSave()) {
+                storage.save(taskList);
+            }
+            return new CommandResult(response, command.isExit());
+        } catch (Exception e) {
+            return new CommandResult(ui.getErrorMessage(e), false);
+        }
+    }
+
+    public String getStartupMessage() {
+        return ui.getStartupMessage();
     }
 
     /**

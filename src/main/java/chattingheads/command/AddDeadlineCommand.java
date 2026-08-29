@@ -19,7 +19,7 @@ public class AddDeadlineCommand extends Command {
      * Creates a command for adding a deadline task.
      *
      * @param description Description of the deadline task.
-     * @param by Date and time by which the task should be completed.
+     * @param by          Date and time by which the task should be completed.
      */
     public AddDeadlineCommand(String description, LocalDateTime by) {
         this.description = description;
@@ -27,10 +27,10 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
+    public String execute(TaskList taskList, Ui ui) {
         Task newTask = new Deadline(description, by);
         taskList.add(newTask);
-        ui.printAddStatus(newTask, taskList);
+        return ui.getAddStatus(newTask, taskList);
     }
 
     @Override

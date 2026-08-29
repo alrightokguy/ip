@@ -9,8 +9,8 @@ import chattingheads.ui.Ui;
 public class ExitCommand extends Command {
 
     @Override
-    public void execute(TaskList taskList, Ui ui) {
-        ui.printShutdownMessage();
+    public String execute(TaskList taskList, Ui ui) {
+        return ui.getShutdownMessage();
     }
 
     @Override
