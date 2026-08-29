@@ -7,11 +7,13 @@ import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 
 /**
- * Handles user input and displays messages to the user.
+ * Handles user input and generates messages for the user.
  */
 public class Ui {
 
     private final Scanner scanner = new Scanner(System.in);
+    private static final String SEPARATOR =
+            "--------------------------------------------------------------------------------";
 
     /**
      * Reads the next command entered by the user.
@@ -31,21 +33,14 @@ public class Ui {
                 You may find yourself
                 Living in a shotgun shack
                 What can I do for you?
-                """ + getSeparator();
+                """ + SEPARATOR;
     }
 
     /**
      * Returns the shutdown message.
      */
     public String getShutdownMessage() {
-        return "Letting the days go \"bye!\"\nLet the water shut me down\n" + getSeparator();
-    }
-
-    /**
-     * Returns a separator line.
-     */
-    public String getSeparator() {
-        return "--------------------------------------------------------------------------------";
+        return "Letting the days go \"bye!\"\nLet the water shut me down\n" + SEPARATOR;
     }
 
     /**
@@ -55,12 +50,12 @@ public class Ui {
      */
     public String getListStatus(TaskList taskList) {
         if (taskList.size() == 1) {
-            return "Now you have 1 task in the list.\n" + getSeparator();
+            return "Now you have 1 task in the list.\n" + SEPARATOR;
         } else {
             return String.format(
                     "Now you have %s tasks in the list.\n%s",
                     taskList.isEmpty() ? "no" : taskList.size(),
-                    getSeparator()
+                    SEPARATOR
             );
         }
     }
@@ -99,7 +94,7 @@ public class Ui {
      * @param e Exception containing the error message.
      */
     public String getErrorMessage(Exception e) {
-        return e.getMessage() + "\n" + getSeparator();
+        return e.getMessage() + "\n" + SEPARATOR;
     }
 
     /**
@@ -111,7 +106,7 @@ public class Ui {
         return String.format(
                 "Nice! I've marked this task as done:\n%s\n%s",
                 task,
-                getSeparator()
+                SEPARATOR
         );
     }
 
@@ -124,7 +119,7 @@ public class Ui {
         return String.format(
                 "OK, I've marked this task as not done yet:\n%s\n%s",
                 task,
-                getSeparator()
+                SEPARATOR
         );
     }
 
@@ -143,28 +138,28 @@ public class Ui {
                     taskList.get(i)
             ));
         }
-        message.append("\n").append(getSeparator());
+        message.append("\n").append(SEPARATOR);
         return message.toString();
     }
 
     /**
-     * Returns all tasks in the task list that contains a specified keyword.
+     * Returns a message listing all tasks that contain the specified keyword.
      *
      * @param taskList Task list to search.
-     * @param keyword  Desired keyword to search tasks for.
+     * @param keyword Keyword to search for.
      */
     public String getFoundTasks(TaskList taskList, String keyword) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");
         List<Integer> foundTasks = taskList.findIndices(keyword);
 
-        for (Integer i : foundTasks) {
+        for (int i : foundTasks) {
             message.append(String.format(
                     "%n%d. %s",
                     i + 1,
                     taskList.get(i)
             ));
         }
-        message.append("\n").append(getSeparator());
+        message.append("\n").append(SEPARATOR);
         return message.toString();
     }
 }
