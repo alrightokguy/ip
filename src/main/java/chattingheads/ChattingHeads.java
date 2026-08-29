@@ -51,12 +51,29 @@ public class ChattingHeads {
         }
     }
 
+    public String getResponse(String input) {
+        try {
+            Command command = parser.parse(input);
+
+            // String response =
+            command.execute(taskList, ui);
+
+            if (command.shouldSave()) {
+                storage.save(taskList);
+            }
+
+            return "";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
     /**
      * Starts the application.
      *
      * @param ignoredArgs Command-line arguments, which are not used.
      */
-    static void main(String[] ignoredArgs) {
+     static void main(String[] ignoredArgs) {
         new ChattingHeads().run();
     }
 }

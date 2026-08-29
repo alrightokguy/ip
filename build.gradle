@@ -53,7 +53,7 @@ test {
 }
 
 application {
-    mainClass.set("chattingheads.Launcher")
+    mainClass = 'chattingheads.Launcher'
 }
 
 jar {

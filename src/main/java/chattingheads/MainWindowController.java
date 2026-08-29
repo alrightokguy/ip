@@ -29,11 +29,21 @@ public class MainWindowController extends AnchorPane {
     }
 
     /**
-     * Injects the ChattingHeads instance.
+     * Injects an instance of the chatbot into the controller.
      *
-     * @param chattingHeads
+     * @param chattingHeads Instance of the chatbot to be injected.
      */
     public void setChattingHeads(ChattingHeads chattingHeads) {
         this.chattingHeads = chattingHeads;
+    }
+
+    /**
+     * Starts user input.
+     */
+    @FXML
+    private void handleUserInput() {
+        String input = userInput.getText();
+        String response = chattingHeads.getResponse(input);
+        userInput.clear();
     }
 }
