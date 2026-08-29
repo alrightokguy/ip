@@ -23,127 +23,147 @@ public class Ui {
     }
 
     /**
-     * Prints the startup message.
+     * Returns the startup message.
      */
-    public void printStartupMessage() {
-        System.out.println("""
+    public String getStartupMessage() {
+         return """
                 Hello! I'm Chatting Heads.
                 You may find yourself
                 Living in a shotgun shack
-                What can I do for you?""");
-        printSeparator();
+                What can I do for you?\n""" + getSeparator();
     }
 
     /**
-     * Prints the shutdown message.
+     * Returns the shutdown message.
      */
-    public void printShutdownMessage() {
-        System.out.println("Letting the days go \"bye!\"\nLet the water shut me down");
-        printSeparator();
+    public String getShutdownMessage() {
+        return "Letting the days go \"bye!\"\nLet the water shut me down\n" + getSeparator();
     }
 
     /**
-     * Prints a separator line.
+     * Returns a separator line.
      */
-    public void printSeparator() {
-        System.out.println("------------------------------------------------------------");
+    public String getSeparator() {
+        return "------------------------------------------------------------";
     }
 
     /**
-     * Prints the number of tasks currently in the task list.
+     * Returns the number of tasks currently in the task list.
      *
      * @param taskList Task list whose size is displayed.
      */
-    public void printListStatus(TaskList taskList) {
+    public String getListStatus(TaskList taskList) {
         if (taskList.size() == 1) {
-            System.out.println("Now you have 1 task in the list.");
+            return "Now you have 1 task in the list.\n" + getSeparator();
         } else {
-            System.out.printf(
-                    "Now you have %s tasks in the list.\n",
-                    taskList.isEmpty() ? "no" : taskList.size()
+            return String.format(
+                    "Now you have %s tasks in the list.\n%s",
+                    taskList.isEmpty() ? "no" : taskList.size(),
+                    getSeparator()
             );
         }
-        printSeparator();
     }
 
     /**
-     * Prints a message confirming that a task was added.
+     * Returns a message confirming that a task was added.
      *
      * @param task Added task.
      * @param taskList Task list after the addition.
      */
-    public void printAddStatus(Task task, TaskList taskList) {
-        System.out.println("Got it. I've added this task:\n" + task);
-        printListStatus(taskList);
+    public String getAddStatus(Task task, TaskList taskList) {
+        return String.format(
+                "Got it. I've added this task:\n%s\n%s",
+                task,
+                getListStatus(taskList)
+        );
     }
 
     /**
-     * Prints a message confirming that a task was deleted.
+     * Returns a message confirming that a task was deleted.
      *
      * @param task Deleted task.
      * @param taskList Task list after the deletion.
      */
-    public void printDeleteStatus(Task task, TaskList taskList) {
-        System.out.println("Into the blue again\nAfter this task is gone:\n" + task);
-        printListStatus(taskList);
+    public String getDeleteStatus(Task task, TaskList taskList) {
+        return String.format(
+                "Into the blue again\nAfter this task is gone:\n%s\n%s",
+                task,
+                getListStatus(taskList)
+        );
     }
 
     /**
-     * Prints an error message.
+     * Returns an error message.
      *
      * @param e Exception containing the error message.
      */
-    public void printErrorMessage(Exception e) {
-        System.out.println(e.getMessage());
-        printSeparator();
+    public String getErrorMessage(Exception e) {
+        return e.getMessage() + "\n" + getSeparator();
     }
 
     /**
-     * Prints a message confirming that a task was marked as completed.
+     * Returns a message confirming that a task was marked as completed.
      *
      * @param task Marked task.
      */
-    public void printMarkStatus(Task task) {
-        System.out.println("Nice! I've marked this task as done:\n" + task);
-        printSeparator();
+    public String getMarkStatus(Task task) {
+        return String.format(
+                "Nice! I've marked this task as done:\n%s\n%s",
+                task,
+                getSeparator()
+        );
     }
 
     /**
-     * Prints a message confirming that a task was marked as incomplete.
+     * Returns a message confirming that a task was marked as incomplete.
      *
      * @param task Unmarked task.
      */
-    public void printUnmarkStatus(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:\n" + task);
-        printSeparator();
+    public String getUnmarkStatus(Task task) {
+        return String.format(
+                "OK, I've marked this task as not done yet:\n%s\n%s",
+                task,
+                getSeparator()
+        );
     }
 
     /**
-     * Prints all tasks in the task list.
+     * Returns a message listing all tasks in the task list.
      *
      * @param taskList Task list to display.
      */
-    public void printTasks(TaskList taskList) {
-        System.out.println("Take a look at these tasks:");
+    public String getTasks(TaskList taskList) {
+        StringBuilder message = new StringBuilder("Take a look at these tasks:");
+
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, taskList.get(i));
+            message.append(String.format(
+                    "%n%d.%s",
+                    i + 1,
+                    taskList.get(i)
+            ));
         }
-        printSeparator();
+        message.append("\n").append(getSeparator());
+        return message.toString();
     }
 
     /**
-     * Prints all tasks in the task list that contains a specified keyword.
+     * Returns all tasks in the task list that contains a specified keyword.
      *
      * @param taskList Task list to search.
      * @param keyword Desired keyword to search tasks for.
      */
-    public void printFoundTasks(TaskList taskList, String keyword) {
-        System.out.println("Take a look at these tasks:");
+    public String getFoundTasks(TaskList taskList, String keyword) {
+        StringBuilder message = new StringBuilder("Take a look at these tasks:");
         List<Integer> foundTasks = taskList.findIndices(keyword);
 
         for (Integer i : foundTasks) {
-            System.out.printf("%d.%s\n", i + 1, taskList.get(i));
+            message.append(String.format(
+                    "%n%d.%s",
+                    i + 1,
+                    taskList.get(i)
+            ));
         }
-        printSeparator();
+        message.append("\n").append(getSeparator());
+        return message.toString();
     }
 }

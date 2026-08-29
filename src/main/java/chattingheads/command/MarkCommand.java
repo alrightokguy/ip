@@ -16,9 +16,9 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
         taskList.mark(taskNumber - 1);
-        ui.printMarkStatus(taskList.get(taskNumber - 1));
+        return ui.getMarkStatus(taskList.get(taskNumber - 1));
     }
 
     public int getTaskNumber() {

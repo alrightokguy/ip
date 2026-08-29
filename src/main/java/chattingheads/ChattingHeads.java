@@ -30,14 +30,15 @@ public class ChattingHeads {
      * Runs the main command loop until the user exits the application.
      */
     private void run() {
-        ui.printStartupMessage();
+        System.out.println(ui.getStartupMessage());
 
         while (true) {
             try {
                 String input = ui.readCommand();
                 Command command = parser.parse(input);
 
-                command.execute(taskList, ui);
+                String response = command.execute(taskList, ui);
+                System.out.println(response);
 
                 if (command.isExit()) {
                     break;
@@ -46,7 +47,7 @@ public class ChattingHeads {
                     storage.save(taskList);
                 }
             } catch (Exception e) {
-                ui.printErrorMessage(e);
+                System.out.println(ui.getErrorMessage(e));
             }
         }
     }
@@ -55,16 +56,14 @@ public class ChattingHeads {
         try {
             Command command = parser.parse(input);
 
-            // String response =
-            command.execute(taskList, ui);
+            String response = command.execute(taskList, ui);
 
             if (command.shouldSave()) {
                 storage.save(taskList);
             }
-
-            return "";
+            return response;
         } catch (Exception e) {
-            return e.getMessage();
+            return ui.getErrorMessage(e);
         }
     }
 

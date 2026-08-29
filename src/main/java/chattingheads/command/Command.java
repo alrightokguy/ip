@@ -13,10 +13,11 @@ public abstract class Command {
      * Executes this command.
      *
      * @param taskList Task list on which the command operates.
-     * @param ui User interface used to display command results.
+     * @param ui       User interface used to display command results.
+     * @return Response from execution of command.
      * @throws InvalidTaskNumberException If the command refers to an invalid task number.
      */
-    public abstract void execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
+    public abstract String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
 
     /**
      * Returns whether this command exits the application.
