@@ -61,7 +61,8 @@
             </font>
         </TextField>
 
-        <Button mnemonicParsing="false"
+        <Button fx:id="enterButton"
+                mnemonicParsing="false"
                 prefHeight="40.0"
                 prefWidth="60.0"
                 text="Enter"

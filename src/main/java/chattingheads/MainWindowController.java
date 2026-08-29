@@ -1,14 +1,14 @@
 package chattingheads;
 
-import java.util.Objects;
-
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -24,10 +24,8 @@ public class MainWindowController extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-
-    private final Image startupImage = new Image(Objects.requireNonNull(
-            this.getClass().getResourceAsStream("/images/TalkingHeadsRemaininLight.png")
-    ));
+    @FXML
+    private Button enterButton;
 
     private ChattingHeads chattingHeads;
 
@@ -47,11 +45,17 @@ public class MainWindowController extends AnchorPane {
      */
     public void setChattingHeads(ChattingHeads chattingHeads) {
         this.chattingHeads = chattingHeads;
+
+        ImageView startupImage = new ImageView(
+                new Image(getClass().getResourceAsStream("/images/TalkingHeadsRemaininLight.png"))
+        );
+        startupImage.setFitWidth(100);
+        startupImage.setFitHeight(100);
+        startupImage.setPreserveRatio(true);
+
+        dialogContainer.getChildren().add(startupImage);
         dialogContainer.getChildren().add(
-                DialogBox.getStartupDialog(
-                        chattingHeads.getStartupMessage(),
-                        startupImage
-                )
+                DialogBox.getDialog(chattingHeads.getStartupMessage())
         );
     }
 
@@ -70,6 +74,8 @@ public class MainWindowController extends AnchorPane {
         userInput.clear();
 
         if (result.isExit()) {
+            userInput.setDisable(true);
+            enterButton.setDisable(true);
             PauseTransition pause = new PauseTransition(Duration.seconds(2));
             pause.setOnFinished(event -> Platform.exit());
             pause.play();

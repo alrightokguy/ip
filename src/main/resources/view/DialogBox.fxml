@@ -15,6 +15,5 @@
     </padding>
 
     <Label fx:id="dialog"
-           text="Label"
            wrapText="true"/>
 </fx:root>
