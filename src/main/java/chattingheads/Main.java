@@ -23,7 +23,7 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.setMinHeight(400);
             stage.setMinWidth(600);
-            fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);  // inject the Duck instance
+            fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
