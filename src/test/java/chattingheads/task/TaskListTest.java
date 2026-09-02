@@ -65,29 +65,20 @@ public class TaskListTest {
     public void markTask_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(
-                InvalidTaskNumberException.class,
-                () -> taskList.mark(0)
-        );
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.mark(0));
     }
 
     @Test
     public void unmarkTask_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(
-                InvalidTaskNumberException.class,
-                () -> taskList.unmark(0)
-        );
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.unmark(0));
     }
 
     @Test
     public void delete_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(
-                InvalidTaskNumberException.class,
-                () -> taskList.delete(0)
-        );
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.delete(0));
     }
 }
