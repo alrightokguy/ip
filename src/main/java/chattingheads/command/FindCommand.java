@@ -4,18 +4,23 @@ import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
 /**
- * Represents a command that lists all tasks that contains a specified keyword in the task list.
+ * Represents a command that lists all tasks containing a specified keyword.
  */
 public class FindCommand extends Command {
 
     private final String keyword;
 
+    /**
+     * Creates a command to find tasks containing the specified keyword.
+     *
+     * @param keyword Keyword to search for.
+     */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }
 
     @Override
-    public String execute(TaskList tasklist, Ui ui) {
-        return ui.getFoundTasksMessage(tasklist, keyword);
+    public String execute(TaskList taskList, Ui ui) {
+        return ui.getFoundTasksMessage(taskList, keyword);
     }
 }

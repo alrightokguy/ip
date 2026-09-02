@@ -25,11 +25,11 @@ public abstract class Task {
      * Creates a task with the given description and completion status.
      *
      * @param description Description of the task.
-     * @param status      Completion status of the task.
+     * @param isDone      Completion status of the task.
      */
-    public Task(String description, boolean status) {
+    public Task(String description, boolean isDone) {
         this.description = description;
-        this.isDone = status;
+        this.isDone = isDone;
     }
 
     /**

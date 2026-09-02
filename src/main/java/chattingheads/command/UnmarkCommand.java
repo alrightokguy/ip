@@ -11,6 +11,11 @@ public class UnmarkCommand extends Command {
 
     private final int taskNumber;
 
+    /**
+     * Creates a command to mark the specified task as incomplete.
+     *
+     * @param taskNumber Task number to unmark.
+     */
     public UnmarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
