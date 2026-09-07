@@ -22,6 +22,9 @@ public class MarkCommand extends Command {
 
     @Override
     public String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+
         taskList.mark(taskNumber - 1);
         return ui.getMarkStatus(taskList.get(taskNumber - 1));
     }
