@@ -2,6 +2,9 @@ package chattingheads.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.storage.Storage;
@@ -116,14 +119,10 @@ public class TaskList {
      * @return List of indices of matching tasks.
      */
     public List<Integer> findIndices(String keyword) {
-        List<Integer> indices = new ArrayList<>();
-
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getDescription().toLowerCase().contains(keyword)) {
-                indices.add(i);
-            }
-        }
-        return indices;
+        return IntStream.range(0, tasks.size())
+                .boxed()
+                .filter(i -> tasks.get(i).getDescription().toLowerCase().contains(keyword))
+                .toList();
     }
 
     /**
