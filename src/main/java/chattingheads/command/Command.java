@@ -24,14 +24,14 @@ public abstract class Command {
      *
      * @return {@code true} if this command exits the application.
      */
-    public boolean isExit() {
+    public boolean shouldExit() {
         return false;
     }
 
     /**
      * Returns whether this command changes the CSV such that it should be saved.
      *
-     * @return {@code true} if this command requires the CSV to be saved
+     * @return {@code true} if this command requires the CSV to be saved.
      */
     public boolean shouldSave() {
         return false;

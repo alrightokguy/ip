@@ -29,18 +29,39 @@ public class TaskList {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Returns whether the TaskList is empty.
+     *
+     * @return Boolean for whether the TaskList is empty.
+     */
     public boolean isEmpty() {
         return tasks.isEmpty();
     }
 
+    /**
+     * Returns the current number of tasks in the list.
+     *
+     * @return Number of tasks in the list.
+     */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Returns the task at the specified index.
+     *
+     * @param index Index of task requested.
+     * @return Task at the specified index.
+     */
     public Task get(int index) {
         return tasks.get(index);
     }
 
+    /**
+     * Returns the whole list of tasks.
+     *
+     * @return ArrayList of tasks stored.
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }

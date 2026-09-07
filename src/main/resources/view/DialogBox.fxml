@@ -13,6 +13,6 @@
         <Insets top="4" right="4" bottom="4" left="4"/>
     </padding>
 
-    <Label fx:id="dialog"
+    <Label fx:id="dialogLabel"
            wrapText="true"/>
 </fx:root>

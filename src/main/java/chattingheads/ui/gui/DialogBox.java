@@ -1,4 +1,4 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 import java.io.IOException;
 
@@ -9,15 +9,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Represents a dialog box consisting of an ImageView to represent the speaker's face
- * and a label containing text from the speaker.
+ * Represents a dialog box in the GUI containing a message.
  */
 public class DialogBox extends HBox {
+
     @FXML
-    private Label dialog;
+    private Label dialogLabel;
+
     @FXML
     private ImageView displayPicture;
 
+    /**
+     * Creates a dialog box containing the specified text.
+     *
+     * @param text Text to display in the dialog box.
+     */
     private DialogBox(String text) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(
@@ -29,9 +35,15 @@ public class DialogBox extends HBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        dialog.setText(text);
+        dialogLabel.setText(text);
     }
 
+    /**
+     * Creates and returns a dialog box containing the specified text.
+     *
+     * @param text Text to display in the dialog box.
+     * @return A dialog box containing the specified text.
+     */
     public static DialogBox getDialog(String text) {
         return new DialogBox(text);
     }
