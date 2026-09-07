@@ -23,6 +23,9 @@ public class DeleteCommand extends Command {
 
     @Override
     public String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+
         Task deletedTask = taskList.delete(taskNumber - 1);
         return ui.getDeleteStatus(deletedTask, taskList);
     }

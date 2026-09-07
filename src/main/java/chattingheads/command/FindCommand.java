@@ -21,6 +21,9 @@ public class FindCommand extends Command {
 
     @Override
     public String execute(TaskList taskList, Ui ui) {
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+
         return ui.getFoundTasksMessage(taskList, keyword);
     }
 }

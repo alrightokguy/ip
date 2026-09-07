@@ -28,6 +28,9 @@ public class AddDeadlineCommand extends Command {
 
     @Override
     public String execute(TaskList taskList, Ui ui) {
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+
         Task newTask = new Deadline(description, by);
         taskList.add(newTask);
         return ui.getAddStatus(newTask, taskList);
