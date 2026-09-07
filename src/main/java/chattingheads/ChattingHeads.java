@@ -5,6 +5,7 @@ import chattingheads.parser.Parser;
 import chattingheads.storage.Storage;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
+import chattingheads.ui.gui.CommandResult;
 
 /**
  * Represents the main application and coordinates its components.
@@ -40,7 +41,7 @@ public class ChattingHeads {
                 String response = command.execute(taskList, ui);
                 System.out.println(response);
 
-                if (command.isExit()) {
+                if (command.shouldExit()) {
                     break;
                 }
                 if (command.shouldSave()) {
@@ -52,6 +53,12 @@ public class ChattingHeads {
         }
     }
 
+    /**
+     * Processes the user input and returns the resulting response for the GUI.
+     *
+     * @param input User input to process.
+     * @return Result containing the response message and command outcome.
+     */
     public CommandResult getResponse(String input) {
         try {
             Command command = parser.parse(input);
@@ -61,7 +68,7 @@ public class ChattingHeads {
             if (command.shouldSave()) {
                 storage.save(taskList);
             }
-            return new CommandResult(response, command.isExit());
+            return new CommandResult(response, command.shouldExit());
         } catch (Exception e) {
             return new CommandResult(ui.getErrorMessage(e), false);
         }

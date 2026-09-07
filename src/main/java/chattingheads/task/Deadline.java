@@ -11,17 +11,17 @@ public class Deadline extends Task {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final String TYPE = "D";
-    private final LocalDateTime by;
+    private final LocalDateTime dueDateTime;
 
     /**
      * Creates an incomplete deadline task with the given description and deadline.
      *
      * @param description Description of the task.
-     * @param by          Date and time by which the task should be completed.
+     * @param dueDateTime Date and time by which the task should be completed.
      */
-    public Deadline(String description, LocalDateTime by) {
+    public Deadline(String description, LocalDateTime dueDateTime) {
         super(description);
-        this.by = by;
+        this.dueDateTime = dueDateTime;
     }
 
     /**
@@ -30,20 +30,20 @@ public class Deadline extends Task {
      *
      * @param description Description of the task.
      * @param isDone      Completion status of the task.
-     * @param by          Date and time by which the task should be completed.
+     * @param dueDateTime Date and time by which the task should be completed.
      */
-    public Deadline(String description, boolean isDone, LocalDateTime by) {
+    public Deadline(String description, boolean isDone, LocalDateTime dueDateTime) {
         super(description, isDone);
-        this.by = by;
+        this.dueDateTime = dueDateTime;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s]%s (by: %s)", TYPE, super.toString(), DATE_TIME_FORMATTER.format(by));
+        return String.format("[%s]%s (by: %s)", TYPE, super.toString(), DATE_TIME_FORMATTER.format(dueDateTime));
     }
 
     @Override
     public String toCsv() {
-        return String.format("%s,%s,%s", TYPE, super.toCsv(), by);
+        return String.format("%s,%s,%s", TYPE, super.toCsv(), dueDateTime);
     }
 }

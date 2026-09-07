@@ -1,7 +1,8 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 import java.io.IOException;
 
+import chattingheads.ChattingHeads;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,8 +20,8 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
+            AnchorPane rootPane = fxmlLoader.load();
+            Scene scene = new Scene(rootPane);
             stage.setTitle("Chatting Heads");
             stage.setScene(scene);
             fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
