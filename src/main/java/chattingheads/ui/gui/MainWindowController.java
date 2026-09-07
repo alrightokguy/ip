@@ -1,5 +1,6 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
+import chattingheads.ChattingHeads;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 /**
  * Represents the result of executing a command through the GUI

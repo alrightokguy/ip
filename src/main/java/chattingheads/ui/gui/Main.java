@@ -1,7 +1,8 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 import java.io.IOException;
 
+import chattingheads.ChattingHeads;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

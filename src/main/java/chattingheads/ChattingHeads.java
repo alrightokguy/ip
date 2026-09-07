@@ -5,6 +5,7 @@ import chattingheads.parser.Parser;
 import chattingheads.storage.Storage;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
+import chattingheads.ui.gui.CommandResult;
 
 /**
  * Represents the main application and coordinates its components.

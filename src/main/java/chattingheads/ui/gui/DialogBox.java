@@ -1,4 +1,4 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 import java.io.IOException;
 

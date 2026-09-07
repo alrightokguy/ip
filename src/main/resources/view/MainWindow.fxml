@@ -16,7 +16,7 @@
             prefWidth="600.0"
             xmlns="http://javafx.com/javafx/17.0.7"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="chattingheads.MainWindowController">
+            fx:controller="chattingheads.ui.gui.MainWindowController">
 
     <ScrollPane fx:id="scrollPane"
                 fitToWidth="true"

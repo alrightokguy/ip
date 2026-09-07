@@ -1,4 +1,4 @@
-package chattingheads;
+package chattingheads.ui.gui;
 
 import javafx.application.Application;
 
