@@ -146,7 +146,7 @@ public class Ui {
      * Returns a message listing all tasks that contain the specified keyword.
      *
      * @param taskList Task list to search.
-     * @param keyword Keyword to search for.
+     * @param keyword  Keyword to search for.
      */
     public String getFoundTasksMessage(TaskList taskList, String keyword) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");

@@ -21,17 +21,20 @@ public class MainWindowController extends AnchorPane {
 
     @FXML
     private ScrollPane scrollPane;
+
     @FXML
     private VBox dialogContainer;
+
     @FXML
     private TextField userInput;
+
     @FXML
     private Button enterButton;
 
     private ChattingHeads chattingHeads;
 
     /**
-     * Initializes the main window after its FXML components have been loaded.
+     * Initialises the main window after its FXML components have been loaded.
      * Aligns dialog messages to the bottom of the container and keeps the
      * dialog container sized and scrolled with the display area.
      */

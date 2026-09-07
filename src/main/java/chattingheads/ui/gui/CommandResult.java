@@ -1,10 +1,10 @@
 package chattingheads.ui.gui;
 
 /**
- * Represents the result of executing a command through the GUI
+ * Represents the result of executing a command through the GUI.
  *
- * @param response The response from command execution or error
- * @param isExit Whether the command leads to an exit of the program (i.e. bye command)
+ * @param response Response from command execution or error.
+ * @param isExit   Whether the command causes the program to exit.
  */
 public record CommandResult(String response, boolean isExit) {
 }

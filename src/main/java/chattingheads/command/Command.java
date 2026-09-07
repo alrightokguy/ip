@@ -31,7 +31,7 @@ public abstract class Command {
     /**
      * Returns whether this command changes the CSV such that it should be saved.
      *
-     * @return {@code true} if this command requires the CSV to be saved
+     * @return {@code true} if this command requires the CSV to be saved.
      */
     public boolean shouldSave() {
         return false;

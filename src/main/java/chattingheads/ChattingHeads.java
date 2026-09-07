@@ -53,6 +53,12 @@ public class ChattingHeads {
         }
     }
 
+    /**
+     * Processes the user input and returns the resulting response for the GUI.
+     *
+     * @param input User input to process.
+     * @return Result containing the response message and command outcome.
+     */
     public CommandResult getResponse(String input) {
         try {
             Command command = parser.parse(input);
