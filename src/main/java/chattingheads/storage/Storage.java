@@ -53,7 +53,7 @@ public class Storage {
         try {
             Files.write(filePath, taskList.getTasks().stream().map(Task::toCsv).toList());
         } catch (IOException e) {
-            return;
+            e.printStackTrace();
         }
     }
 }
