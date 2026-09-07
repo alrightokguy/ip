@@ -12,8 +12,9 @@ import javafx.scene.layout.HBox;
  * Represents a dialog box in the GUI containing a message.
  */
 public class DialogBox extends HBox {
+
     @FXML
-    private Label dialog;
+    private Label dialogLabel;
 
     @FXML
     private ImageView displayPicture;
@@ -34,7 +35,7 @@ public class DialogBox extends HBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        dialog.setText(text);
+        dialogLabel.setText(text);
     }
 
     /**

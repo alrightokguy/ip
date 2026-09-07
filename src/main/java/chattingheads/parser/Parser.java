@@ -40,15 +40,15 @@ public class Parser {
             throw new InvalidInputException("command");
         }
         String[] tokens = input.split("\\s+");
-        String command = tokens[0];
+        String commandName = tokens[0];
         String[] arguments = Arrays.copyOfRange(tokens, 1, tokens.length);
 
-        return switch (command) {
+        return switch (commandName) {
             case "todo" -> parseTodo(arguments);
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
             case "list" -> new ListCommand();
-            case "find" -> new FindCommand(parseString(arguments, 0, arguments.length));
+            case "find" -> new FindCommand(joinTokens(arguments, 0, arguments.length));
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
@@ -65,7 +65,7 @@ public class Parser {
      * @throws InvalidInputException If the description is missing.
      */
     private AddTodoCommand parseTodo(String[] arguments) throws InvalidInputException {
-        String description = parseString(arguments, 0, arguments.length);
+        String description = joinTokens(arguments, 0, arguments.length);
 
         if (description.isEmpty()) {
             throw new InvalidInputException("description");
@@ -82,17 +82,17 @@ public class Parser {
      * @throws InvalidInputException If the description or deadline is invalid or missing.
      */
     private AddDeadlineCommand parseDeadline(String[] arguments) throws InvalidInputException {
-        int byMarker = arguments.length;
+        int byMarkerIndex = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
             if (arguments[i].equals("/by")) {
-                byMarker = i;
+                byMarkerIndex = i;
                 break;
             }
         }
         ArrayList<String> emptyInputs = new ArrayList<>();
-        String description = parseString(arguments, 0, byMarker);
-        LocalDateTime by = parseDateTime(arguments, byMarker + 1, arguments.length);
+        String description = joinTokens(arguments, 0, byMarkerIndex);
+        LocalDateTime by = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
 
         if (description.isEmpty()) {
             emptyInputs.add("description");
@@ -115,33 +115,33 @@ public class Parser {
      * @throws InvalidInputException If the description, start, or end is invalid or missing.
      */
     private AddEventCommand parseEvent(String[] arguments) throws InvalidInputException {
-        int fromMarker = arguments.length;
-        int toMarker = arguments.length;
+        int fromMarkerIndex = arguments.length;
+        int toMarkerIndex = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
             if (arguments[i].equals("/from")) {
-                fromMarker = i;
+                fromMarkerIndex = i;
             } else if (arguments[i].equals("/to")) {
-                toMarker = i;
+                toMarkerIndex = i;
                 break;
             }
         }
-        ArrayList<String> emptyInputs = new ArrayList<>();
-        String description = parseString(arguments, 0, fromMarker);
-        LocalDateTime from = parseDateTime(arguments, fromMarker + 1, toMarker);
-        LocalDateTime to = parseDateTime(arguments, toMarker + 1, arguments.length);
+        ArrayList<String> invalidInputs = new ArrayList<>();
+        String description = joinTokens(arguments, 0, fromMarkerIndex);
+        LocalDateTime from = parseDateTime(arguments, fromMarkerIndex + 1, toMarkerIndex);
+        LocalDateTime to = parseDateTime(arguments, toMarkerIndex + 1, arguments.length);
 
         if (description.isEmpty()) {
-            emptyInputs.add("description");
+            invalidInputs.add("description");
         }
         if (from == null) {
-            emptyInputs.add("start");
+            invalidInputs.add("start");
         }
         if (to == null) {
-            emptyInputs.add("end");
+            invalidInputs.add("end");
         }
-        if (!emptyInputs.isEmpty()) {
-            throw new InvalidInputException(emptyInputs.toArray(String[]::new));
+        if (!invalidInputs.isEmpty()) {
+            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
         }
 
         return new AddEventCommand(description, from, to);
@@ -174,7 +174,7 @@ public class Parser {
      * @param end    Exclusive end index.
      * @return Joined string, or an empty string if the range is invalid.
      */
-    private String parseString(String[] tokens, int start, int end) {
+    private String joinTokens(String[] tokens, int start, int end) {
         if (start >= 0 && end <= tokens.length && start <= end) {
             return String.join(" ", Arrays.copyOfRange(tokens, start, end));
         }
@@ -191,7 +191,7 @@ public class Parser {
      */
     private LocalDateTime parseDateTime(String[] tokens, int start, int end) {
         try {
-            return LocalDateTime.parse(parseString(tokens, start, end), DATE_TIME_FORMATTER);
+            return LocalDateTime.parse(joinTokens(tokens, start, end), DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             return null;
         }

@@ -82,7 +82,7 @@ public class MainWindowController extends AnchorPane {
         );
         userInput.clear();
 
-        if (result.isExit()) {
+        if (result.shouldExit()) {
             userInput.setDisable(true);
             enterButton.setDisable(true);
             PauseTransition pause = new PauseTransition(Duration.seconds(2));

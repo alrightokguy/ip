@@ -41,7 +41,7 @@ public class ChattingHeads {
                 String response = command.execute(taskList, ui);
                 System.out.println(response);
 
-                if (command.isExit()) {
+                if (command.shouldExit()) {
                     break;
                 }
                 if (command.shouldSave()) {
@@ -68,7 +68,7 @@ public class ChattingHeads {
             if (command.shouldSave()) {
                 storage.save(taskList);
             }
-            return new CommandResult(response, command.isExit());
+            return new CommandResult(response, command.shouldExit());
         } catch (Exception e) {
             return new CommandResult(ui.getErrorMessage(e), false);
         }
