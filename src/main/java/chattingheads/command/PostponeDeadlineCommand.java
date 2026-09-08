@@ -3,6 +3,7 @@ package chattingheads.command;
 import java.time.LocalDateTime;
 
 import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
@@ -23,7 +24,8 @@ public class PostponeDeadlineCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException {
+    public String execute(TaskList taskList, Ui ui)
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 

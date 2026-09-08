@@ -180,7 +180,7 @@ public class Parser {
         return new AddEventCommand(description, start, end);
     }
 
-    private Command parseReschedule(String[] arguments) {
+    private Command parseReschedule(String[] arguments) throws InvalidInputException {
         int fromMarkerIndex = arguments.length;
         int toMarkerIndex = arguments.length;
 

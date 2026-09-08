@@ -1,6 +1,7 @@
 package chattingheads.command;
 
 import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
@@ -17,7 +18,8 @@ public abstract class Command {
      * @return Response from execution of command.
      * @throws InvalidTaskNumberException If the command refers to an invalid task number.
      */
-    public abstract String execute(TaskList taskList, Ui ui) throws InvalidTaskNumberException;
+    public abstract String execute(TaskList taskList, Ui ui)
+            throws InvalidTaskNumberException, InvalidTaskTypeException;
 
     /**
      * Returns whether this command exits the application.

@@ -150,7 +150,7 @@ public class TaskList {
     }
 
     public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
-            throws InvalidTaskNumberException {
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
         validateIndex(index);
         Task task = tasks.get(index);
 
