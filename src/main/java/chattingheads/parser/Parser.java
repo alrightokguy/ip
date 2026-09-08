@@ -15,6 +15,8 @@ import chattingheads.command.ExitCommand;
 import chattingheads.command.FindCommand;
 import chattingheads.command.ListCommand;
 import chattingheads.command.MarkCommand;
+import chattingheads.command.PostponeDeadlineCommand;
+import chattingheads.command.RescheduleEventCommand;
 import chattingheads.command.UnmarkCommand;
 import chattingheads.exception.InvalidCommandException;
 import chattingheads.exception.InvalidInputException;
@@ -51,6 +53,8 @@ public class Parser {
             case "find" -> new FindCommand(joinTokens(arguments, 0, arguments.length));
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
+            case "postpone" -> new PostponeDeadlineCommand(parseTaskNumber(arguments));
+            case "reschedule" -> new RescheduleEventCommand(parseTaskNumber(arguments));
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
             case "bye" -> new ExitCommand();
             default -> throw new InvalidCommandException();

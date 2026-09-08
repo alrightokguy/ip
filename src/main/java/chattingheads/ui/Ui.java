@@ -162,4 +162,20 @@ public class Ui {
         message.append("\n").append(SEPARATOR);
         return message.toString();
     }
+
+    public String getPostponeStatus(Task task) {
+        return String.format(
+                "Postponed this deadline:\n%s\n%s",
+                task,
+                SEPARATOR
+        );
+    }
+
+    public String getRescheduleStatus(Task task) {
+        return String.format(
+                "Rescheduled this event:\n%s\n%s",
+                task,
+                SEPARATOR
+        );
+    }
 }
