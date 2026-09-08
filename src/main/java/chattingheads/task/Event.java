@@ -11,8 +11,8 @@ public class Event extends Task {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final String TYPE = "E";
-    private final LocalDateTime startDateTime;
-    private final LocalDateTime endDateTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
 
     /**
      * Creates an incomplete event task with the given description,
@@ -57,5 +57,10 @@ public class Event extends Task {
     @Override
     public String toCsv() {
         return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), startDateTime, endDateTime);
+    }
+
+    public void reschedule(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime) {
+        startDateTime = newStartDateTime;
+        endDateTime = newEndDateTime;
     }
 }

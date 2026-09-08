@@ -27,7 +27,7 @@ public class PostponeDeadlineCommand extends Command {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 
-        taskList.postponeDeadline(taskNumber - 1);
+        taskList.postponeDeadline(taskNumber - 1, deadline);
         return ui.getPostponeStatus(taskList.get(taskNumber - 1));
     }
 

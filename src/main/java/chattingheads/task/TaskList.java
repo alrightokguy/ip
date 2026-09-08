@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.storage.Storage;
 
 /**
@@ -136,21 +137,27 @@ public class TaskList {
         }
     }
 
-    public void postponeDeadline(int index, LocalDateTime newDeadline) throws InvalidTaskNumberException {
+    public void postponeDeadline(int index, LocalDateTime newDeadline)
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
         validateIndex(index);
         Task task = tasks.get(index);
 
-        if (!(task instanceof Deadline)) {
-
+        if (!(task instanceof Deadline deadline)) {
+            throw new InvalidTaskTypeException("deadline");
         }
 
-
+        deadline.postpone(newDeadline);
     }
 
     public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
             throws InvalidTaskNumberException {
         validateIndex(index);
+        Task task = tasks.get(index);
 
-        if
+        if (!(task instanceof Event event)) {
+            throw new InvalidTaskTypeException("event");
+        }
+
+        event.reschedule(newStart, newEnd);
     }
 }
