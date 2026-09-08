@@ -11,7 +11,7 @@ public class Deadline extends Task {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final String TYPE = "D";
-    private final LocalDateTime dueDateTime;
+    private LocalDateTime dueDateTime;
 
     /**
      * Creates an incomplete deadline task with the given description and deadline.
@@ -45,5 +45,14 @@ public class Deadline extends Task {
     @Override
     public String toCsv() {
         return String.format("%s,%s,%s", TYPE, super.toCsv(), dueDateTime);
+    }
+
+    /**
+     * Changes the due date and time of the deadline task.
+     *
+     * @param newDueDateTime New due date and time.
+     */
+    public void postpone(LocalDateTime newDueDateTime) {
+        dueDateTime = newDueDateTime;
     }
 }

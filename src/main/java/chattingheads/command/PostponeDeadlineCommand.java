@@ -1,0 +1,47 @@
+package chattingheads.command;
+
+import java.time.LocalDateTime;
+
+import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.exception.InvalidTaskTypeException;
+import chattingheads.task.TaskList;
+import chattingheads.ui.Ui;
+
+/**
+ * Represents a command that postpones a deadline task.
+ */
+public class PostponeDeadlineCommand extends Command {
+
+    private final int taskNumber;
+    private final LocalDateTime deadline;
+
+    /**
+     * Creates a command to postpone the specified deadline.
+     *
+     * @param taskNumber Task number to postpone.
+     * @param deadline   Deadline to postpone to.
+     */
+    public PostponeDeadlineCommand(int taskNumber, LocalDateTime deadline) {
+        this.taskNumber = taskNumber;
+        this.deadline = deadline;
+    }
+
+    @Override
+    public String execute(TaskList taskList, Ui ui)
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+
+        taskList.postponeDeadline(taskNumber - 1, deadline);
+        return ui.getPostponeStatus(taskList.get(taskNumber - 1));
+    }
+
+    public int getTaskNumber() {
+        return taskNumber;
+    }
+
+    @Override
+    public boolean shouldSave() {
+        return true;
+    }
+}

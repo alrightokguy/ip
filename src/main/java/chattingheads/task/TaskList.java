@@ -1,12 +1,12 @@
 package chattingheads.task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import chattingheads.exception.InvalidTaskNumberException;
+import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.storage.Storage;
 
 /**
@@ -135,5 +135,46 @@ public class TaskList {
         if (index < 0 || index >= size()) {
             throw new InvalidTaskNumberException();
         }
+    }
+
+    /**
+     * Postpones the due date and time of a deadline task.
+     *
+     * @param index       Index of the deadline task to postpone.
+     * @param newDeadline New due date and time to assign to the deadline task.
+     * @throws InvalidTaskNumberException If the index is invalid.
+     * @throws InvalidTaskTypeException   If the task selected is not a deadline task.
+     */
+    public void postponeDeadline(int index, LocalDateTime newDeadline)
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
+        validateIndex(index);
+        Task task = tasks.get(index);
+
+        if (!(task instanceof Deadline deadline)) {
+            throw new InvalidTaskTypeException("deadline");
+        }
+
+        deadline.postpone(newDeadline);
+    }
+
+    /**
+     * Reschedules the start and end date and time of an event task.
+     *
+     * @param index    Index of the event task to reschedule.
+     * @param newStart New start date and time.
+     * @param newEnd   New end date and time.
+     * @throws InvalidTaskNumberException If the index is invalid.
+     * @throws InvalidTaskTypeException   If the task selected is not an event task.
+     */
+    public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
+            throws InvalidTaskNumberException, InvalidTaskTypeException {
+        validateIndex(index);
+        Task task = tasks.get(index);
+
+        if (!(task instanceof Event event)) {
+            throw new InvalidTaskTypeException("event");
+        }
+
+        event.reschedule(newStart, newEnd);
     }
 }
