@@ -7,6 +7,9 @@ import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
+/**
+ * Represents a command that postpones a deadline task.
+ */
 public class PostponeDeadlineCommand extends Command {
 
     private final int taskNumber;

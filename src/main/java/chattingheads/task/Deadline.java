@@ -47,6 +47,11 @@ public class Deadline extends Task {
         return String.format("%s,%s,%s", TYPE, super.toCsv(), dueDateTime);
     }
 
+    /**
+     * Changes the due date and time of the deadline task.
+     *
+     * @param newDueDateTime New due date and time.
+     */
     public void postpone(LocalDateTime newDueDateTime) {
         dueDateTime = newDueDateTime;
     }

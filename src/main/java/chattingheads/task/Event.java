@@ -59,6 +59,12 @@ public class Event extends Task {
         return String.format("%s,%s,%s,%s", TYPE, super.toCsv(), startDateTime, endDateTime);
     }
 
+    /**
+     * Changes the start and end date and time for the event.
+     *
+     * @param newStartDateTime New start date and time.
+     * @param newEndDateTime   New end date and time.
+     */
     public void reschedule(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime) {
         startDateTime = newStartDateTime;
         endDateTime = newEndDateTime;

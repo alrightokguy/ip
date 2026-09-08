@@ -7,6 +7,9 @@ import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
+/**
+ * Represents a command that reschedules an event task.
+ */
 public class RescheduleEventCommand extends Command {
 
     private final int taskNumber;
