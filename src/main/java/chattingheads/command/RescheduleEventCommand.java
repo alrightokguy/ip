@@ -1,5 +1,7 @@
 package chattingheads.command;
 
+import java.time.LocalDateTime;
+
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
@@ -7,14 +9,20 @@ import chattingheads.ui.Ui;
 public class RescheduleEventCommand extends Command {
 
     private final int taskNumber;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
 
     /**
      * Creates a command to reschedule the specified event.
      *
-     * @param taskNumber Task number to mark.
+     * @param taskNumber Task number to reschedule.
+     * @param start      New start date and time of the event.
+     * @param end        New end date and time of the event.
      */
-    public RescheduleEventCommand(int taskNumber) {
+    public RescheduleEventCommand(int taskNumber, LocalDateTime start, LocalDateTime end) {
         this.taskNumber = taskNumber;
+        this.start = start;
+        this.end = end;
     }
 
     @Override
@@ -22,7 +30,7 @@ public class RescheduleEventCommand extends Command {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 
-        taskList.mark(taskNumber - 1);
+        taskList.rescheduleEvent(taskNumber - 1);
         return ui.getRescheduleStatus(taskList.get(taskNumber - 1));
     }
 

@@ -13,17 +13,17 @@ import chattingheads.ui.Ui;
 public class AddDeadlineCommand extends Command {
 
     private final String description;
-    private final LocalDateTime by;
+    private final LocalDateTime deadline;
 
     /**
      * Creates a command for adding a deadline task.
      *
      * @param description Description of the deadline task.
-     * @param by          Date and time by which the task should be completed.
+     * @param deadline    Date and time by which the task should be completed.
      */
-    public AddDeadlineCommand(String description, LocalDateTime by) {
+    public AddDeadlineCommand(String description, LocalDateTime deadline) {
         this.description = description;
-        this.by = by;
+        this.deadline = deadline;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class AddDeadlineCommand extends Command {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 
-        Task newTask = new Deadline(description, by);
+        Task newTask = new Deadline(description, deadline);
         taskList.add(newTask);
         return ui.getAddStatus(newTask, taskList);
     }

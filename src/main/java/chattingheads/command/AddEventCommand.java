@@ -13,20 +13,20 @@ import chattingheads.ui.Ui;
 public class AddEventCommand extends Command {
 
     private final String description;
-    private final LocalDateTime from;
-    private final LocalDateTime to;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
 
     /**
      * Creates a command for adding an event task.
      *
      * @param description Description of the event task.
-     * @param from        Start date and time of the event.
-     * @param to          End date and time of the event.
+     * @param start       Start date and time of the event.
+     * @param end         End date and time of the event.
      */
-    public AddEventCommand(String description, LocalDateTime from, LocalDateTime to) {
+    public AddEventCommand(String description, LocalDateTime start, LocalDateTime end) {
         this.description = description;
-        this.from = from;
-        this.to = to;
+        this.start = start;
+        this.end = end;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class AddEventCommand extends Command {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 
-        Task newTask = new Event(description, from, to);
+        Task newTask = new Event(description, start, end);
         taskList.add(newTask);
         return ui.getAddStatus(newTask, taskList);
     }

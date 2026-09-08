@@ -1,9 +1,8 @@
 package chattingheads.task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import chattingheads.exception.InvalidTaskNumberException;
@@ -135,5 +134,23 @@ public class TaskList {
         if (index < 0 || index >= size()) {
             throw new InvalidTaskNumberException();
         }
+    }
+
+    public void postponeDeadline(int index, LocalDateTime newDeadline) throws InvalidTaskNumberException {
+        validateIndex(index);
+        Task task = tasks.get(index);
+
+        if (!(task instanceof Deadline)) {
+
+        }
+
+
+    }
+
+    public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
+            throws InvalidTaskNumberException {
+        validateIndex(index);
+
+        if
     }
 }
