@@ -1,6 +1,7 @@
 package chattingheads;
 
 import chattingheads.command.Command;
+import chattingheads.exception.ChattingHeadsException;
 import chattingheads.parser.Parser;
 import chattingheads.storage.Storage;
 import chattingheads.task.TaskList;
@@ -47,7 +48,7 @@ public class ChattingHeads {
                 if (command.shouldSave()) {
                     storage.save(taskList);
                 }
-            } catch (Exception e) {
+            } catch (ChattingHeadsException e) {
                 System.out.println(ui.getErrorMessage(e));
             }
         }
@@ -69,7 +70,7 @@ public class ChattingHeads {
                 storage.save(taskList);
             }
             return new CommandResult(response, command.shouldExit());
-        } catch (Exception e) {
+        } catch (ChattingHeadsException e) {
             return new CommandResult(ui.getErrorMessage(e), false);
         }
     }
