@@ -21,9 +21,9 @@ public class InvalidInputException extends ChattingHeadsException {
         return new InvalidInputException(message.toString());
     }
 
-    public static InvalidInputException endBeforeStart() {
+    public static InvalidInputException invalidTimeRange() {
         return new InvalidInputException(
-                "End time before start time\nTime isn't holding up\nTime isn't after us"
+                "End time not after start time\nTime isn't holding up\nTime isn't after us"
         );
     }
 }

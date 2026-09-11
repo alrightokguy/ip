@@ -83,8 +83,8 @@ public class Event extends Task {
 
     private void validateTimeRange(LocalDateTime startDateTime, LocalDateTime endDateTime)
             throws InvalidInputException {
-        if (endDateTime.isBefore(startDateTime)) {
-            throw InvalidInputException.endBeforeStart();
+        if (!endDateTime.isAfter(startDateTime)) {
+            throw InvalidInputException.invalidTimeRange();
         }
     }
 }
