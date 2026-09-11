@@ -26,4 +26,16 @@ public class InvalidInputException extends ChattingHeadsException {
                 "End time not after start time\nTime isn't holding up\nTime isn't after us"
         );
     }
+
+    public static InvalidInputException duplicatePrefix(String prefix) {
+        return new InvalidInputException(
+                String.format("Duplicate prefix: %s\nDouble prefix, double prefix, double prefix", prefix)
+        );
+    }
+
+    public static InvalidInputException incompatiblePrefixes(String... prefixes) {
+        return new InvalidInputException(
+                "These prefixes cannot be used together: "
+                        + String.join(", ", prefixes) + ".");
+    }
 }

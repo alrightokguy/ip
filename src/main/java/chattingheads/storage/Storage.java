@@ -31,8 +31,8 @@ public class Storage {
      *
      * @return Tasks loaded from the file.
      */
-    public ArrayList<Task> load() {
-        ArrayList<Task> tasks = new ArrayList<>();
+    public List<Task> load() {
+        List<Task> tasks = new ArrayList<>();
         List<String> lines;
 
         try {

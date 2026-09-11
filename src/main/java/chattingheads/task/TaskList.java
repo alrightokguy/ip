@@ -15,7 +15,7 @@ import chattingheads.storage.Storage;
  */
 public class TaskList {
 
-    private final ArrayList<Task> tasks;
+    private final List<Task> tasks;
 
     /**
      * Creates a task list containing tasks loaded from storage.
@@ -66,7 +66,7 @@ public class TaskList {
      *
      * @return ArrayList of tasks stored.
      */
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 

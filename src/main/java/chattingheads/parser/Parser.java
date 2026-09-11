@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import chattingheads.command.AddDeadlineCommand;
 import chattingheads.command.AddEventCommand;
@@ -85,6 +87,8 @@ public class Parser {
      * @throws InvalidInputException If the description or deadline is invalid or missing.
      */
     private AddDeadlineCommand parseDeadline(String[] arguments) throws InvalidInputException {
+        validateAddDeadlineSyntax(List.of(arguments));
+
         int byMarkerIndex = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
@@ -93,7 +97,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         String description = joinTokens(arguments, 0, byMarkerIndex);
         LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
 
@@ -118,6 +122,8 @@ public class Parser {
      * @throws InvalidInputException If the description, start, or end is invalid or missing.
      */
     private AddEventCommand parseEvent(String[] arguments) throws InvalidInputException {
+        validateAddEventSyntax(List.of(arguments));
+
         int fromMarkerIndex = arguments.length;
         int toMarkerIndex = arguments.length;
 
@@ -129,7 +135,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         String description = joinTokens(arguments, 0, fromMarkerIndex);
         LocalDateTime start = parseDateTime(arguments, fromMarkerIndex + 1, toMarkerIndex);
         LocalDateTime end = parseDateTime(arguments, toMarkerIndex + 1, arguments.length);
@@ -151,10 +157,12 @@ public class Parser {
     }
 
     private Command parseReschedule(String[] arguments) throws InvalidInputException {
+        validateRescheduleSyntax(List.of(arguments));
+
         if (Arrays.asList(arguments).contains("/by")) {
             return parseRescheduleDeadline(arguments);
         }
-        if (Arrays.asList(arguments).contains("/from") && Arrays.asList(arguments).contains("/to")) {
+        if (Arrays.asList(arguments).contains("/from")) {
             return parseRescheduleEvent(arguments);
         }
         throw InvalidInputException.invalidInput("/by or /from and /to");
@@ -169,7 +177,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
             taskNumber = parseTaskNumber(arguments);
@@ -201,7 +209,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
             taskNumber = parseTaskNumber(arguments);
@@ -272,6 +280,59 @@ public class Parser {
             return LocalDateTime.parse(joinTokens(tokens, start, end), DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             return null;
+        }
+    }
+
+    private static void validateAddDeadlineSyntax(List<String> arguments)
+            throws InvalidInputException {
+        validateNoDuplicatePrefix(arguments, "/by");
+    }
+
+
+
+    private static void validateAddEventSyntax(List<String> arguments)
+            throws InvalidInputException {
+        validateNoDuplicatePrefix(arguments, "/from");
+        validateNoDuplicatePrefix(arguments, "/to");
+        validateRequiredPair(arguments, "/from", "/to");
+    }
+
+    private static void validateRescheduleSyntax(List<String> arguments)
+            throws InvalidInputException {
+        validateNoDuplicatePrefix(arguments, "/by");
+        validateNoDuplicatePrefix(arguments, "/from");
+        validateNoDuplicatePrefix(arguments, "/to");
+        validateRequiredPair(arguments, "/from", "/to");
+
+        boolean hasBy = arguments.contains("/by");
+        boolean hasFrom = arguments.contains("/from");
+
+        if (hasBy && hasFrom) {
+            throw InvalidInputException.incompatiblePrefixes("/by", "/from");
+        }
+
+        if (!hasBy && !hasFrom) {
+            throw InvalidInputException.invalidInput("/by or /from and /to");
+        }
+    }
+
+    private static void validateNoDuplicatePrefix(
+            List<String> arguments, String prefix)
+            throws InvalidInputException {
+        if (Collections.frequency(arguments, prefix) > 1) {
+            throw InvalidInputException.duplicatePrefix(prefix);
+        }
+    }
+
+    private static void validateRequiredPair(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        boolean hasFirst = arguments.contains(first);
+        boolean hasSecond = arguments.contains(second);
+
+        if (hasFirst != hasSecond) {
+            throw InvalidInputException.invalidInput(
+                    hasFirst ? second : first);
         }
     }
 }
