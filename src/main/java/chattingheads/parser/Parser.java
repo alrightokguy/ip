@@ -18,6 +18,7 @@ import chattingheads.command.MarkCommand;
 import chattingheads.command.PostponeDeadlineCommand;
 import chattingheads.command.RescheduleEventCommand;
 import chattingheads.command.UnmarkCommand;
+import chattingheads.exception.ChattingHeadsException;
 import chattingheads.exception.InvalidCommandException;
 import chattingheads.exception.InvalidInputException;
 
@@ -34,10 +35,9 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Command represented by the input.
-     * @throws InvalidInputException   If required command arguments are invalid or missing.
-     * @throws InvalidCommandException If the command is not recognised.
+     * @throws ChattingHeadsException If required command arguments are invalid or missing.
      */
-    public Command parse(String input) throws InvalidInputException, InvalidCommandException {
+    public Command parse(String input) throws ChattingHeadsException {
         if (input.isEmpty()) {
             throw new InvalidInputException("command");
         }
