@@ -288,8 +288,6 @@ public class Parser {
         validateNoDuplicatePrefix(arguments, "/by");
     }
 
-
-
     private static void validateAddEventSyntax(List<String> arguments)
             throws InvalidInputException {
         validateNoDuplicatePrefix(arguments, "/from");
