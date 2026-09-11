@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import chattingheads.exception.InvalidInputException;
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.storage.Storage;
@@ -167,7 +168,7 @@ public class TaskList {
      * @throws InvalidTaskTypeException   If the task selected is not an event task.
      */
     public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
-            throws InvalidTaskNumberException, InvalidTaskTypeException {
+            throws InvalidTaskNumberException, InvalidTaskTypeException, InvalidInputException {
         validateIndex(index);
         Task task = tasks.get(index);
 

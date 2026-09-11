@@ -38,7 +38,7 @@ public class Storage {
             for (String line : lines) {
                 tasks.add(Task.fromCsv(line));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             return tasks;
         }
         return tasks;

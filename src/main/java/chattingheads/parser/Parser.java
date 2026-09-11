@@ -146,9 +146,6 @@ public class Parser {
         if (!invalidInputs.isEmpty()) {
             throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
         }
-        if(end.isBefore(start)) {
-            throw InvalidInputException.endBeforeStart();
-        }
 
         return new AddEventCommand(description, start, end);
     }
@@ -223,9 +220,6 @@ public class Parser {
         }
         if (!invalidInputs.isEmpty()) {
             throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
-        }
-        if(end.isBefore(start)) {
-            throw InvalidInputException.endBeforeStart();
         }
 
         return new RescheduleEventCommand(taskNumber, start, end);
