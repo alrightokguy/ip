@@ -5,11 +5,11 @@ package chattingheads.exception;
  */
 public class InvalidInputException extends ChattingHeadsException {
 
-    public InvalidInputException(String... inputs) {
-        super(createMessage(inputs));
+    private InvalidInputException(String message) {
+        super(message);
     }
 
-    private static String createMessage(String... inputs) {
+    public static InvalidInputException invalidInput(String... inputs) {
         StringBuilder message = new StringBuilder("And you may ask yourself");
         for (String input : inputs) {
             if (input.equals("deadline") || input.equals("start") || input.equals("end")) {
@@ -18,6 +18,12 @@ public class InvalidInputException extends ChattingHeadsException {
                 message.append(String.format("\n\"Where is that %s?\"", input));
             }
         }
-        return message.toString();
+        return new InvalidInputException(message.toString());
+    }
+
+    public static InvalidInputException endBeforeStart() {
+        return new InvalidInputException(
+                "End time before start time\nTime isn't holding up\nTime isn't after us"
+        );
     }
 }

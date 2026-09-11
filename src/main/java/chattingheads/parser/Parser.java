@@ -15,7 +15,7 @@ import chattingheads.command.ExitCommand;
 import chattingheads.command.FindCommand;
 import chattingheads.command.ListCommand;
 import chattingheads.command.MarkCommand;
-import chattingheads.command.PostponeDeadlineCommand;
+import chattingheads.command.RescheduleDeadlineCommand;
 import chattingheads.command.RescheduleEventCommand;
 import chattingheads.command.UnmarkCommand;
 import chattingheads.exception.ChattingHeadsException;
@@ -39,7 +39,7 @@ public class Parser {
      */
     public Command parse(String input) throws ChattingHeadsException {
         if (input.isEmpty()) {
-            throw new InvalidInputException("command");
+            throw InvalidInputException.invalidInput("command");
         }
         String[] tokens = input.split("\\s+");
         String commandName = tokens[0];
@@ -53,7 +53,6 @@ public class Parser {
             case "find" -> new FindCommand(joinTokens(arguments, 0, arguments.length));
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
-            case "postpone" -> parsePostpone(arguments);
             case "reschedule" -> parseReschedule(arguments);
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
             case "bye" -> new ExitCommand();
@@ -72,7 +71,7 @@ public class Parser {
         String description = joinTokens(arguments, 0, arguments.length);
 
         if (description.isEmpty()) {
-            throw new InvalidInputException("description");
+            throw InvalidInputException.invalidInput("description");
         }
 
         return new AddTodoCommand(description);
@@ -105,39 +104,10 @@ public class Parser {
             invalidInputs.add("deadline");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
         }
 
         return new AddDeadlineCommand(description, deadline);
-    }
-
-    private Command parsePostpone(String[] arguments) throws InvalidInputException {
-        int byMarkerIndex = arguments.length;
-
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i].equals("/by")) {
-                byMarkerIndex = i;
-                break;
-            }
-        }
-        ArrayList<String> invalidInputs = new ArrayList<>();
-        int taskNumber = -1;
-        try {
-            taskNumber = parseTaskNumber(arguments);
-        } catch (InvalidInputException e) {
-            invalidInputs.add("task number");
-        }
-
-        LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
-
-        if (deadline == null) {
-            invalidInputs.add("deadline");
-        }
-        if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
-        }
-
-        return new PostponeDeadlineCommand(taskNumber, deadline);
     }
 
     /**
@@ -174,13 +144,55 @@ public class Parser {
             invalidInputs.add("end");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
+        }
+        if(end.isBefore(start)) {
+            throw InvalidInputException.endBeforeStart();
         }
 
         return new AddEventCommand(description, start, end);
     }
 
     private Command parseReschedule(String[] arguments) throws InvalidInputException {
+        if (Arrays.asList(arguments).contains("/by")) {
+            return parseRescheduleDeadline(arguments);
+        }
+        if (Arrays.asList(arguments).contains("/from") && Arrays.asList(arguments).contains("/to")) {
+            return parseRescheduleEvent(arguments);
+        }
+        throw InvalidInputException.invalidInput("/by or /from and /to");
+    }
+
+    private Command parseRescheduleDeadline(String[] arguments) throws InvalidInputException {
+        int byMarkerIndex = arguments.length;
+
+        for (int i = 0; i < arguments.length; i++) {
+            if (arguments[i].equals("/by")) {
+                byMarkerIndex = i;
+                break;
+            }
+        }
+        ArrayList<String> invalidInputs = new ArrayList<>();
+        int taskNumber = -1;
+        try {
+            taskNumber = parseTaskNumber(arguments);
+        } catch (InvalidInputException e) {
+            invalidInputs.add("task number");
+        }
+
+        LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
+
+        if (deadline == null) {
+            invalidInputs.add("deadline");
+        }
+        if (!invalidInputs.isEmpty()) {
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
+        }
+
+        return new RescheduleDeadlineCommand(taskNumber, deadline);
+    }
+
+    private Command parseRescheduleEvent(String[] arguments) throws InvalidInputException {
         int fromMarkerIndex = arguments.length;
         int toMarkerIndex = arguments.length;
 
@@ -210,7 +222,10 @@ public class Parser {
             invalidInputs.add("end");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
+        }
+        if(end.isBefore(start)) {
+            throw InvalidInputException.endBeforeStart();
         }
 
         return new RescheduleEventCommand(taskNumber, start, end);
@@ -225,13 +240,13 @@ public class Parser {
      */
     private int parseTaskNumber(String[] arguments) throws InvalidInputException {
         if (arguments.length < 1) {
-            throw new InvalidInputException("task number");
+            throw InvalidInputException.invalidInput("task number");
         }
 
         try {
             return Integer.parseInt(arguments[0]);
         } catch (NumberFormatException e) {
-            throw new InvalidInputException("task number");
+            throw InvalidInputException.invalidInput("task number");
         }
     }
 
