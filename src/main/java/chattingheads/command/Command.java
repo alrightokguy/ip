@@ -2,7 +2,6 @@ package chattingheads.command;
 
 import chattingheads.exception.ChattingHeadsException;
 import chattingheads.exception.InvalidTaskNumberException;
-import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 

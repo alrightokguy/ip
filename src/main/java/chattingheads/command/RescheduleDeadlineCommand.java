@@ -33,7 +33,7 @@ public class RescheduleDeadlineCommand extends Command {
         assert ui != null : "Ui should not be null";
 
         taskList.postponeDeadline(taskNumber - 1, deadline);
-        return ui.getPostponeStatus(taskList.get(taskNumber - 1));
+        return ui.getRescheduleStatus(taskList.get(taskNumber - 1), "deadline");
     }
 
     public int getTaskNumber() {

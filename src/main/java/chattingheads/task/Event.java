@@ -24,8 +24,11 @@ public class Event extends Task {
      * @param startDateTime Start date and time of the event.
      * @param endDateTime   End date and time of the event.
      */
-    public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime)
+            throws InvalidInputException {
         super(description);
+        validateTimeRange(startDateTime, endDateTime);
+
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }

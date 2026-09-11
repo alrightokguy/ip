@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import chattingheads.exception.InvalidInputException;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 
@@ -32,15 +33,22 @@ public class Storage {
      */
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
+        List<String> lines;
 
         try {
-            List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                tasks.add(Task.fromCsv(line));
-            }
-        } catch (Exception e) {
+            lines = Files.readAllLines(filePath);
+        } catch (IOException e) {
             return tasks;
         }
+
+        for (String line : lines) {
+            try {
+                tasks.add(Task.fromCsv(line));
+            } catch (InvalidInputException e) {
+                continue;
+            }
+        }
+
         return tasks;
     }
 

@@ -1,6 +1,5 @@
 package chattingheads.task;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 import chattingheads.exception.InvalidInputException;
@@ -58,9 +57,9 @@ public abstract class Task {
      *
      * @param line CSV representation of the task.
      * @return Task represented from the CSV data.
-     * @throws IOException If the CSV data is corrupted.
+     * @throws InvalidInputException If the CSV data is corrupted or a task has an unrecognised type.
      */
-    public static Task fromCsv(String line) throws IOException, InvalidInputException {
+    public static Task fromCsv(String line) throws InvalidInputException {
         String[] fields = line.split(",");
         String type = fields[0];
         return switch (type) {
@@ -76,7 +75,7 @@ public abstract class Task {
                     LocalDateTime.parse(fields[3]),
                     LocalDateTime.parse(fields[4])
             );
-            default -> throw new IOException();
+            default -> throw InvalidInputException.invalidInput("task type");
         };
     }
 

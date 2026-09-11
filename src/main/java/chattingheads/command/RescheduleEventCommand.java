@@ -37,7 +37,7 @@ public class RescheduleEventCommand extends Command {
         assert ui != null : "Ui should not be null";
 
         taskList.rescheduleEvent(taskNumber - 1, start, end);
-        return ui.getRescheduleStatus(taskList.get(taskNumber - 1));
+        return ui.getRescheduleStatus(taskList.get(taskNumber - 1), "event");
     }
 
     public int getTaskNumber() {

@@ -161,17 +161,10 @@ public class Ui {
         return message.toString();
     }
 
-    public String getPostponeStatus(Task task) {
+    public String getRescheduleStatus(Task task, String taskType) {
         return String.format(
-                "Postponed this deadline:\n%s\n%s",
-                task,
-                SEPARATOR
-        );
-    }
-
-    public String getRescheduleStatus(Task task) {
-        return String.format(
-                "Rescheduled this event:\n%s\n%s",
+                "Rescheduled this %s:\n%s\n%s",
+                taskType,
                 task,
                 SEPARATOR
         );
