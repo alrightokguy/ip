@@ -77,7 +77,7 @@ public class MainWindowController extends AnchorPane {
         CommandResult result = chattingHeads.getResponse(input);
 
         dialogContainer.getChildren().addAll(
-                DialogBox.getDialog("> " + input),
+                DialogBox.getUserDialog("> " + input),
                 DialogBox.getDialog(result.response())
         );
         userInput.clear();

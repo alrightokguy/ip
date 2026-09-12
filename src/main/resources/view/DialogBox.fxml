@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
-<fx:root alignment="CENTER_LEFT" prefWidth="400.0" type="javafx.scene.layout.HBox"
-         xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-         stylesheets="/css/DialogBox.css">
+<fx:root alignment="CENTER_LEFT"
+         type="javafx.scene.layout.HBox"
+         xmlns="http://javafx.com/javafx/17.0.12"
+         xmlns:fx="http://javafx.com/fxml/1"
+         stylesheets="/css/DialogBox.css"
+         styleClass="dialog-box">
 
-    <padding>
-        <Insets bottom="4" left="4" right="4" top="4"/>
-    </padding>
+    <Label fx:id="dialogLabel"
+           wrapText="true"
+           styleClass="dialog-label"/>
 
-    <Label fx:id="dialogLabel" wrapText="true">
-        <font>
-            <Font name="SansSerif Bold" size="12.0"/>
-        </font>
-    </Label>
 </fx:root>

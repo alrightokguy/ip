@@ -1,9 +1,20 @@
 .dialog-box {
-    -fx-background-color: #DDD6C8;
-    -fx-background-radius: 8;
-    -fx-padding: 10;
+    -fx-padding: 7 8 7 8;
 }
 
-.dialog-text {
+.dialog-label {
+    -fx-font-family: "SansSerif";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
     -fx-text-fill: #111111;
+}
+
+.user-label {
+    -fx-text-fill: #D94A32;
+}
+
+.user-dialog {
+    -fx-border-color: transparent transparent transparent #D94A32;
+    -fx-border-width: 0 0 0 3px;
+    -fx-padding: 7 8 7 10;
 }

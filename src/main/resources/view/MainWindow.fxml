@@ -7,13 +7,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="600.0" prefHeight="600.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="chattingheads.ui.gui.MainWindowController" stylesheets="/css/MainWindow.css">
+<AnchorPane minHeight="600.0"
+            minWidth="600.0"
+            prefHeight="600.0"
+            prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="chattingheads.ui.gui.MainWindowController"
+            stylesheets="/css/MainWindow.css">
 
-    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" hvalue="1.0" vvalue="1.0"
-                AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+    <ScrollPane fx:id="scrollPane"
+                fitToWidth="true"
+                hbarPolicy="NEVER"
+                AnchorPane.bottomAnchor="64.0"
+                AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
 
         <VBox fx:id="dialogContainer" spacing="8">
@@ -23,23 +31,24 @@
         </VBox>
     </ScrollPane>
 
-    <HBox spacing="8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <HBox spacing="8"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
 
         <padding>
             <Insets bottom="8" left="12" right="12" top="8"/>
         </padding>
 
-        <TextField fx:id="userInput" onAction="#handleUserInput" prefHeight="40.0" HBox.hgrow="ALWAYS">
-            <font>
-                <Font name="SansSerif Bold" size="12.0"/>
-            </font>
-        </TextField>
+        <TextField fx:id="userInput"
+                   onAction="#handleUserInput"
+                   prefHeight="40.0"
+                   HBox.hgrow="ALWAYS"/>
 
-        <Button fx:id="enterButton" mnemonicParsing="false" onAction="#handleUserInput" prefHeight="40.0"
-                prefWidth="60.0" text="ENTER">
-            <font>
-                <Font name="SansSerif Bold" size="12.0"/>
-            </font>
-        </Button>
+        <Button fx:id="enterButton"
+                mnemonicParsing="false"
+                onAction="#handleUserInput"
+                prefHeight="40.0"
+                text="ENTER"/>
     </HBox>
 </AnchorPane>
