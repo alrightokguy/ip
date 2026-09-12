@@ -68,24 +68,30 @@ public abstract class Task {
 
             return switch (type) {
                 case "T" -> {
+                    validateFieldCount(fields, 3);
+
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 1));
-                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 1]);
+                    boolean isDone = parseBoolean(fields[fields.length - 1]);
 
                     yield new Todo(description, isDone);
                 }
                 case "D" -> {
+                    validateFieldCount(fields, 4);
+
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 2));
-                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 2]);
+                    boolean isDone = parseBoolean(fields[fields.length - 2]);
                     LocalDateTime deadline = LocalDateTime.parse(fields[fields.length - 1]);
 
                     yield new Deadline(description, isDone, deadline);
                 }
                 case "E" -> {
+                    validateFieldCount(fields, 5);
+
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 3));
-                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 3]);
+                    boolean isDone = parseBoolean(fields[fields.length - 3]);
                     LocalDateTime start = LocalDateTime.parse(fields[fields.length - 2]);
                     LocalDateTime end = LocalDateTime.parse(fields[fields.length - 1]);
 
@@ -93,7 +99,7 @@ public abstract class Task {
                 }
                 default -> throw InvalidInputException.invalidInput("task type");
             };
-        } catch (IndexOutOfBoundsException | DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             throw InvalidInputException.invalidInput("stored task");
         }
     }
@@ -113,5 +119,21 @@ public abstract class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    private static void validateFieldCount(String[] fields, int minimum)
+            throws InvalidInputException {
+        if (fields.length < minimum) {
+            throw InvalidInputException.invalidInput("stored task");
+        }
+    }
+
+    private static boolean parseBoolean(String value)
+            throws InvalidInputException {
+        if (!value.equals("true") && !value.equals("false")) {
+            throw InvalidInputException.invalidInput("stored task");
+        }
+
+        return Boolean.parseBoolean(value);
     }
 }
