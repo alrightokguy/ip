@@ -32,6 +32,7 @@ public class Storage {
      * Loads tasks from the storage file.
      *
      * @return Tasks loaded from the file.
+     * @throws StorageException When the file is corrupted or unreadable.
      */
     public List<Task> load() throws StorageException {
         List<Task> tasks = new ArrayList<>();
@@ -60,6 +61,7 @@ public class Storage {
      * Saves all tasks in the task list to the storage file.
      *
      * @param taskList Task list to save.
+     * @throws StorageException When the file is unable to be written to.
      */
     public void save(TaskList taskList) throws StorageException {
         try {

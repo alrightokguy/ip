@@ -20,7 +20,9 @@ public class ChattingHeads {
     private final Ui ui;
 
     /**
-     * Creates the application and initialises its components.
+     * Creates the application initialises its components.
+     *
+     * @throws StorageException When the file is corrupted or unreadable.
      */
     public ChattingHeads() throws StorageException {
         storage = new Storage("tasks.txt");
@@ -42,15 +44,15 @@ public class ChattingHeads {
 
                 String response = command.execute(taskList, ui);
 
-                if (command.shouldExit()) {
-                    break;
-                }
-
                 if (command.shouldSave()) {
                     storage.save(taskList);
                 }
 
                 System.out.println(response);
+
+                if (command.shouldExit()) {
+                    break;
+                }
             } catch (ChattingHeadsException e) {
                 System.out.println(ui.getErrorMessage(e));
             }
@@ -88,6 +90,10 @@ public class ChattingHeads {
      * @param ignoredArgs Command-line arguments, which are not used.
      */
     static void main(String[] ignoredArgs) {
-        new ChattingHeads().run();
+        try {
+            new ChattingHeads().run();
+        } catch (StorageException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
