@@ -1,6 +1,7 @@
 package chattingheads.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -203,7 +204,7 @@ public class ParserTest {
         String response = command.execute(taskList, ui);
 
         assertTrue(response.contains("1. [T][ ] read book chapter"));
-        assertTrue(!response.contains("2. [T][ ] read notes"));
+        assertFalse(response.contains("2. [T][ ] read notes"));
     }
 
     @Test
