@@ -8,66 +8,37 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="600.0"
-            minWidth="600.0"
-            prefHeight="600.0"
-            prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17.0.7"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="600.0" prefHeight="600.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="chattingheads.ui.gui.MainWindowController">
 
-    <ScrollPane fx:id="scrollPane"
-                fitToWidth="true"
-                hbarPolicy="NEVER"
-                hvalue="1.0"
-                vvalue="1.0"
-                AnchorPane.topAnchor="0.0"
-                AnchorPane.bottomAnchor="64.0"
-                AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0">
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" hvalue="1.0" vvalue="1.0"
+                AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
 
-        <VBox fx:id="dialogContainer"
-              spacing="8">
+        <VBox fx:id="dialogContainer" spacing="8">
             <padding>
-                <Insets top="12"
-                        right="12"
-                        bottom="12"
-                        left="12"/>
+                <Insets bottom="12" left="12" right="12" top="12"/>
             </padding>
         </VBox>
     </ScrollPane>
 
-    <HBox spacing="8"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
+    <HBox spacing="8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
         <padding>
-            <Insets top="8"
-                    right="12"
-                    bottom="8"
-                    left="12"/>
+            <Insets bottom="8" left="12" right="12" top="8"/>
         </padding>
 
-        <TextField fx:id="userInput"
-                   prefHeight="40.0"
-                   HBox.hgrow="ALWAYS"
-                   onAction="#handleUserInput">
+        <TextField fx:id="userInput" onAction="#handleUserInput" prefHeight="40.0" HBox.hgrow="ALWAYS">
             <font>
-                <Font size="16.0"/>
+                <Font name="SansSerif Bold" size="12.0"/>
             </font>
         </TextField>
 
-        <Button fx:id="enterButton"
-                mnemonicParsing="false"
-                prefHeight="40.0"
-                prefWidth="60.0"
-                text="Enter"
-                onAction="#handleUserInput">
+        <Button fx:id="enterButton" mnemonicParsing="false" onAction="#handleUserInput" prefHeight="40.0"
+                prefWidth="60.0" text="ENTER">
             <font>
-                <Font size="16.0"/>
+                <Font name="SansSerif Bold" size="12.0"/>
             </font>
         </Button>
     </HBox>
