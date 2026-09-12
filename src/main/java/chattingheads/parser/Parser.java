@@ -54,7 +54,7 @@ public class Parser {
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
             case "list" -> new ListCommand();
-            case "find" -> new FindCommand(joinTokens(arguments, 0, arguments.length));
+            case "find" -> parseFind(arguments);
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
             case "reschedule" -> parseReschedule(arguments);
@@ -164,10 +164,8 @@ public class Parser {
         if (Arrays.asList(arguments).contains("/by")) {
             return parseRescheduleDeadline(arguments);
         }
-        if (Arrays.asList(arguments).contains("/from")) {
-            return parseRescheduleEvent(arguments);
-        }
-        throw InvalidInputException.invalidInput("/by or /from and /to");
+
+        return parseRescheduleEvent(arguments);
     }
 
     private Command parseRescheduleDeadline(String[] arguments) throws InvalidInputException {
@@ -182,7 +180,7 @@ public class Parser {
         List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
-            taskNumber = parseTaskNumber(arguments);
+            taskNumber = parseTaskNumber(arguments[0]);
         } catch (InvalidInputException e) {
             invalidInputs.add("task number");
         }
@@ -214,7 +212,7 @@ public class Parser {
         List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
-            taskNumber = parseTaskNumber(arguments);
+            taskNumber = parseTaskNumber(arguments[0]);
         } catch (InvalidInputException e) {
             invalidInputs.add("task number");
         }
@@ -235,15 +233,18 @@ public class Parser {
         return new RescheduleEventCommand(taskNumber, start, end);
     }
 
-    /**
-     * Parses a task number from command arguments.
-     *
-     * @param arguments Arguments containing the task number.
-     * @return Parsed task number.
-     * @throws InvalidInputException If the task number is missing.
-     */
+    private Command parseFind(String[] arguments) throws InvalidInputException {
+        String keyword = joinTokens(arguments, 0, arguments.length);
+
+        if (keyword.isEmpty()) {
+            throw InvalidInputException.invalidInput("keyword");
+        }
+
+        return new FindCommand(keyword);
+    }
+
     private int parseTaskNumber(String[] arguments) throws InvalidInputException {
-        if (arguments.length < 1) {
+        if (arguments.length != 1) {
             throw InvalidInputException.invalidInput("task number");
         }
 
@@ -254,14 +255,14 @@ public class Parser {
         }
     }
 
-    /**
-     * Joins tokens within the specified range into a string.
-     *
-     * @param tokens Tokens to join.
-     * @param start  Inclusive start index.
-     * @param end    Exclusive end index.
-     * @return Joined string, or an empty string if the range is invalid.
-     */
+    private int parseTaskNumber(String argument) throws InvalidInputException {
+        try {
+            return Integer.parseInt(argument);
+        } catch (NumberFormatException e) {
+            throw InvalidInputException.invalidInput("task number");
+        }
+    }
+
     private String joinTokens(String[] tokens, int start, int end) {
         if (start >= 0 && end <= tokens.length && start <= end) {
             return String.join(" ", Arrays.copyOfRange(tokens, start, end));
@@ -269,14 +270,6 @@ public class Parser {
         return "";
     }
 
-    /**
-     * Parses tokens within the specified range as a date and time.
-     *
-     * @param tokens Tokens containing the date and time.
-     * @param start  Inclusive start index.
-     * @param end    Exclusive end index.
-     * @return Parsed date and time, or {@code null} if parsing fails.
-     */
     private LocalDateTime parseDateTime(String[] tokens, int start, int end) {
         try {
             return LocalDateTime.parse(joinTokens(tokens, start, end), DATE_TIME_FORMATTER);
@@ -310,12 +303,26 @@ public class Parser {
         boolean hasBy = arguments.contains("/by");
         boolean hasFrom = arguments.contains("/from");
 
+        if (arguments.isEmpty()) {
+            throw InvalidInputException.invalidInput("task number");
+        }
+
         if (hasBy && hasFrom) {
             throw InvalidInputException.incompatiblePrefixes("/by", "/from");
         }
 
         if (!hasBy && !hasFrom) {
             throw InvalidInputException.invalidInput("/by or /from and /to");
+        }
+
+
+
+        if (hasBy && arguments.indexOf("/by") != 1) {
+            throw InvalidInputException.unexpectedInput();
+        }
+
+        if (hasFrom && arguments.indexOf("/from") != 1) {
+            throw InvalidInputException.unexpectedInput();
         }
     }
 

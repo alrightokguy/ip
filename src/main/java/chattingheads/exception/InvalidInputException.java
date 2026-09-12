@@ -75,4 +75,13 @@ public class InvalidInputException extends ChattingHeadsException {
                 String.format("%s must come before %s", first, second)
         );
     }
+
+    /**
+     * Creates an InvalidInputException for invalid syntax.
+     *
+     * @return InvalidInputException when there is an unexpected input.
+     */
+    public static InvalidInputException unexpectedInput() {
+        return new InvalidInputException("Unexpected input in command");
+    }
 }
