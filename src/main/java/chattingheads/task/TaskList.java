@@ -22,7 +22,7 @@ public class TaskList {
      * Creates a task list containing tasks loaded from storage.
      *
      * @param storage Storage from which tasks are loaded.
-     * @throws StorageException When the file is corrupted or unreadable.
+     * @throws StorageException If the storage file cannot be read.
      */
     public TaskList(Storage storage) throws StorageException {
         tasks = storage.load();

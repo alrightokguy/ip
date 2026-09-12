@@ -20,9 +20,9 @@ public class ChattingHeads {
     private final Ui ui;
 
     /**
-     * Creates the application initialises its components.
+     * Creates the application and initialises its components.
      *
-     * @throws StorageException When the file is corrupted or unreadable.
+     * @throws StorageException If the storage file cannot be read.
      */
     public ChattingHeads() throws StorageException {
         storage = new Storage("tasks.txt");
