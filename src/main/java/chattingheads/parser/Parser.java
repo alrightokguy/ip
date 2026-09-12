@@ -169,16 +169,10 @@ public class Parser {
     }
 
     private Command parseRescheduleDeadline(String[] arguments) throws InvalidInputException {
-        int byMarkerIndex = arguments.length;
-
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i].equals("/by")) {
-                byMarkerIndex = i;
-                break;
-            }
-        }
+        int byMarkerIndex = List.of(arguments).indexOf("/by");
         List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
+
         try {
             taskNumber = parseTaskNumber(arguments[0]);
         } catch (InvalidInputException e) {
@@ -198,17 +192,8 @@ public class Parser {
     }
 
     private Command parseRescheduleEvent(String[] arguments) throws InvalidInputException {
-        int fromMarkerIndex = arguments.length;
-        int toMarkerIndex = arguments.length;
-
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i].equals("/from")) {
-                fromMarkerIndex = i;
-            } else if (arguments[i].equals("/to")) {
-                toMarkerIndex = i;
-                break;
-            }
-        }
+        int fromMarkerIndex = List.of(arguments).indexOf("/from");
+        int toMarkerIndex = List.of(arguments).indexOf("/to");
         List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
@@ -248,11 +233,7 @@ public class Parser {
             throw InvalidInputException.invalidInput("task number");
         }
 
-        try {
-            return Integer.parseInt(arguments[0]);
-        } catch (NumberFormatException e) {
-            throw InvalidInputException.invalidInput("task number");
-        }
+        return parseTaskNumber(arguments[0]);
     }
 
     private int parseTaskNumber(String argument) throws InvalidInputException {

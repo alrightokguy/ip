@@ -72,6 +72,8 @@ public abstract class Task {
 
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 1));
+                    validateDescription(description);
+
                     boolean isDone = parseBoolean(fields[fields.length - 1]);
 
                     yield new Todo(description, isDone);
@@ -81,6 +83,8 @@ public abstract class Task {
 
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 2));
+                    validateDescription(description);
+
                     boolean isDone = parseBoolean(fields[fields.length - 2]);
                     LocalDateTime deadline = LocalDateTime.parse(fields[fields.length - 1]);
 
@@ -91,6 +95,8 @@ public abstract class Task {
 
                     String description = String.join(
                             ",", Arrays.copyOfRange(fields, 1, fields.length - 3));
+                    validateDescription(description);
+
                     boolean isDone = parseBoolean(fields[fields.length - 3]);
                     LocalDateTime start = LocalDateTime.parse(fields[fields.length - 2]);
                     LocalDateTime end = LocalDateTime.parse(fields[fields.length - 1]);
@@ -135,5 +141,12 @@ public abstract class Task {
         }
 
         return Boolean.parseBoolean(value);
+    }
+
+    private static void validateDescription(String description)
+            throws InvalidInputException {
+        if (description.isBlank()) {
+            throw InvalidInputException.invalidInput("stored task");
+        }
     }
 }
