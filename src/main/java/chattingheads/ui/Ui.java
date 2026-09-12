@@ -29,9 +29,9 @@ public class Ui {
      */
     public String getStartupMessage() {
         return """
-               You may find yourself
-               Living in a shotgun shack
-               """ + SEPARATOR;
+                You may find yourself
+                Living in a shotgun shack
+                """ + SEPARATOR;
     }
 
     /**

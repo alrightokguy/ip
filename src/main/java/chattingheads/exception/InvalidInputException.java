@@ -74,7 +74,7 @@ public class InvalidInputException extends ChattingHeadsException {
      */
     public static InvalidInputException invalidPrefixOrder(String first, String second) {
         return new InvalidInputException(
-                String.format("%s must come before %s", first, second)
+                String.format("%s must come before %s\nEveryone, get in line", first, second)
         );
     }
 
