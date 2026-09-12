@@ -8,9 +8,9 @@ import chattingheads.task.TaskList;
 import chattingheads.ui.Ui;
 
 /**
- * Represents a command that postpones a deadline task.
+ * Represents a command that reschedules a deadline task.
  */
-public class PostponeDeadlineCommand extends Command {
+public class RescheduleDeadlineCommand extends Command {
 
     private final int taskNumber;
     private final LocalDateTime deadline;
@@ -21,7 +21,7 @@ public class PostponeDeadlineCommand extends Command {
      * @param taskNumber Task number to postpone.
      * @param deadline   Deadline to postpone to.
      */
-    public PostponeDeadlineCommand(int taskNumber, LocalDateTime deadline) {
+    public RescheduleDeadlineCommand(int taskNumber, LocalDateTime deadline) {
         this.taskNumber = taskNumber;
         this.deadline = deadline;
     }
@@ -33,7 +33,7 @@ public class PostponeDeadlineCommand extends Command {
         assert ui != null : "Ui should not be null";
 
         taskList.postponeDeadline(taskNumber - 1, deadline);
-        return ui.getPostponeStatus(taskList.get(taskNumber - 1));
+        return ui.getRescheduleStatus(taskList.get(taskNumber - 1), "deadline");
     }
 
     public int getTaskNumber() {

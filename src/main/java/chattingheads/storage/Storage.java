@@ -2,10 +2,13 @@ package chattingheads.storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import chattingheads.exception.InvalidInputException;
+import chattingheads.exception.StorageException;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 
@@ -29,18 +32,28 @@ public class Storage {
      * Loads tasks from the storage file.
      *
      * @return Tasks loaded from the file.
+     * @throws StorageException If the storage file cannot be read.
      */
-    public ArrayList<Task> load() {
-        ArrayList<Task> tasks = new ArrayList<>();
+    public List<Task> load() throws StorageException {
+        List<Task> tasks = new ArrayList<>();
+        List<String> lines;
 
         try {
-            List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                tasks.add(Task.fromCsv(line));
-            }
-        } catch (IOException e) {
+            lines = Files.readAllLines(filePath);
+        } catch (NoSuchFileException e) {
             return tasks;
+        } catch (IOException e) {
+            throw new StorageException("Unable to load tasks.");
         }
+
+        for (String line : lines) {
+            try {
+                tasks.add(Task.fromCsv(line));
+            } catch (InvalidInputException e) {
+                continue;
+            }
+        }
+
         return tasks;
     }
 
@@ -48,12 +61,17 @@ public class Storage {
      * Saves all tasks in the task list to the storage file.
      *
      * @param taskList Task list to save.
+     * @throws StorageException When the file is unable to be written to.
      */
-    public void save(TaskList taskList) {
+    public void save(TaskList taskList) throws StorageException {
         try {
-            Files.write(filePath, taskList.getTasks().stream().map(Task::toCsv).toList());
+            Files.write(
+                    filePath,
+                    taskList.getTasks().stream()
+                            .map(Task::toCsv)
+                            .toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("Unable to save tasks.");
         }
     }
 }

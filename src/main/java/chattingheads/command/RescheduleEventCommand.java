@@ -2,6 +2,7 @@ package chattingheads.command;
 
 import java.time.LocalDateTime;
 
+import chattingheads.exception.InvalidInputException;
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.exception.InvalidTaskTypeException;
 import chattingheads.task.TaskList;
@@ -31,12 +32,12 @@ public class RescheduleEventCommand extends Command {
 
     @Override
     public String execute(TaskList taskList, Ui ui)
-            throws InvalidTaskNumberException, InvalidTaskTypeException {
+            throws InvalidTaskNumberException, InvalidTaskTypeException, InvalidInputException {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 
         taskList.rescheduleEvent(taskNumber - 1, start, end);
-        return ui.getRescheduleStatus(taskList.get(taskNumber - 1));
+        return ui.getRescheduleStatus(taskList.get(taskNumber - 1), "event");
     }
 
     public int getTaskNumber() {

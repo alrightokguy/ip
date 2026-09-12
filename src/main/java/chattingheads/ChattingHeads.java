@@ -1,6 +1,8 @@
 package chattingheads;
 
 import chattingheads.command.Command;
+import chattingheads.exception.ChattingHeadsException;
+import chattingheads.exception.StorageException;
 import chattingheads.parser.Parser;
 import chattingheads.storage.Storage;
 import chattingheads.task.TaskList;
@@ -19,8 +21,10 @@ public class ChattingHeads {
 
     /**
      * Creates the application and initialises its components.
+     *
+     * @throws StorageException If the storage file cannot be read.
      */
-    public ChattingHeads() {
+    public ChattingHeads() throws StorageException {
         storage = new Storage("tasks.txt");
         taskList = new TaskList(storage);
         parser = new Parser();
@@ -39,15 +43,17 @@ public class ChattingHeads {
                 Command command = parser.parse(input);
 
                 String response = command.execute(taskList, ui);
+
+                if (command.shouldSave()) {
+                    storage.save(taskList);
+                }
+
                 System.out.println(response);
 
                 if (command.shouldExit()) {
                     break;
                 }
-                if (command.shouldSave()) {
-                    storage.save(taskList);
-                }
-            } catch (Exception e) {
+            } catch (ChattingHeadsException e) {
                 System.out.println(ui.getErrorMessage(e));
             }
         }
@@ -69,7 +75,7 @@ public class ChattingHeads {
                 storage.save(taskList);
             }
             return new CommandResult(response, command.shouldExit());
-        } catch (Exception e) {
+        } catch (ChattingHeadsException e) {
             return new CommandResult(ui.getErrorMessage(e), false);
         }
     }
@@ -84,6 +90,10 @@ public class ChattingHeads {
      * @param ignoredArgs Command-line arguments, which are not used.
      */
     static void main(String[] ignoredArgs) {
-        new ChattingHeads().run();
+        try {
+            new ChattingHeads().run();
+        } catch (StorageException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

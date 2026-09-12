@@ -29,10 +29,8 @@ public class Ui {
      */
     public String getStartupMessage() {
         return """
-                Hello! I'm Chatting Heads.
                 You may find yourself
                 Living in a shotgun shack
-                What can I do for you?
                 """ + SEPARATOR;
     }
 
@@ -68,7 +66,7 @@ public class Ui {
      */
     public String getAddStatus(Task task, TaskList taskList) {
         return String.format(
-                "Got it. I've added this task:\n%s\n%s",
+                "I've added this task:\n%s\n%s",
                 task,
                 getListStatus(taskList)
         );
@@ -104,7 +102,7 @@ public class Ui {
      */
     public String getMarkStatus(Task task) {
         return String.format(
-                "Nice! I've marked this task as done:\n%s\n%s",
+                "I've marked this task as done:\n%s\n%s",
                 task,
                 SEPARATOR
         );
@@ -117,7 +115,7 @@ public class Ui {
      */
     public String getUnmarkStatus(Task task) {
         return String.format(
-                "OK, I've marked this task as not done yet:\n%s\n%s",
+                "I've marked this task as not done yet:\n%s\n%s",
                 task,
                 SEPARATOR
         );
@@ -163,17 +161,10 @@ public class Ui {
         return message.toString();
     }
 
-    public String getPostponeStatus(Task task) {
+    public String getRescheduleStatus(Task task, String taskType) {
         return String.format(
-                "Postponed this deadline:\n%s\n%s",
-                task,
-                SEPARATOR
-        );
-    }
-
-    public String getRescheduleStatus(Task task) {
-        return String.format(
-                "Rescheduled this event:\n%s\n%s",
+                "Rescheduled this %s:\n%s\n%s",
+                taskType,
                 task,
                 SEPARATOR
         );

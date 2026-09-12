@@ -3,8 +3,11 @@ package chattingheads.parser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import chattingheads.command.AddDeadlineCommand;
 import chattingheads.command.AddEventCommand;
@@ -15,9 +18,10 @@ import chattingheads.command.ExitCommand;
 import chattingheads.command.FindCommand;
 import chattingheads.command.ListCommand;
 import chattingheads.command.MarkCommand;
-import chattingheads.command.PostponeDeadlineCommand;
+import chattingheads.command.RescheduleDeadlineCommand;
 import chattingheads.command.RescheduleEventCommand;
 import chattingheads.command.UnmarkCommand;
+import chattingheads.exception.ChattingHeadsException;
 import chattingheads.exception.InvalidCommandException;
 import chattingheads.exception.InvalidInputException;
 
@@ -27,21 +31,21 @@ import chattingheads.exception.InvalidInputException;
 public class Parser {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm").withResolverStyle(ResolverStyle.STRICT);
 
     /**
      * Parses user input into the corresponding command.
      *
      * @param input User input to parse.
      * @return Command represented by the input.
-     * @throws InvalidInputException   If required command arguments are invalid or missing.
-     * @throws InvalidCommandException If the command is not recognised.
+     * @throws ChattingHeadsException If required command arguments are invalid or missing.
      */
-    public Command parse(String input) throws InvalidInputException, InvalidCommandException {
-        if (input.isEmpty()) {
-            throw new InvalidInputException("command");
+    public Command parse(String input) throws ChattingHeadsException {
+        if (input.isBlank()) {
+            throw InvalidInputException.invalidInput("command");
         }
-        String[] tokens = input.split("\\s+");
+
+        String[] tokens = input.strip().split("\\s+");
         String commandName = tokens[0];
         String[] arguments = Arrays.copyOfRange(tokens, 1, tokens.length);
 
@@ -50,10 +54,9 @@ public class Parser {
             case "deadline" -> parseDeadline(arguments);
             case "event" -> parseEvent(arguments);
             case "list" -> new ListCommand();
-            case "find" -> new FindCommand(joinTokens(arguments, 0, arguments.length));
+            case "find" -> parseFind(arguments);
             case "mark" -> new MarkCommand(parseTaskNumber(arguments));
             case "unmark" -> new UnmarkCommand(parseTaskNumber(arguments));
-            case "postpone" -> parsePostpone(arguments);
             case "reschedule" -> parseReschedule(arguments);
             case "delete" -> new DeleteCommand(parseTaskNumber(arguments));
             case "bye" -> new ExitCommand();
@@ -72,7 +75,7 @@ public class Parser {
         String description = joinTokens(arguments, 0, arguments.length);
 
         if (description.isEmpty()) {
-            throw new InvalidInputException("description");
+            throw InvalidInputException.invalidInput("description");
         }
 
         return new AddTodoCommand(description);
@@ -86,6 +89,8 @@ public class Parser {
      * @throws InvalidInputException If the description or deadline is invalid or missing.
      */
     private AddDeadlineCommand parseDeadline(String[] arguments) throws InvalidInputException {
+        validateAddDeadlineSyntax(List.of(arguments));
+
         int byMarkerIndex = arguments.length;
 
         for (int i = 0; i < arguments.length; i++) {
@@ -94,7 +99,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         String description = joinTokens(arguments, 0, byMarkerIndex);
         LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
 
@@ -105,39 +110,10 @@ public class Parser {
             invalidInputs.add("deadline");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
         }
 
         return new AddDeadlineCommand(description, deadline);
-    }
-
-    private Command parsePostpone(String[] arguments) throws InvalidInputException {
-        int byMarkerIndex = arguments.length;
-
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i].equals("/by")) {
-                byMarkerIndex = i;
-                break;
-            }
-        }
-        ArrayList<String> invalidInputs = new ArrayList<>();
-        int taskNumber = -1;
-        try {
-            taskNumber = parseTaskNumber(arguments);
-        } catch (InvalidInputException e) {
-            invalidInputs.add("task number");
-        }
-
-        LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
-
-        if (deadline == null) {
-            invalidInputs.add("deadline");
-        }
-        if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
-        }
-
-        return new PostponeDeadlineCommand(taskNumber, deadline);
     }
 
     /**
@@ -148,6 +124,8 @@ public class Parser {
      * @throws InvalidInputException If the description, start, or end is invalid or missing.
      */
     private AddEventCommand parseEvent(String[] arguments) throws InvalidInputException {
+        validateAddEventSyntax(List.of(arguments));
+
         int fromMarkerIndex = arguments.length;
         int toMarkerIndex = arguments.length;
 
@@ -159,7 +137,7 @@ public class Parser {
                 break;
             }
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+        List<String> invalidInputs = new ArrayList<>();
         String description = joinTokens(arguments, 0, fromMarkerIndex);
         LocalDateTime start = parseDateTime(arguments, fromMarkerIndex + 1, toMarkerIndex);
         LocalDateTime end = parseDateTime(arguments, toMarkerIndex + 1, arguments.length);
@@ -174,28 +152,52 @@ public class Parser {
             invalidInputs.add("end");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
         }
 
         return new AddEventCommand(description, start, end);
     }
 
     private Command parseReschedule(String[] arguments) throws InvalidInputException {
-        int fromMarkerIndex = arguments.length;
-        int toMarkerIndex = arguments.length;
+        validateRescheduleSyntax(List.of(arguments));
 
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i].equals("/from")) {
-                fromMarkerIndex = i;
-            } else if (arguments[i].equals("/to")) {
-                toMarkerIndex = i;
-                break;
-            }
+        if (Arrays.asList(arguments).contains("/by")) {
+            return parseRescheduleDeadline(arguments);
         }
-        ArrayList<String> invalidInputs = new ArrayList<>();
+
+        return parseRescheduleEvent(arguments);
+    }
+
+    private Command parseRescheduleDeadline(String[] arguments) throws InvalidInputException {
+        int byMarkerIndex = List.of(arguments).indexOf("/by");
+        List<String> invalidInputs = new ArrayList<>();
+        int taskNumber = -1;
+
+        try {
+            taskNumber = parseTaskNumber(arguments[0]);
+        } catch (InvalidInputException e) {
+            invalidInputs.add("task number");
+        }
+
+        LocalDateTime deadline = parseDateTime(arguments, byMarkerIndex + 1, arguments.length);
+
+        if (deadline == null) {
+            invalidInputs.add("deadline");
+        }
+        if (!invalidInputs.isEmpty()) {
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
+        }
+
+        return new RescheduleDeadlineCommand(taskNumber, deadline);
+    }
+
+    private Command parseRescheduleEvent(String[] arguments) throws InvalidInputException {
+        int fromMarkerIndex = List.of(arguments).indexOf("/from");
+        int toMarkerIndex = List.of(arguments).indexOf("/to");
+        List<String> invalidInputs = new ArrayList<>();
         int taskNumber = -1;
         try {
-            taskNumber = parseTaskNumber(arguments);
+            taskNumber = parseTaskNumber(arguments[0]);
         } catch (InvalidInputException e) {
             invalidInputs.add("task number");
         }
@@ -210,39 +212,38 @@ public class Parser {
             invalidInputs.add("end");
         }
         if (!invalidInputs.isEmpty()) {
-            throw new InvalidInputException(invalidInputs.toArray(String[]::new));
+            throw InvalidInputException.invalidInput(invalidInputs.toArray(String[]::new));
         }
 
         return new RescheduleEventCommand(taskNumber, start, end);
     }
 
-    /**
-     * Parses a task number from command arguments.
-     *
-     * @param arguments Arguments containing the task number.
-     * @return Parsed task number.
-     * @throws InvalidInputException If the task number is missing.
-     */
-    private int parseTaskNumber(String[] arguments) throws InvalidInputException {
-        if (arguments.length < 1) {
-            throw new InvalidInputException("task number");
+    private Command parseFind(String[] arguments) throws InvalidInputException {
+        String keyword = joinTokens(arguments, 0, arguments.length);
+
+        if (keyword.isEmpty()) {
+            throw InvalidInputException.invalidInput("keyword");
         }
 
+        return new FindCommand(keyword);
+    }
+
+    private int parseTaskNumber(String[] arguments) throws InvalidInputException {
+        if (arguments.length != 1) {
+            throw InvalidInputException.invalidInput("task number");
+        }
+
+        return parseTaskNumber(arguments[0]);
+    }
+
+    private int parseTaskNumber(String argument) throws InvalidInputException {
         try {
-            return Integer.parseInt(arguments[0]);
+            return Integer.parseInt(argument);
         } catch (NumberFormatException e) {
-            throw new InvalidInputException("task number");
+            throw InvalidInputException.invalidInput("task number");
         }
     }
 
-    /**
-     * Joins tokens within the specified range into a string.
-     *
-     * @param tokens Tokens to join.
-     * @param start  Inclusive start index.
-     * @param end    Exclusive end index.
-     * @return Joined string, or an empty string if the range is invalid.
-     */
     private String joinTokens(String[] tokens, int start, int end) {
         if (start >= 0 && end <= tokens.length && start <= end) {
             return String.join(" ", Arrays.copyOfRange(tokens, start, end));
@@ -250,19 +251,115 @@ public class Parser {
         return "";
     }
 
-    /**
-     * Parses tokens within the specified range as a date and time.
-     *
-     * @param tokens Tokens containing the date and time.
-     * @param start  Inclusive start index.
-     * @param end    Exclusive end index.
-     * @return Parsed date and time, or {@code null} if parsing fails.
-     */
     private LocalDateTime parseDateTime(String[] tokens, int start, int end) {
         try {
             return LocalDateTime.parse(joinTokens(tokens, start, end), DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
             return null;
+        }
+    }
+
+    private static void validateAddDeadlineSyntax(List<String> arguments)
+            throws InvalidInputException {
+        validateNoDuplicatePrefix(arguments, "/by");
+        validateRequiredPrefix(arguments, "/by");
+    }
+
+    private static void validateAddEventSyntax(List<String> arguments)
+            throws InvalidInputException {
+        validateNoDuplicatePrefix(arguments, "/from");
+        validateNoDuplicatePrefix(arguments, "/to");
+        validateRequiredPair(arguments, "/from", "/to");
+        validatePrefixOrder(arguments, "/from", "/to");
+    }
+
+    private static void validateRescheduleSyntax(List<String> arguments)
+            throws InvalidInputException {
+        if (arguments.isEmpty()) {
+            throw InvalidInputException.invalidInput("task number");
+        }
+
+        validateNoDuplicatePrefix(arguments, "/by");
+        validateNoDuplicatePrefix(arguments, "/from");
+        validateNoDuplicatePrefix(arguments, "/to");
+        validatePairedPrefixes(arguments, "/from", "/to");
+        validatePrefixOrder(arguments, "/from", "/to");
+
+        boolean hasBy = arguments.contains("/by");
+        boolean hasFrom = arguments.contains("/from");
+
+        if (hasBy && hasFrom) {
+            throw InvalidInputException.incompatiblePrefixes("/by", "/from");
+        }
+
+        if (!hasBy && !hasFrom) {
+            throw InvalidInputException.invalidInput("/by or /from and /to");
+        }
+
+        if (hasBy && arguments.indexOf("/by") != 1) {
+            throw InvalidInputException.unexpectedInput();
+        }
+
+        if (hasFrom && arguments.indexOf("/from") != 1) {
+            throw InvalidInputException.unexpectedInput();
+        }
+    }
+
+    private static void validateRequiredPrefix(
+            List<String> arguments, String prefix)
+            throws InvalidInputException {
+        if (!arguments.contains(prefix)) {
+            throw InvalidInputException.invalidInput(prefix);
+        }
+    }
+
+    private static void validateRequiredPair(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        boolean hasFirst = arguments.contains(first);
+        boolean hasSecond = arguments.contains(second);
+
+        if (!hasFirst && !hasSecond) {
+            throw InvalidInputException.invalidInput(first, second);
+        }
+
+        if (!hasFirst) {
+            throw InvalidInputException.invalidInput(first);
+        }
+
+        if (!hasSecond) {
+            throw InvalidInputException.invalidInput(second);
+        }
+    }
+
+    private static void validatePairedPrefixes(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        boolean hasFirst = arguments.contains(first);
+        boolean hasSecond = arguments.contains(second);
+
+        if (hasFirst != hasSecond) {
+            throw InvalidInputException.invalidInput(
+                    hasFirst ? second : first);
+        }
+    }
+
+    private static void validateNoDuplicatePrefix(
+            List<String> arguments, String prefix)
+            throws InvalidInputException {
+        if (Collections.frequency(arguments, prefix) > 1) {
+            throw InvalidInputException.duplicatePrefix(prefix);
+        }
+    }
+
+    private static void validatePrefixOrder(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        int firstIndex = arguments.indexOf(first);
+        int secondIndex = arguments.indexOf(second);
+
+        if (firstIndex != -1 && secondIndex != -1 && firstIndex > secondIndex) {
+            throw InvalidInputException.invalidPrefixOrder(first, second);
         }
     }
 }

@@ -2,6 +2,7 @@ package chattingheads.command;
 
 import java.time.LocalDateTime;
 
+import chattingheads.exception.InvalidInputException;
 import chattingheads.task.Event;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
@@ -30,7 +31,7 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList taskList, Ui ui) {
+    public String execute(TaskList taskList, Ui ui) throws InvalidInputException {
         assert taskList != null : "TaskList should not be null";
         assert ui != null : "Ui should not be null";
 

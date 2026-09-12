@@ -3,6 +3,8 @@ package chattingheads.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import chattingheads.exception.InvalidInputException;
+
 /**
  * Represents a task that occurs between a specified start and end date and time.
  */
@@ -22,8 +24,11 @@ public class Event extends Task {
      * @param startDateTime Start date and time of the event.
      * @param endDateTime   End date and time of the event.
      */
-    public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime)
+            throws InvalidInputException {
         super(description);
+        validateTimeRange(startDateTime, endDateTime);
+
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
@@ -37,8 +42,11 @@ public class Event extends Task {
      * @param startDateTime Start date and time of the event.
      * @param endDateTime   End date and time of the event.
      */
-    public Event(String description, boolean isDone, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public Event(String description, boolean isDone, LocalDateTime startDateTime, LocalDateTime endDateTime)
+            throws InvalidInputException {
         super(description, isDone);
+        validateTimeRange(startDateTime, endDateTime);
+
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
@@ -65,8 +73,18 @@ public class Event extends Task {
      * @param newStartDateTime New start date and time.
      * @param newEndDateTime   New end date and time.
      */
-    public void reschedule(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime) {
+    public void reschedule(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime)
+            throws InvalidInputException {
+        validateTimeRange(newStartDateTime, newEndDateTime);
+
         startDateTime = newStartDateTime;
         endDateTime = newEndDateTime;
+    }
+
+    private void validateTimeRange(LocalDateTime startDateTime, LocalDateTime endDateTime)
+            throws InvalidInputException {
+        if (!endDateTime.isAfter(startDateTime)) {
+            throw InvalidInputException.invalidTimeRange();
+        }
     }
 }

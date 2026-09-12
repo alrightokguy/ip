@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import chattingheads.exception.InvalidInputException;
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.exception.InvalidTaskTypeException;
+import chattingheads.exception.StorageException;
 import chattingheads.storage.Storage;
 
 /**
@@ -14,14 +16,15 @@ import chattingheads.storage.Storage;
  */
 public class TaskList {
 
-    private final ArrayList<Task> tasks;
+    private final List<Task> tasks;
 
     /**
      * Creates a task list containing tasks loaded from storage.
      *
      * @param storage Storage from which tasks are loaded.
+     * @throws StorageException If the storage file cannot be read.
      */
-    public TaskList(Storage storage) {
+    public TaskList(Storage storage) throws StorageException {
         tasks = storage.load();
     }
 
@@ -65,7 +68,7 @@ public class TaskList {
      *
      * @return ArrayList of tasks stored.
      */
-    public ArrayList<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
@@ -113,7 +116,7 @@ public class TaskList {
     }
 
     /**
-     * Find all indices of tasks that contains a specified keyword in the description.
+     * Finds all indices of tasks that contains a specified keyword in the description.
      *
      * @param keyword Keyword to search tasks for.
      * @return List of indices of matching tasks.
@@ -167,7 +170,7 @@ public class TaskList {
      * @throws InvalidTaskTypeException   If the task selected is not an event task.
      */
     public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
-            throws InvalidTaskNumberException, InvalidTaskTypeException {
+            throws InvalidTaskNumberException, InvalidTaskTypeException, InvalidInputException {
         validateIndex(index);
         Task task = tasks.get(index);
 
