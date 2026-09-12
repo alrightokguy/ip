@@ -294,6 +294,10 @@ public class Parser {
 
     private static void validateRescheduleSyntax(List<String> arguments)
             throws InvalidInputException {
+        if (arguments.isEmpty()) {
+            throw InvalidInputException.invalidInput("task number");
+        }
+
         validateNoDuplicatePrefix(arguments, "/by");
         validateNoDuplicatePrefix(arguments, "/from");
         validateNoDuplicatePrefix(arguments, "/to");
@@ -303,10 +307,6 @@ public class Parser {
         boolean hasBy = arguments.contains("/by");
         boolean hasFrom = arguments.contains("/from");
 
-        if (arguments.isEmpty()) {
-            throw InvalidInputException.invalidInput("task number");
-        }
-
         if (hasBy && hasFrom) {
             throw InvalidInputException.incompatiblePrefixes("/by", "/from");
         }
@@ -314,8 +314,6 @@ public class Parser {
         if (!hasBy && !hasFrom) {
             throw InvalidInputException.invalidInput("/by or /from and /to");
         }
-
-
 
         if (hasBy && arguments.indexOf("/by") != 1) {
             throw InvalidInputException.unexpectedInput();
