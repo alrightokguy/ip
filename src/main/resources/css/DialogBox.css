@@ -1,0 +1,9 @@
+.dialog-box {
+    -fx-background-color: #DDD6C8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+.dialog-text {
+    -fx-text-fill: #111111;
+}

@@ -22,10 +22,11 @@ public class Main extends Application {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane rootPane = fxmlLoader.load();
+            fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
             Scene scene = new Scene(rootPane);
+
             stage.setTitle("Chatting Heads");
             stage.setScene(scene);
-            fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
             stage.show();
         } catch (StorageException e) {
             System.err.println(e.getMessage());

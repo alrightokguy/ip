@@ -25,16 +25,18 @@ public class DialogBox extends HBox {
      * @param text Text to display in the dialog box.
      */
     private DialogBox(String text) {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                MainWindowController.class.getResource("/view/DialogBox.fxml")
+        );
+        fxmlLoader.setController(this);
+        fxmlLoader.setRoot(this);
+
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                    MainWindowController.class.getResource("/view/DialogBox.fxml")
-            );
-            fxmlLoader.setController(this);
-            fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         dialogLabel.setText(text);
     }
 
