@@ -47,7 +47,7 @@ public class InvalidInputException extends ChattingHeadsException {
      */
     public static InvalidInputException duplicatePrefix(String prefix) {
         return new InvalidInputException(
-                String.format("Duplicate prefix: %s\nDouble beating, double beating, double beating", prefix)
+                String.format("Duplicate prefix: %s\nSay something once, why say it again?", prefix)
         );
     }
 
@@ -60,7 +60,9 @@ public class InvalidInputException extends ChattingHeadsException {
     public static InvalidInputException incompatiblePrefixes(String... prefixes) {
         return new InvalidInputException(
                 "These prefixes cannot be used together: "
-                        + String.join(", ", prefixes) + ".");
+                        + String.join(", ", prefixes)
+                        + "\nRun-a-run-a-run it all together\nCheck it out, still don't make no sense"
+        );
     }
 
     /**
@@ -72,7 +74,7 @@ public class InvalidInputException extends ChattingHeadsException {
      */
     public static InvalidInputException invalidPrefixOrder(String first, String second) {
         return new InvalidInputException(
-                String.format("%s must come before %s", first, second)
+                String.format("%s must come before %s\nEveryone, get in line", first, second)
         );
     }
 
@@ -82,6 +84,12 @@ public class InvalidInputException extends ChattingHeadsException {
      * @return InvalidInputException when there is an unexpected input.
      */
     public static InvalidInputException unexpectedInput() {
-        return new InvalidInputException("Unexpected input in command");
+        return new InvalidInputException(
+                """
+                        Unexpected input in command
+                        And you may ask yourself
+                        "Well, how did that get there?"
+                        """
+        );
     }
 }

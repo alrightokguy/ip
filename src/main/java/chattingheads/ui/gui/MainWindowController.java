@@ -4,7 +4,6 @@ import chattingheads.ChattingHeads;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -40,11 +39,9 @@ public class MainWindowController extends AnchorPane {
      */
     @FXML
     public void initialize() {
-        dialogContainer.setAlignment(Pos.BOTTOM_LEFT);
         dialogContainer.minHeightProperty().bind(
                 scrollPane.heightProperty()
         );
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
     /**
@@ -77,10 +74,11 @@ public class MainWindowController extends AnchorPane {
         CommandResult result = chattingHeads.getResponse(input);
 
         dialogContainer.getChildren().addAll(
-                DialogBox.getDialog("> " + input),
+                DialogBox.getUserDialog("> " + input),
                 DialogBox.getDialog(result.response())
         );
         userInput.clear();
+        Platform.runLater(() -> scrollPane.setVvalue(1.0));
 
         if (result.shouldExit()) {
             userInput.setDisable(true);

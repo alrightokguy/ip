@@ -7,68 +7,51 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="600.0"
+<AnchorPane minHeight="600.0"
             minWidth="600.0"
             prefHeight="600.0"
             prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17.0.7"
+            xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="chattingheads.ui.gui.MainWindowController">
+            fx:controller="chattingheads.ui.gui.MainWindowController"
+            stylesheets="/css/MainWindow.css">
 
     <ScrollPane fx:id="scrollPane"
                 fitToWidth="true"
                 hbarPolicy="NEVER"
-                hvalue="1.0"
-                vvalue="1.0"
-                AnchorPane.topAnchor="0.0"
                 AnchorPane.bottomAnchor="64.0"
                 AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0">
+                AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
 
         <VBox fx:id="dialogContainer"
               spacing="8">
             <padding>
-                <Insets top="12"
-                        right="12"
-                        bottom="12"
-                        left="12"/>
+                <Insets bottom="12" left="12" right="12" top="12"/>
             </padding>
         </VBox>
     </ScrollPane>
 
     <HBox spacing="8"
+          styleClass="input-bar"
           AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0">
 
         <padding>
-            <Insets top="8"
-                    right="12"
-                    bottom="8"
-                    left="12"/>
+            <Insets bottom="8" left="12" right="12" top="8"/>
         </padding>
 
         <TextField fx:id="userInput"
+                   promptText="Type a command..."
+                   onAction="#handleUserInput"
                    prefHeight="40.0"
-                   HBox.hgrow="ALWAYS"
-                   onAction="#handleUserInput">
-            <font>
-                <Font size="16.0"/>
-            </font>
-        </TextField>
+                   HBox.hgrow="ALWAYS"/>
 
         <Button fx:id="enterButton"
                 mnemonicParsing="false"
+                onAction="#handleUserInput"
                 prefHeight="40.0"
-                prefWidth="60.0"
-                text="Enter"
-                onAction="#handleUserInput">
-            <font>
-                <Font size="16.0"/>
-            </font>
-        </Button>
+                text="ENTER"/>
     </HBox>
 </AnchorPane>

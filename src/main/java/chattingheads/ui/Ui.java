@@ -48,10 +48,10 @@ public class Ui {
      */
     public String getListStatus(TaskList taskList) {
         if (taskList.size() == 1) {
-            return "Now you have 1 task in the list.\n" + SEPARATOR;
+            return "Now you have 1 task in the list\n" + SEPARATOR;
         } else {
             return String.format(
-                    "Now you have %s tasks in the list.\n%s",
+                    "Now you have %s tasks in the list\n%s",
                     taskList.isEmpty() ? "no" : taskList.size(),
                     SEPARATOR
             );
@@ -66,7 +66,7 @@ public class Ui {
      */
     public String getAddStatus(Task task, TaskList taskList) {
         return String.format(
-                "I've added this task:\n%s\n%s",
+                "Put it right there on your list:\n%s\n%s",
                 task,
                 getListStatus(taskList)
         );
@@ -102,10 +102,9 @@ public class Ui {
      */
     public String getMarkStatus(Task task) {
         return String.format(
-                "I've marked this task as done:\n%s\n%s",
-                task,
-                SEPARATOR
-        );
+                "Marked this task as complete:\n%s\nThere's a million ways to get things done\n",
+                task)
+                + SEPARATOR;
     }
 
     /**
@@ -115,10 +114,9 @@ public class Ui {
      */
     public String getUnmarkStatus(Task task) {
         return String.format(
-                "I've marked this task as not done yet:\n%s\n%s",
-                task,
-                SEPARATOR
-        );
+                "Marked this task as incomplete:\n%s\nYou start a conversation, you can't even finish it\n",
+                task)
+                + SEPARATOR;
     }
 
     /**
@@ -163,10 +161,9 @@ public class Ui {
 
     public String getRescheduleStatus(Task task, String taskType) {
         return String.format(
-                "Rescheduled this %s:\n%s\n%s",
+                "Rescheduled this %s:\n%s\nMaybe tomorrow, maybe the next day\nWhatever you think is best\n",
                 taskType,
-                task,
-                SEPARATOR
-        );
+                task)
+                + SEPARATOR;
     }
 }
