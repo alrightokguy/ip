@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import chattingheads.exception.InvalidInputException;
 import chattingheads.exception.InvalidTaskNumberException;
 import chattingheads.exception.InvalidTaskTypeException;
+import chattingheads.exception.StorageException;
 import chattingheads.storage.Storage;
 
 /**
@@ -22,7 +23,7 @@ public class TaskList {
      *
      * @param storage Storage from which tasks are loaded.
      */
-    public TaskList(Storage storage) {
+    public TaskList(Storage storage) throws StorageException {
         tasks = storage.load();
     }
 

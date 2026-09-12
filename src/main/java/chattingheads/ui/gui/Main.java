@@ -3,6 +3,7 @@ package chattingheads.ui.gui;
 import java.io.IOException;
 
 import chattingheads.ChattingHeads;
+import chattingheads.exception.StorageException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,11 +15,11 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private final ChattingHeads chattingHeads = new ChattingHeads();
-
     @Override
     public void start(Stage stage) {
         try {
+            ChattingHeads chattingHeads = new ChattingHeads();
+
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane rootPane = fxmlLoader.load();
             Scene scene = new Scene(rootPane);
@@ -26,6 +27,8 @@ public class Main extends Application {
             stage.setScene(scene);
             fxmlLoader.<MainWindowController>getController().setChattingHeads(chattingHeads);
             stage.show();
+        } catch (StorageException e) {
+            System.err.println(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }

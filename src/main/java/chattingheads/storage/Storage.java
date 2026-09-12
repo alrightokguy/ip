@@ -2,6 +2,7 @@ package chattingheads.storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +33,16 @@ public class Storage {
      *
      * @return Tasks loaded from the file.
      */
-    public List<Task> load() {
+    public List<Task> load() throws StorageException {
         List<Task> tasks = new ArrayList<>();
         List<String> lines;
 
         try {
             lines = Files.readAllLines(filePath);
-        } catch (IOException e) {
+        } catch (NoSuchFileException e) {
             return tasks;
+        } catch (IOException e) {
+            throw new StorageException("Unable to load tasks.");
         }
 
         for (String line : lines) {
