@@ -1,6 +1,8 @@
 package chattingheads.task;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 
 import chattingheads.exception.InvalidInputException;
 
@@ -60,23 +62,40 @@ public abstract class Task {
      * @throws InvalidInputException If the CSV data is corrupted or a task has an unrecognised type.
      */
     public static Task fromCsv(String line) throws InvalidInputException {
-        String[] fields = line.split(",");
-        String type = fields[0];
-        return switch (type) {
-            case "T" -> new Todo(fields[1], Boolean.parseBoolean(fields[2]));
-            case "D" -> new Deadline(
-                    fields[1],
-                    Boolean.parseBoolean(fields[2]),
-                    LocalDateTime.parse(fields[3])
-            );
-            case "E" -> new Event(
-                    fields[1],
-                    Boolean.parseBoolean(fields[2]),
-                    LocalDateTime.parse(fields[3]),
-                    LocalDateTime.parse(fields[4])
-            );
-            default -> throw InvalidInputException.invalidInput("task type");
-        };
+        try {
+            String[] fields = line.split(",", -1);
+            String type = fields[0];
+
+            return switch (type) {
+                case "T" -> {
+                    String description = String.join(
+                            ",", Arrays.copyOfRange(fields, 1, fields.length - 1));
+                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 1]);
+
+                    yield new Todo(description, isDone);
+                }
+                case "D" -> {
+                    String description = String.join(
+                            ",", Arrays.copyOfRange(fields, 1, fields.length - 2));
+                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 2]);
+                    LocalDateTime deadline = LocalDateTime.parse(fields[fields.length - 1]);
+
+                    yield new Deadline(description, isDone, deadline);
+                }
+                case "E" -> {
+                    String description = String.join(
+                            ",", Arrays.copyOfRange(fields, 1, fields.length - 3));
+                    boolean isDone = Boolean.parseBoolean(fields[fields.length - 3]);
+                    LocalDateTime start = LocalDateTime.parse(fields[fields.length - 2]);
+                    LocalDateTime end = LocalDateTime.parse(fields[fields.length - 1]);
+
+                    yield new Event(description, isDone, start, end);
+                }
+                default -> throw InvalidInputException.invalidInput("task type");
+            };
+        } catch (IndexOutOfBoundsException | DateTimeParseException e) {
+            throw InvalidInputException.invalidInput("stored task");
+        }
     }
 
     /**

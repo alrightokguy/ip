@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chattingheads.exception.InvalidInputException;
+import chattingheads.exception.StorageException;
 import chattingheads.task.Task;
 import chattingheads.task.TaskList;
 
@@ -57,11 +58,15 @@ public class Storage {
      *
      * @param taskList Task list to save.
      */
-    public void save(TaskList taskList) {
+    public void save(TaskList taskList) throws StorageException {
         try {
-            Files.write(filePath, taskList.getTasks().stream().map(Task::toCsv).toList());
+            Files.write(
+                    filePath,
+                    taskList.getTasks().stream()
+                            .map(Task::toCsv)
+                            .toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StorageException("Unable to save tasks.");
         }
     }
 }
