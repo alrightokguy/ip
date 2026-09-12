@@ -31,7 +31,7 @@ import chattingheads.exception.InvalidInputException;
 public class Parser {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withResolverStyle(ResolverStyle.STRICT);
+            DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm").withResolverStyle(ResolverStyle.STRICT);
 
     /**
      * Parses user input into the corresponding command.
@@ -41,7 +41,7 @@ public class Parser {
      * @throws ChattingHeadsException If required command arguments are invalid or missing.
      */
     public Command parse(String input) throws ChattingHeadsException {
-        if (input.isEmpty()) {
+        if (input.isBlank()) {
             throw InvalidInputException.invalidInput("command");
         }
 
@@ -288,6 +288,7 @@ public class Parser {
     private static void validateAddDeadlineSyntax(List<String> arguments)
             throws InvalidInputException {
         validateNoDuplicatePrefix(arguments, "/by");
+        validateRequiredPrefix(arguments, "/by");
     }
 
     private static void validateAddEventSyntax(List<String> arguments)
@@ -295,6 +296,7 @@ public class Parser {
         validateNoDuplicatePrefix(arguments, "/from");
         validateNoDuplicatePrefix(arguments, "/to");
         validateRequiredPair(arguments, "/from", "/to");
+        validatePrefixOrder(arguments, "/from", "/to");
     }
 
     private static void validateRescheduleSyntax(List<String> arguments)
@@ -303,6 +305,7 @@ public class Parser {
         validateNoDuplicatePrefix(arguments, "/from");
         validateNoDuplicatePrefix(arguments, "/to");
         validateRequiredPair(arguments, "/from", "/to");
+        validatePrefixOrder(arguments, "/from", "/to");
 
         boolean hasBy = arguments.contains("/by");
         boolean hasFrom = arguments.contains("/from");
@@ -316,11 +319,11 @@ public class Parser {
         }
     }
 
-    private static void validateNoDuplicatePrefix(
+    private static void validateRequiredPrefix(
             List<String> arguments, String prefix)
             throws InvalidInputException {
-        if (Collections.frequency(arguments, prefix) > 1) {
-            throw InvalidInputException.duplicatePrefix(prefix);
+        if (!arguments.contains(prefix)) {
+            throw InvalidInputException.invalidInput(prefix);
         }
     }
 
@@ -330,9 +333,35 @@ public class Parser {
         boolean hasFirst = arguments.contains(first);
         boolean hasSecond = arguments.contains(second);
 
-        if (hasFirst != hasSecond) {
-            throw InvalidInputException.invalidInput(
-                    hasFirst ? second : first);
+        if (!hasFirst && !hasSecond) {
+            throw InvalidInputException.invalidInput(first, second);
+        }
+
+        if (!hasFirst) {
+            throw InvalidInputException.invalidInput(first);
+        }
+
+        if (!hasSecond) {
+            throw InvalidInputException.invalidInput(second);
+        }
+    }
+
+    private static void validateNoDuplicatePrefix(
+            List<String> arguments, String prefix)
+            throws InvalidInputException {
+        if (Collections.frequency(arguments, prefix) > 1) {
+            throw InvalidInputException.duplicatePrefix(prefix);
+        }
+    }
+
+    private static void validatePrefixOrder(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        int firstIndex = arguments.indexOf(first);
+        int secondIndex = arguments.indexOf(second);
+
+        if (firstIndex != -1 && secondIndex != -1 && firstIndex > secondIndex) {
+            throw InvalidInputException.invalidPrefixOrder(first, second);
         }
     }
 }

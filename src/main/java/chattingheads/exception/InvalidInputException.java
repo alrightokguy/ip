@@ -1,7 +1,7 @@
 package chattingheads.exception;
 
 /**
- * Represents an error caused by 1 or multiple missing or invalid inputs
+ * Represents an error caused by 1 or multiple missing or invalid inputs.
  */
 public class InvalidInputException extends ChattingHeadsException {
 
@@ -13,8 +13,8 @@ public class InvalidInputException extends ChattingHeadsException {
      * Creates an InvalidInputException for one or more invalid or missing inputs.
      * Date-time inputs are shown with the expected date-time format.
      *
-     * @param inputs Names of the invalid or missing inputs
-     * @return InvalidInputException with a message describing the invalid inputs
+     * @param inputs Names of the invalid or missing inputs.
+     * @return InvalidInputException with a message describing the invalid inputs.
      */
     public static InvalidInputException invalidInput(String... inputs) {
         StringBuilder message = new StringBuilder("And you may ask yourself");
@@ -31,7 +31,7 @@ public class InvalidInputException extends ChattingHeadsException {
     /**
      * Creates an InvalidInputException for an invalid event time range.
      *
-     * @return InvalidInputException indicating that the end time is not after the start time
+     * @return InvalidInputException indicating that the end time is not after the start time.
      */
     public static InvalidInputException invalidTimeRange() {
         return new InvalidInputException(
@@ -42,8 +42,8 @@ public class InvalidInputException extends ChattingHeadsException {
     /**
      * Creates an InvalidInputException for a duplicated command prefix.
      *
-     * @param prefix The duplicated prefix
-     * @return InvalidInputException identifying the duplicated prefix
+     * @param prefix The duplicated prefix.
+     * @return InvalidInputException identifying the duplicated prefix.
      */
     public static InvalidInputException duplicatePrefix(String prefix) {
         return new InvalidInputException(
@@ -54,12 +54,25 @@ public class InvalidInputException extends ChattingHeadsException {
     /**
      * Creates an InvalidInputException for command prefixes that cannot be used together.
      *
-     * @param prefixes The incompatible prefixes
-     * @return InvalidInputException identifying the incompatible prefixes
+     * @param prefixes The incompatible prefixes.
+     * @return InvalidInputException identifying the incompatible prefixes.
      */
     public static InvalidInputException incompatiblePrefixes(String... prefixes) {
         return new InvalidInputException(
                 "These prefixes cannot be used together: "
                         + String.join(", ", prefixes) + ".");
+    }
+
+    /**
+     * Creates an InvalidInputException for incorrect prefix orders.
+     *
+     * @param first  Prefix that should come first.
+     * @param second Prefix that should come second.
+     * @return InvalidInputException identifying the correct prefix order.
+     */
+    public static InvalidInputException invalidPrefixOrder(String first, String second) {
+        return new InvalidInputException(
+                String.format("%s must come before %s", first, second)
+        );
     }
 }
