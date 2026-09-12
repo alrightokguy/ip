@@ -3,6 +3,7 @@ package chattingheads.parser;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,7 +31,7 @@ import chattingheads.exception.InvalidInputException;
 public class Parser {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withResolverStyle(ResolverStyle.STRICT);
 
     /**
      * Parses user input into the corresponding command.
@@ -43,7 +44,8 @@ public class Parser {
         if (input.isEmpty()) {
             throw InvalidInputException.invalidInput("command");
         }
-        String[] tokens = input.split("\\s+");
+
+        String[] tokens = input.strip().split("\\s+");
         String commandName = tokens[0];
         String[] arguments = Arrays.copyOfRange(tokens, 1, tokens.length);
 
