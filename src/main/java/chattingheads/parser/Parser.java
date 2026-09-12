@@ -304,7 +304,7 @@ public class Parser {
         validateNoDuplicatePrefix(arguments, "/by");
         validateNoDuplicatePrefix(arguments, "/from");
         validateNoDuplicatePrefix(arguments, "/to");
-        validateRequiredPair(arguments, "/from", "/to");
+        validatePairedPrefixes(arguments, "/from", "/to");
         validatePrefixOrder(arguments, "/from", "/to");
 
         boolean hasBy = arguments.contains("/by");
@@ -343,6 +343,18 @@ public class Parser {
 
         if (!hasSecond) {
             throw InvalidInputException.invalidInput(second);
+        }
+    }
+
+    private static void validatePairedPrefixes(
+            List<String> arguments, String first, String second)
+            throws InvalidInputException {
+        boolean hasFirst = arguments.contains(first);
+        boolean hasSecond = arguments.contains(second);
+
+        if (hasFirst != hasSecond) {
+            throw InvalidInputException.invalidInput(
+                    hasFirst ? second : first);
         }
     }
 
