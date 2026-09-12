@@ -9,6 +9,13 @@ public class InvalidInputException extends ChattingHeadsException {
         super(message);
     }
 
+    /**
+     * Creates an InvalidInputException for one or more invalid or missing inputs.
+     * Date-time inputs are shown with the expected date-time format.
+     *
+     * @param inputs Names of the invalid or missing inputs
+     * @return InvalidInputException with a message describing the invalid inputs
+     */
     public static InvalidInputException invalidInput(String... inputs) {
         StringBuilder message = new StringBuilder("And you may ask yourself");
         for (String input : inputs) {
@@ -21,18 +28,35 @@ public class InvalidInputException extends ChattingHeadsException {
         return new InvalidInputException(message.toString());
     }
 
+    /**
+     * Creates an InvalidInputException for an invalid event time range.
+     *
+     * @return InvalidInputException indicating that the end time is not after the start time
+     */
     public static InvalidInputException invalidTimeRange() {
         return new InvalidInputException(
                 "End time not after start time\nTime isn't holding up\nTime isn't after us"
         );
     }
 
+    /**
+     * Creates an InvalidInputException for a duplicated command prefix.
+     *
+     * @param prefix The duplicated prefix
+     * @return InvalidInputException identifying the duplicated prefix
+     */
     public static InvalidInputException duplicatePrefix(String prefix) {
         return new InvalidInputException(
-                String.format("Duplicate prefix: %s\nDouble prefix, double prefix, double prefix", prefix)
+                String.format("Duplicate prefix: %s\nDouble beating, double beating, double beating", prefix)
         );
     }
 
+    /**
+     * Creates an InvalidInputException for command prefixes that cannot be used together.
+     *
+     * @param prefixes The incompatible prefixes
+     * @return InvalidInputException identifying the incompatible prefixes
+     */
     public static InvalidInputException incompatiblePrefixes(String... prefixes) {
         return new InvalidInputException(
                 "These prefixes cannot be used together: "

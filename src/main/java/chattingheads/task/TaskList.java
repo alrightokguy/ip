@@ -114,7 +114,7 @@ public class TaskList {
     }
 
     /**
-     * Find all indices of tasks that contains a specified keyword in the description.
+     * Finds all indices of tasks that contains a specified keyword in the description.
      *
      * @param keyword Keyword to search tasks for.
      * @return List of indices of matching tasks.
