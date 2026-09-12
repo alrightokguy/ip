@@ -48,10 +48,10 @@ public class Ui {
      */
     public String getListStatus(TaskList taskList) {
         if (taskList.size() == 1) {
-            return "Now you have 1 task in the list.\n" + SEPARATOR;
+            return "Now you have 1 task in the list\n" + SEPARATOR;
         } else {
             return String.format(
-                    "Now you have %s tasks in the list.\n%s",
+                    "Now you have %s tasks in the list\n%s",
                     taskList.isEmpty() ? "no" : taskList.size(),
                     SEPARATOR
             );
@@ -102,7 +102,7 @@ public class Ui {
      */
     public String getMarkStatus(Task task) {
         return String.format(
-                "Marked this task as complete:\n%s\nThere’s a million ways to get things done\n",
+                "Marked this task as complete:\n%s\nThere's a million ways to get things done\n",
                 task)
                 + SEPARATOR;
     }

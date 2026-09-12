@@ -85,9 +85,11 @@ public class InvalidInputException extends ChattingHeadsException {
      */
     public static InvalidInputException unexpectedInput() {
         return new InvalidInputException(
-                "Unexpected input in command"
-                        + "\nAnd you may ask yourself"
-                        + "\n\"Well, how did that get there?\""
+                """
+                        Unexpected input in command
+                        And you may ask yourself
+                        "Well, how did that get there?"
+                        """
         );
     }
 }
