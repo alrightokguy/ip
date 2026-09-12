@@ -4,6 +4,9 @@
 
 .scroll-pane {
     -fx-background-color: #F3EFE4;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
 }
 
 .scroll-pane > .viewport {
@@ -13,7 +16,7 @@
 .text-field {
     -fx-background-color: #FFFDF7;
     -fx-background-insets: 0;
-    -fx-border-color: #111111;
+    -fx-border-color: #B8B0A3;
     -fx-border-width: 1px;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
@@ -21,6 +24,8 @@
     -fx-font-family: "SansSerif";
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+
+    -fx-prompt-text-fill: #8A8378;
 }
 
 .text-field:focused {
@@ -59,6 +64,7 @@
 
 .scroll-pane .scroll-bar:vertical {
     -fx-background-color: transparent;
+    -fx-pref-width: 8px;
 }
 
 .scroll-pane .scroll-bar:vertical .track {
@@ -73,4 +79,10 @@
 
 .scroll-pane .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #D94A32;
+}
+
+.input-bar {
+    -fx-background-color: #ECE6D9;
+    -fx-border-color: #B8B0A3 transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
 }

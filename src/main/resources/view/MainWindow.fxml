@@ -24,7 +24,8 @@
                 AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
 
-        <VBox fx:id="dialogContainer" spacing="8">
+        <VBox fx:id="dialogContainer"
+              spacing="8">
             <padding>
                 <Insets bottom="12" left="12" right="12" top="12"/>
             </padding>
@@ -32,6 +33,7 @@
     </ScrollPane>
 
     <HBox spacing="8"
+          styleClass="input-bar"
           AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0">
@@ -41,6 +43,7 @@
         </padding>
 
         <TextField fx:id="userInput"
+                   promptText="Type a command..."
                    onAction="#handleUserInput"
                    prefHeight="40.0"
                    HBox.hgrow="ALWAYS"/>
