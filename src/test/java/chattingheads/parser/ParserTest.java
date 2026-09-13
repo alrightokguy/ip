@@ -80,32 +80,37 @@ public class ParserTest {
 
     @Test
     public void parse_deadlineMissingByPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("deadline submit report 28/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "deadline submit report 28/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_deadlineMissingDescription_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("deadline /by 28/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "deadline /by 28/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_deadlineMissingDateTime_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("deadline submit report /by"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "deadline submit report /by"
+        ));
     }
 
     @Test
     public void parse_deadlineInvalidDateTime_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("deadline submit report /by 31/02/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "deadline submit report /by 31/02/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_deadlineDuplicateByPrefix_throwsInvalidInputException() {
-        InvalidInputException exception = assertThrows(InvalidInputException.class,
-                () -> parser.parse("deadline submit /by 28/08/2026 18:00 /by 29/08/2026 18:00"));
+        InvalidInputException exception = assertThrows(InvalidInputException.class, () -> parser.parse(
+                "deadline submit /by 28/08/2026 18:00 /by 29/08/2026 18:00"
+        ));
         assertTrue(exception.getMessage().contains("Duplicate prefix: /by"));
     }
 
@@ -132,54 +137,59 @@ public class ParserTest {
 
     @Test
     public void parse_eventMissingFromPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("event meeting /to 28/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /to 28/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_eventMissingToPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("event meeting /from 28/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /from 28/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_eventPrefixesInWrongOrder_throwsInvalidInputException() {
-        InvalidInputException exception = assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "event meeting /to 28/08/2026 20:00 /from 28/08/2026 18:00"));
+        InvalidInputException exception = assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /to 28/08/2026 20:00 /from 28/08/2026 18:00"
+        ));
         assertTrue(exception.getMessage().contains("/from must come before /to"));
     }
 
     @Test
     public void parse_eventDuplicateFromPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "event meeting /from 28/08/2026 18:00 /from 28/08/2026 19:00 /to 28/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /from 28/08/2026 18:00 /from 28/08/2026 19:00 /to 28/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_eventDuplicateToPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "event meeting /from 28/08/2026 18:00 /to 28/08/2026 20:00 /to 28/08/2026 21:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /from 28/08/2026 18:00 /to 28/08/2026 20:00 /to 28/08/2026 21:00"
+        ));
     }
 
     @Test
     public void parse_eventMissingDescription_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("event /from 28/08/2026 18:00 /to 28/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event /from 28/08/2026 18:00 /to 28/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_eventInvalidStart_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("event meeting /from tomorrow /to 28/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /from tomorrow /to 28/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_eventInvalidEnd_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("event meeting /from 28/08/2026 18:00 /to tomorrow"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "event meeting /from 28/08/2026 18:00 /to tomorrow"
+        ));
     }
 
     @Test
@@ -279,8 +289,9 @@ public class ParserTest {
 
     @Test
     public void parse_rescheduleInvalidTaskNumber_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("reschedule one /by 30/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule one /by 30/08/2026 18:00"
+        ));
     }
 
     @Test
@@ -290,63 +301,66 @@ public class ParserTest {
 
     @Test
     public void parse_rescheduleEventMissingTo_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("reschedule 1 /from 30/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /from 30/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleEventMissingFrom_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("reschedule 1 /to 30/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /to 30/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleEventPrefixesInWrongOrder_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 /to 30/08/2026 20:00 /from 30/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /to 30/08/2026 20:00 /from 30/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleIncompatiblePrefixes_throwsInvalidInputException() {
-        InvalidInputException exception = assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 /by 30/08/2026 18:00 /from 30/08/2026 19:00 /to 30/08/2026 20:00"));
+        InvalidInputException exception = assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /by 30/08/2026 18:00 /from 30/08/2026 19:00 /to 30/08/2026 20:00"
+        ));
         assertTrue(exception.getMessage().contains("cannot be used together"));
     }
 
     @Test
     public void parse_rescheduleDeadlinePrefixNotImmediatelyAfterTaskNumber_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse("reschedule 1 later /by 30/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 later /by 30/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleEventPrefixNotImmediatelyAfterTaskNumber_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 later /from 30/08/2026 18:00 /to 30/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 later /from 30/08/2026 18:00 /to 30/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleDuplicateByPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 /by 30/08/2026 18:00 /by 31/08/2026 18:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /by 30/08/2026 18:00 /by 31/08/2026 18:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleDuplicateFromPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 /from 30/08/2026 18:00 /from 30/08/2026 19:00 /to 30/08/2026 20:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /from 30/08/2026 18:00 /from 30/08/2026 19:00 /to 30/08/2026 20:00"
+        ));
     }
 
     @Test
     public void parse_rescheduleDuplicateToPrefix_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> parser.parse(
-                        "reschedule 1 /from 30/08/2026 18:00 /to 30/08/2026 20:00 /to 30/08/2026 21:00"));
+        assertThrows(InvalidInputException.class, () -> parser.parse(
+                "reschedule 1 /from 30/08/2026 18:00 /to 30/08/2026 20:00 /to 30/08/2026 21:00"
+        ));
     }
 
     @Test

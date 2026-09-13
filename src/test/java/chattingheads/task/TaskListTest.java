@@ -144,16 +144,20 @@ public class TaskListTest {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskTypeException.class,
-                () -> taskList.postponeDeadline(0, LocalDateTime.of(2026, 8, 30, 20, 0)));
+        assertThrows(InvalidTaskTypeException.class, () -> taskList.postponeDeadline(
+                0,
+                LocalDateTime.of(2026, 8, 30, 20, 0)
+        ));
     }
 
     @Test
     public void postponeDeadline_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(InvalidTaskNumberException.class,
-                () -> taskList.postponeDeadline(0, LocalDateTime.of(2026, 8, 30, 20, 0)));
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.postponeDeadline(
+                0,
+                LocalDateTime.of(2026, 8, 30, 20, 0)
+        ));
     }
 
     @Test
@@ -179,22 +183,22 @@ public class TaskListTest {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskTypeException.class,
-                () -> taskList.rescheduleEvent(
+        assertThrows(InvalidTaskTypeException.class, () -> taskList.rescheduleEvent(
                         0,
                         LocalDateTime.of(2026, 8, 30, 10, 0),
-                        LocalDateTime.of(2026, 8, 30, 12, 0)));
+                        LocalDateTime.of(2026, 8, 30, 12, 0)
+        ));
     }
 
     @Test
     public void rescheduleEvent_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(InvalidTaskNumberException.class,
-                () -> taskList.rescheduleEvent(
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.rescheduleEvent(
                         0,
                         LocalDateTime.of(2026, 8, 30, 10, 0),
-                        LocalDateTime.of(2026, 8, 30, 12, 0)));
+                        LocalDateTime.of(2026, 8, 30, 12, 0)
+        ));
     }
 
     @Test
@@ -207,11 +211,11 @@ public class TaskListTest {
                 LocalDateTime.of(2026, 8, 28, 20, 0));
         taskList.add(event);
 
-        assertThrows(InvalidInputException.class,
-                () -> taskList.rescheduleEvent(
+        assertThrows(InvalidInputException.class, () -> taskList.rescheduleEvent(
                         0,
                         LocalDateTime.of(2026, 8, 30, 12, 0),
-                        LocalDateTime.of(2026, 8, 30, 10, 0)));
+                        LocalDateTime.of(2026, 8, 30, 10, 0)
+        ));
         assertEquals("E,meeting,false,2026-08-28T18:00,2026-08-28T20:00", event.toCsv());
     }
 }

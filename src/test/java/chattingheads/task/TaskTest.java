@@ -73,14 +73,12 @@ public class TaskTest {
 
     @Test
     public void fromCsv_deadlineTooFewFields_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> Task.fromCsv("D,test,false"));
+        assertThrows(InvalidInputException.class, () -> Task.fromCsv("D,test,false"));
     }
 
     @Test
     public void fromCsv_eventTooFewFields_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> Task.fromCsv("E,test,false,2026-08-28T18:00"));
+        assertThrows(InvalidInputException.class, () -> Task.fromCsv("E,test,false,2026-08-28T18:00"));
     }
 
     @Test
@@ -95,20 +93,21 @@ public class TaskTest {
 
     @Test
     public void fromCsv_invalidDeadlineDateTime_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> Task.fromCsv("D,test,false,not-a-date"));
+        assertThrows(InvalidInputException.class, () -> Task.fromCsv("D,test,false,not-a-date"));
     }
 
     @Test
     public void fromCsv_invalidEventDateTime_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> Task.fromCsv("E,test,false,2026-08-28T18:00,not-a-date"));
+        assertThrows(InvalidInputException.class, () -> Task.fromCsv(
+                "E,test,false,2026-08-28T18:00,not-a-date"
+        ));
     }
 
     @Test
     public void fromCsv_eventEndNotAfterStart_throwsInvalidInputException() {
-        assertThrows(InvalidInputException.class,
-                () -> Task.fromCsv("E,test,false,2026-08-28T20:00,2026-08-28T18:00"));
+        assertThrows(InvalidInputException.class, () -> Task.fromCsv(
+                "E,test,false,2026-08-28T20:00,2026-08-28T18:00"
+        ));
     }
 
     @Test

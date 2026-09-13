@@ -149,10 +149,12 @@ public class CommandTest {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskTypeException.class,
-                () -> new RescheduleDeadlineCommand(
+        assertThrows(
+                InvalidTaskTypeException.class, () -> new RescheduleDeadlineCommand(
                         1,
-                        LocalDateTime.of(2026, 9, 1, 12, 0)).execute(taskList, ui));
+                        LocalDateTime.of(2026, 9, 1, 12, 0)
+                ).execute(taskList, ui)
+        );
     }
 
     @Test
@@ -177,11 +179,13 @@ public class CommandTest {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskTypeException.class,
-                () -> new RescheduleEventCommand(
+        assertThrows(
+                InvalidTaskTypeException.class, () -> new RescheduleEventCommand(
                         1,
                         LocalDateTime.of(2026, 8, 30, 10, 0),
-                        LocalDateTime.of(2026, 8, 30, 12, 0)).execute(taskList, ui));
+                        LocalDateTime.of(2026, 8, 30, 12, 0)
+                ).execute(taskList, ui)
+        );
     }
 
     @Test
@@ -193,11 +197,13 @@ public class CommandTest {
                 LocalDateTime.of(2026, 8, 28, 18, 0),
                 LocalDateTime.of(2026, 8, 28, 20, 0)));
 
-        assertThrows(InvalidInputException.class,
-                () -> new RescheduleEventCommand(
+        assertThrows(
+                InvalidInputException.class, () -> new RescheduleEventCommand(
                         1,
                         LocalDateTime.of(2026, 8, 30, 12, 0),
-                        LocalDateTime.of(2026, 8, 30, 10, 0)).execute(taskList, ui));
+                        LocalDateTime.of(2026, 8, 30, 10, 0)
+                ).execute(taskList, ui)
+        );
         assertEquals("E,meeting,false,2026-08-28T18:00,2026-08-28T20:00", taskList.get(0).toCsv());
     }
 
@@ -242,19 +248,27 @@ public class CommandTest {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskNumberException.class,
-                () -> new MarkCommand(0).execute(taskList, ui));
-        assertThrows(InvalidTaskNumberException.class,
-                () -> new UnmarkCommand(0).execute(taskList, ui));
-        assertThrows(InvalidTaskNumberException.class,
-                () -> new DeleteCommand(0).execute(taskList, ui));
-        assertThrows(InvalidTaskNumberException.class,
-                () -> new RescheduleDeadlineCommand(
-                        0, LocalDateTime.of(2026, 8, 30, 18, 0)).execute(taskList, ui));
-        assertThrows(InvalidTaskNumberException.class,
-                () -> new RescheduleEventCommand(
+        assertThrows(
+                InvalidTaskNumberException.class, () -> new MarkCommand(0).execute(taskList, ui)
+        );
+        assertThrows(
+                InvalidTaskNumberException.class, () -> new UnmarkCommand(0).execute(taskList, ui)
+        );
+        assertThrows(
+                InvalidTaskNumberException.class, () -> new DeleteCommand(0).execute(taskList, ui)
+        );
+        assertThrows(
+                InvalidTaskNumberException.class, () -> new RescheduleDeadlineCommand(
+                        0,
+                        LocalDateTime.of(2026, 8, 30, 18, 0)
+                ).execute(taskList, ui)
+        );
+        assertThrows(
+                InvalidTaskNumberException.class, () -> new RescheduleEventCommand(
                         0,
                         LocalDateTime.of(2026, 8, 30, 18, 0),
-                        LocalDateTime.of(2026, 8, 30, 20, 0)).execute(taskList, ui));
+                        LocalDateTime.of(2026, 8, 30, 20, 0)
+                ).execute(taskList, ui)
+        );
     }
 }
