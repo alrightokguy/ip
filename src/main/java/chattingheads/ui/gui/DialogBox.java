@@ -5,7 +5,6 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
@@ -15,9 +14,6 @@ public class DialogBox extends HBox {
 
     @FXML
     private Label dialogLabel;
-
-    @FXML
-    private ImageView displayPicture;
 
     /**
      * Creates a dialog box containing the specified text.

@@ -34,8 +34,7 @@ public class MainWindowController extends AnchorPane {
 
     /**
      * Initialises the main window after its FXML components have been loaded.
-     * Aligns dialog messages to the bottom of the container and keeps the
-     * dialog container sized and scrolled with the display area.
+     * Keeps the dialog container at least as tall as the display area.
      */
     @FXML
     public void initialize() {
