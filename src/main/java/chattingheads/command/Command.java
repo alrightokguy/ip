@@ -29,9 +29,9 @@ public abstract class Command {
     }
 
     /**
-     * Returns whether this command changes the CSV such that it should be saved.
+     * Returns whether this command modifies persistent task data.
      *
-     * @return {@code true} if this command requires the CSV to be saved.
+     * @return {@code true} if changes made by this command should be saved.
      */
     public boolean shouldSave() {
         return false;

@@ -23,6 +23,7 @@ public class Event extends Task {
      * @param description   Description of the task.
      * @param startDateTime Start date and time of the event.
      * @param endDateTime   End date and time of the event.
+     * @throws InvalidInputException If the end date and time is not after the start date and time.
      */
     public Event(String description, LocalDateTime startDateTime, LocalDateTime endDateTime)
             throws InvalidInputException {
@@ -41,6 +42,7 @@ public class Event extends Task {
      * @param isDone        Completion status of the task.
      * @param startDateTime Start date and time of the event.
      * @param endDateTime   End date and time of the event.
+     * @throws InvalidInputException If the end date and time is not after the start date and time.
      */
     public Event(String description, boolean isDone, LocalDateTime startDateTime, LocalDateTime endDateTime)
             throws InvalidInputException {
@@ -72,6 +74,7 @@ public class Event extends Task {
      *
      * @param newStartDateTime New start date and time.
      * @param newEndDateTime   New end date and time.
+     * @throws InvalidInputException If the end date and time is not after the start date and time.
      */
     public void reschedule(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime)
             throws InvalidInputException {

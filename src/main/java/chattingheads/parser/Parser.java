@@ -38,7 +38,7 @@ public class Parser {
      *
      * @param input User input to parse.
      * @return Command represented by the input.
-     * @throws ChattingHeadsException If required command arguments are invalid or missing.
+     * @throws ChattingHeadsException If the command is unrecognised or its arguments are invalid or missing.
      */
     public Command parse(String input) throws ChattingHeadsException {
         if (input.isBlank()) {

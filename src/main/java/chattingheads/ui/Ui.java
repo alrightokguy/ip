@@ -42,9 +42,10 @@ public class Ui {
     }
 
     /**
-     * Returns the number of tasks currently in the task list.
+     * Returns a message stating the number of tasks currently in the task list.
      *
      * @param taskList Task list whose size is displayed.
+     * @return Message stating the number of tasks in the task list.
      */
     public String getListStatus(TaskList taskList) {
         if (taskList.size() == 1) {
@@ -63,6 +64,7 @@ public class Ui {
      *
      * @param task     Added task.
      * @param taskList Task list after the addition.
+     * @return Message confirming that a task was added.
      */
     public String getAddStatus(Task task, TaskList taskList) {
         return String.format(
@@ -77,6 +79,7 @@ public class Ui {
      *
      * @param task     Deleted task.
      * @param taskList Task list after the deletion.
+     * @return Message confirming that a task was deleted.
      */
     public String getDeleteStatus(Task task, TaskList taskList) {
         return String.format(
@@ -90,6 +93,7 @@ public class Ui {
      * Returns an error message.
      *
      * @param e Exception containing the error message.
+     * @return Error message.
      */
     public String getErrorMessage(Exception e) {
         return e.getMessage() + "\n" + SEPARATOR;
@@ -99,6 +103,7 @@ public class Ui {
      * Returns a message confirming that a task was marked as completed.
      *
      * @param task Marked task.
+     * @return Message confirming that a task was marked as completed.
      */
     public String getMarkStatus(Task task) {
         return String.format(
@@ -111,6 +116,7 @@ public class Ui {
      * Returns a message confirming that a task was marked as incomplete.
      *
      * @param task Unmarked task.
+     * @return Message confirming that a task was marked as incomplete.
      */
     public String getUnmarkStatus(Task task) {
         return String.format(
@@ -123,6 +129,7 @@ public class Ui {
      * Returns a message listing all tasks in the task list.
      *
      * @param taskList Task list to display.
+     * @return Message listing all tasks in the task list.
      */
     public String getTaskListMessage(TaskList taskList) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");
@@ -143,6 +150,7 @@ public class Ui {
      *
      * @param taskList Task list to search.
      * @param keyword  Keyword to search for.
+     * @return Message listing all tasks that contain the specified keyword.
      */
     public String getFoundTasksMessage(TaskList taskList, String keyword) {
         StringBuilder message = new StringBuilder("Take a look at these tasks:");
@@ -159,6 +167,13 @@ public class Ui {
         return message.toString();
     }
 
+    /**
+     * Returns a message confirming that a task was rescheduled.
+     *
+     * @param task     Rescheduled task.
+     * @param taskType Type of the task.
+     * @return Message confirming that the task was rescheduled.
+     */
     public String getRescheduleStatus(Task task, String taskType) {
         return String.format(
                 "Rescheduled this %s:\n%s\nMaybe tomorrow, maybe the next day\nWhatever you think is best\n",

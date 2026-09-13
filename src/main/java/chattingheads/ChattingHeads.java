@@ -22,7 +22,7 @@ public class ChattingHeads {
     /**
      * Creates the application and initialises its components.
      *
-     * @throws StorageException If the storage file cannot be read.
+     * @throws StorageException If an existing storage file cannot be read.
      */
     public ChattingHeads() throws StorageException {
         storage = new Storage("tasks.txt");

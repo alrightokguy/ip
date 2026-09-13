@@ -32,7 +32,7 @@ public class Storage {
      * Loads tasks from the storage file.
      *
      * @return Tasks loaded from the file.
-     * @throws StorageException If the storage file cannot be read.
+     * @throws StorageException If an existing storage file cannot be read.
      */
     public List<Task> load() throws StorageException {
         List<Task> tasks = new ArrayList<>();

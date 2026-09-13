@@ -44,7 +44,7 @@ public class MainWindowController extends AnchorPane {
     }
 
     /**
-     * Injects an instance of the chatbot into the controller.
+     * Injects the chatbot instance and displays the startup content.
      *
      * @param chattingHeads Instance of the chatbot to be injected.
      */
@@ -65,7 +65,7 @@ public class MainWindowController extends AnchorPane {
     }
 
     /**
-     * Starts user input.
+     * Processes the current user input and displays the resulting dialogs.
      */
     @FXML
     private void handleUserInput() {

@@ -22,7 +22,7 @@ public class TaskList {
      * Creates a task list containing tasks loaded from storage.
      *
      * @param storage Storage from which tasks are loaded.
-     * @throws StorageException If the storage file cannot be read.
+     * @throws StorageException If an existing storage file cannot be read.
      */
     public TaskList(Storage storage) throws StorageException {
         tasks = storage.load();
@@ -66,7 +66,7 @@ public class TaskList {
     /**
      * Returns the whole list of tasks.
      *
-     * @return ArrayList of tasks stored.
+     * @return List of tasks stored.
      */
     public List<Task> getTasks() {
         return tasks;
@@ -116,7 +116,7 @@ public class TaskList {
     }
 
     /**
-     * Finds all indices of tasks that contains a specified keyword in the description.
+     * Finds all indices of tasks that contain a specified keyword in the description.
      *
      * @param keyword Keyword to search tasks for.
      * @return List of indices of matching tasks.
@@ -168,6 +168,7 @@ public class TaskList {
      * @param newEnd   New end date and time.
      * @throws InvalidTaskNumberException If the index is invalid.
      * @throws InvalidTaskTypeException   If the task selected is not an event task.
+     * @throws InvalidInputException      If new end date and time is not after new start date and time.
      */
     public void rescheduleEvent(int index, LocalDateTime newStart, LocalDateTime newEnd)
             throws InvalidTaskNumberException, InvalidTaskTypeException, InvalidInputException {

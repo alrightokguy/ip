@@ -16,10 +16,10 @@ public class RescheduleDeadlineCommand extends Command {
     private final LocalDateTime deadline;
 
     /**
-     * Creates a command to postpone the specified deadline.
+     * Creates a command to reschedule the specified deadline.
      *
-     * @param taskNumber Task number to postpone.
-     * @param deadline   Deadline to postpone to.
+     * @param taskNumber Task number to reschedule.
+     * @param deadline   New deadline date and time.
      */
     public RescheduleDeadlineCommand(int taskNumber, LocalDateTime deadline) {
         this.taskNumber = taskNumber;
