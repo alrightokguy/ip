@@ -30,9 +30,9 @@ public class EventTest {
     @Test
     public void constructor_endBeforeStart_throwsInvalidInputException() {
         assertThrows(InvalidInputException.class, () -> new Event(
-                        "meeting",
-                        LocalDateTime.of(2026, 8, 28, 20, 0),
-                        LocalDateTime.of(2026, 8, 28, 18, 0)
+                "meeting",
+                LocalDateTime.of(2026, 8, 28, 20, 0),
+                LocalDateTime.of(2026, 8, 28, 18, 0)
         ));
     }
 
@@ -81,8 +81,8 @@ public class EventTest {
                 LocalDateTime.of(2026, 8, 28, 20, 0));
 
         assertThrows(InvalidInputException.class, () -> event.reschedule(
-                        LocalDateTime.of(2026, 8, 30, 12, 0),
-                        LocalDateTime.of(2026, 8, 30, 10, 0)
+                LocalDateTime.of(2026, 8, 30, 12, 0),
+                LocalDateTime.of(2026, 8, 30, 10, 0)
         ));
         assertEquals("E,meeting,false,2026-08-28T18:00,2026-08-28T20:00", event.toCsv());
     }

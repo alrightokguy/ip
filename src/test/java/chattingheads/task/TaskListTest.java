@@ -184,9 +184,9 @@ public class TaskListTest {
         taskList.add(new Todo("test"));
 
         assertThrows(InvalidTaskTypeException.class, () -> taskList.rescheduleEvent(
-                        0,
-                        LocalDateTime.of(2026, 8, 30, 10, 0),
-                        LocalDateTime.of(2026, 8, 30, 12, 0)
+                0,
+                LocalDateTime.of(2026, 8, 30, 10, 0),
+                LocalDateTime.of(2026, 8, 30, 12, 0)
         ));
     }
 
@@ -195,9 +195,9 @@ public class TaskListTest {
         TaskList taskList = new TaskList();
 
         assertThrows(InvalidTaskNumberException.class, () -> taskList.rescheduleEvent(
-                        0,
-                        LocalDateTime.of(2026, 8, 30, 10, 0),
-                        LocalDateTime.of(2026, 8, 30, 12, 0)
+                0,
+                LocalDateTime.of(2026, 8, 30, 10, 0),
+                LocalDateTime.of(2026, 8, 30, 12, 0)
         ));
     }
 
@@ -212,9 +212,9 @@ public class TaskListTest {
         taskList.add(event);
 
         assertThrows(InvalidInputException.class, () -> taskList.rescheduleEvent(
-                        0,
-                        LocalDateTime.of(2026, 8, 30, 12, 0),
-                        LocalDateTime.of(2026, 8, 30, 10, 0)
+                0,
+                LocalDateTime.of(2026, 8, 30, 12, 0),
+                LocalDateTime.of(2026, 8, 30, 10, 0)
         ));
         assertEquals("E,meeting,false,2026-08-28T18:00,2026-08-28T20:00", event.toCsv());
     }
