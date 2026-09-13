@@ -57,7 +57,7 @@ public class Deadline extends Task {
      *
      * @param newDueDateTime New due date and time.
      */
-    public void postpone(LocalDateTime newDueDateTime) {
+    public void reschedule(LocalDateTime newDueDateTime) {
         dueDateTime = newDueDateTime;
     }
 }

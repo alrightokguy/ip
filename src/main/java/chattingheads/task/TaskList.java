@@ -141,14 +141,14 @@ public class TaskList {
     }
 
     /**
-     * Postpones the due date and time of a deadline task.
+     * Reschedules the due date and time of a deadline task.
      *
-     * @param index       Index of the deadline task to postpone.
+     * @param index       Index of the deadline task to reschedule.
      * @param newDeadline New due date and time to assign to the deadline task.
      * @throws InvalidTaskNumberException If the index is invalid.
      * @throws InvalidTaskTypeException   If the task selected is not a deadline task.
      */
-    public void postponeDeadline(int index, LocalDateTime newDeadline)
+    public void rescheduleDeadline(int index, LocalDateTime newDeadline)
             throws InvalidTaskNumberException, InvalidTaskTypeException {
         validateIndex(index);
         Task task = tasks.get(index);
@@ -157,7 +157,7 @@ public class TaskList {
             throw new InvalidTaskTypeException("deadline");
         }
 
-        deadline.postpone(newDeadline);
+        deadline.reschedule(newDeadline);
     }
 
     /**

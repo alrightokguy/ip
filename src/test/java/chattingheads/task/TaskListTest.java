@@ -128,33 +128,33 @@ public class TaskListTest {
     }
 
     @Test
-    public void postponeDeadline_validDeadline_deadlineChanged()
+    public void rescheduleDeadline_validDeadline_deadlineChanged()
             throws InvalidTaskNumberException, InvalidTaskTypeException {
         TaskList taskList = new TaskList();
         Deadline deadline = new Deadline("submit report", LocalDateTime.of(2026, 8, 28, 18, 0));
         taskList.add(deadline);
 
-        taskList.postponeDeadline(0, LocalDateTime.of(2026, 8, 30, 20, 0));
+        taskList.rescheduleDeadline(0, LocalDateTime.of(2026, 8, 30, 20, 0));
 
         assertEquals("D,submit report,false,2026-08-30T20:00", deadline.toCsv());
     }
 
     @Test
-    public void postponeDeadline_wrongTaskType_throwsInvalidTaskTypeException() {
+    public void rescheduleDeadline_wrongTaskType_throwsInvalidTaskTypeException() {
         TaskList taskList = new TaskList();
         taskList.add(new Todo("test"));
 
-        assertThrows(InvalidTaskTypeException.class, () -> taskList.postponeDeadline(
+        assertThrows(InvalidTaskTypeException.class, () -> taskList.rescheduleDeadline(
                 0,
                 LocalDateTime.of(2026, 8, 30, 20, 0)
         ));
     }
 
     @Test
-    public void postponeDeadline_invalidIndex_throwsInvalidTaskNumberException() {
+    public void rescheduleDeadline_invalidIndex_throwsInvalidTaskNumberException() {
         TaskList taskList = new TaskList();
 
-        assertThrows(InvalidTaskNumberException.class, () -> taskList.postponeDeadline(
+        assertThrows(InvalidTaskNumberException.class, () -> taskList.rescheduleDeadline(
                 0,
                 LocalDateTime.of(2026, 8, 30, 20, 0)
         ));

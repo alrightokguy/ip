@@ -28,12 +28,12 @@ public class DeadlineTest {
     }
 
     @Test
-    public void postpone_validDateTime_deadlineChanged() {
+    public void reschedule_validDateTime_deadlineChanged() {
         Deadline deadline = new Deadline(
                 "submit report",
                 LocalDateTime.of(2026, 8, 28, 18, 0));
 
-        deadline.postpone(LocalDateTime.of(2026, 9, 1, 12, 30));
+        deadline.reschedule(LocalDateTime.of(2026, 9, 1, 12, 30));
 
         assertEquals("D,submit report,false,2026-09-01T12:30", deadline.toCsv());
     }
