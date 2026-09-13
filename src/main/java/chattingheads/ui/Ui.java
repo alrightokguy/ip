@@ -26,6 +26,8 @@ public class Ui {
 
     /**
      * Returns the startup message.
+     *
+     * @return Startup message.
      */
     public String getStartupMessage() {
         return """
@@ -36,6 +38,8 @@ public class Ui {
 
     /**
      * Returns the shutdown message.
+     *
+     * @return Shutdown message.
      */
     public String getShutdownMessage() {
         return "Letting the days go \"bye!\"\nLet the water shut me down\n" + SEPARATOR;

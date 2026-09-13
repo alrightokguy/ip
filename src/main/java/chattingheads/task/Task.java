@@ -58,7 +58,7 @@ public abstract class Task {
      * Generates a task from its CSV representation.
      *
      * @param line CSV representation of the task.
-     * @return Task represented from the CSV data.
+     * @return Task represented by the CSV data.
      * @throws InvalidInputException If the CSV data is corrupted or a task has an unrecognised type.
      */
     public static Task fromCsv(String line) throws InvalidInputException {

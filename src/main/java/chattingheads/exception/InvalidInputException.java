@@ -1,7 +1,7 @@
 package chattingheads.exception;
 
 /**
- * Represents an error caused by 1 or multiple missing or invalid inputs.
+ * Represents an error caused by one or more missing or invalid inputs.
  */
 public class InvalidInputException extends ChattingHeadsException {
 
