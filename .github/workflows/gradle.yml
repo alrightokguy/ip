@@ -32,15 +32,13 @@ jobs:
       - name: Smoke test JAR
         shell: bash
         run: |
-          ls -la build/libs
+          printf 'bye\n' | java -cp build/libs/chattingheads.jar chattingheads.ChattingHeads
 
       - name: Smoke test GUI on Linux
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          JAR="$(find build/libs -name '*-all.jar' -print -quit)"
-
-          xvfb-run -a java -jar "$JAR" &
+          xvfb-run -a java -jar build/libs/chattingheads.jar &
           PID=$!
 
           sleep 5
