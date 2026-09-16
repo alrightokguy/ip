@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <fx:root alignment="CENTER_LEFT"
          type="javafx.scene.layout.HBox"
-         xmlns="http://javafx.com/javafx/17.0.12"
+         xmlns="http://javafx.com/javafx/17.0.7"
          xmlns:fx="http://javafx.com/fxml/1"
          stylesheets="/css/DialogBox.css"
          styleClass="dialog-box">
