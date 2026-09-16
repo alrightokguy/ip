@@ -124,7 +124,10 @@ public class TaskList {
     public List<Integer> findIndices(String keyword) {
         return IntStream.range(0, tasks.size())
                 .boxed()
-                .filter(i -> tasks.get(i).getDescription().toLowerCase().contains(keyword))
+                .filter(
+                        i ->
+                        tasks.get(i).getDescription().toLowerCase().contains(keyword.toLowerCase())
+                )
                 .toList();
     }
 
